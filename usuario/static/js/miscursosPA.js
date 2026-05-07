@@ -1786,8 +1786,15 @@ function actas(tipo, periodo, acta, sede,profesor,horario,grupo,curso,notaMin) {
             btnImprimirActa.id = 'btnImprimirActa';
             btnImprimirActa.style.display = 'none'; // Oculto inicialmente
 
+            var btnEnviarActa = document.createElement('button');
+            btnEnviarActa.className = 'btn btn-info me-md-2';
+            btnEnviarActa.innerText = 'Enviar Acta';
+            btnEnviarActa.id = 'btnEnviarActa';
+            btnEnviarActa.style.display = 'none'; // Oculto inicialmente
+
             divColBot.appendChild(btnCalcularNota);
             divColBot.appendChild(btnImprimirActa);
+            divColBot.appendChild(btnEnviarActa);
 
             divRow.appendChild(divColBot);
             // Manejadores de eventos para los botones
@@ -1796,6 +1803,7 @@ function actas(tipo, periodo, acta, sede,profesor,horario,grupo,curso,notaMin) {
                 console.log('Calculando nota...');
                 // Mostrar el siguiente botón
                 btnImprimirActa.style.display = 'inline-block';
+                btnEnviarActa.style.display = 'inline-block';
                 btnCalcularNota.setAttribute("disabled",true);
                 calcularNotaFinal(notaMin);
                 guardarNotaFinal('notaFinal', periodo, acta)
@@ -1813,6 +1821,10 @@ function actas(tipo, periodo, acta, sede,profesor,horario,grupo,curso,notaMin) {
                 data.grupo = grupo;
                 data.curso = curso;
                 imprimir(data,acta)
+            });
+
+            btnEnviarActa.addEventListener('click', function () {
+                enviarActaModal(periodo, acta, sede, profesor, horario, grupo, curso, notaMin);
             });
 
             var divTable = document.createElement('div');
@@ -1955,6 +1967,166 @@ function actas(tipo, periodo, acta, sede,profesor,horario,grupo,curso,notaMin) {
         });
 }
 
+
+function enviarActaModal(periodo, acta, sede, profesor, horario, grupo, curso, notaMin) {
+    // Generar PDF como blob y adjuntarlo al formulario de envío
+    var divEnvio = document.getElementById('divEnvioActa');
+    if (divEnvio) divEnvio.remove();
+
+    var contenedor = document.querySelector('#modal_funcionesBody');
+
+    var divForm = document.createElement('div');
+    divForm.id = 'divEnvioActa';
+    divForm.className = 'card mt-3 p-3';
+
+    divForm.innerHTML = `
+        <h6 class="mb-3"><strong>Enviar Acta por Correo</strong></h6>
+        <div class="mb-2">
+            <label class="form-label">Para (correo destinatario):</label>
+            <input type="email" id="actaEmailPara" class="form-control form-control-sm" placeholder="registro@uc.ac.cr" required>
+        </div>
+        <div class="mb-2">
+            <label class="form-label">CC:</label>
+            <input type="email" id="actaEmailCC" class="form-control form-control-sm" placeholder="soporte@uc.ac.cr">
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Asunto:</label>
+            <input type="text" id="actaAsunto" class="form-control form-control-sm" value="Acta de Resultados - ${acta} - ${periodo}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mensaje:</label>
+            <textarea id="actaMensaje" class="form-control form-control-sm" rows="3">Adjunto el acta de resultados del curso ${curso}, periodo ${periodo}, grupo ${grupo}, sede ${sede}.</textarea>
+        </div>
+        <div id="actaEnvioStatus" class="mb-2"></div>
+        <button id="btnConfirmarEnvioActa" class="btn btn-success btn-sm">Confirmar Envío</button>
+        <button id="btnCancelarEnvioActa" class="btn btn-secondary btn-sm ms-2">Cancelar</button>
+    `;
+
+    contenedor.appendChild(divForm);
+
+    document.getElementById('btnCancelarEnvioActa').addEventListener('click', function() {
+        divForm.remove();
+    });
+
+    document.getElementById('btnConfirmarEnvioActa').addEventListener('click', function() {
+        var emailPara = document.getElementById('actaEmailPara').value.trim();
+        var emailCC = document.getElementById('actaEmailCC').value.trim();
+        var asunto = document.getElementById('actaAsunto').value.trim();
+        var mensaje = document.getElementById('actaMensaje').value.trim();
+        var statusDiv = document.getElementById('actaEnvioStatus');
+
+        if (!emailPara) {
+            statusDiv.innerHTML = '<span class="text-danger">Debe ingresar un correo destinatario.</span>';
+            return;
+        }
+
+        statusDiv.innerHTML = '<span class="text-info">Generando PDF y enviando...</span>';
+        document.getElementById('btnConfirmarEnvioActa').disabled = true;
+
+        // Generar PDF como base64 y enviarlo
+        var data = { periodo: periodo, sede: sede, profesor: profesor, horario: horario, grupo: grupo, curso: curso };
+        imprimirYEnviar(data, acta, emailPara, emailCC, asunto, mensaje, statusDiv, divForm);
+    });
+}
+
+async function imprimirYEnviar(data, acta, emailPara, emailCC, asunto, mensaje, statusDiv, divForm) {
+    try {
+        const imageUrl = '/static/img/logoreportUC.png';
+        const imageData = await getBase64FromImageUrl(imageUrl);
+        const today = new Date();
+        var diaN = today.getDate();
+        var diaT = today.toLocaleDateString('es-ES', { weekday: 'long' });
+        var fecha = today.toLocaleDateString('es-ES', { month: 'long' }) + ' ' + today.toLocaleDateString('es-ES', { year: 'numeric' });
+        var hora = today.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+        var numericHour = parseInt(hora.substring(0, 2), 10);
+        hora = numericHour < 12 ? hora + ' a.m.' : hora + ' p.m.';
+        var fechaImpri = diaT + ', ' + diaN + ' ' + fecha + ', ' + hora;
+
+        const tableData = [];
+        var table = $('#tablaLista').DataTable();
+        table.rows().every(function() {
+            var rowDataT = this.data();
+            tableData.push([rowDataT[0], rowDataT[1], rowDataT[2], rowDataT[3], rowDataT[4], rowDataT[5], rowDataT[6], rowDataT[7]]);
+        });
+
+        const signatureLine =  { canvas: [{ type: 'line', x1: 40, y1: 20, x2: 190, y2: 20, lineWidth: 1, lineColor: '#000000' }], margin: [-50, 32, 0, 0] };
+        const signatureLine2 = { canvas: [{ type: 'line', x1: 40, y1: 20, x2: 190, y2: 20, lineWidth: 1, lineColor: '#000000' }], margin: [143, -47, 0, 0] };
+        const signatureLine3 = { canvas: [{ type: 'line', x1: 40, y1: 20, x2: 190, y2: 20, lineWidth: 1, lineColor: '#000000' }], margin: [340, -47, 0, 0] };
+
+        var docDefinition = {
+            footer: function(currentPage, pageCount) {
+                if (currentPage === pageCount) return { columns: [{ text: fechaImpri, style: 'footerT' }] };
+            },
+            content: [
+                { text: 'Acta de Resultados de Curso', style: 'header' },
+                { text: data.sede, style: 'subheader' },
+                { text: data.periodo, style: 'subheader2' },
+                { image: imageData, width: 100, alignment: 'left', margin: [20, -60, 0, 25] },
+                { table: { body: [
+                    [{ text: data.curso, colSpan: 2, style: 'headerCellC' }, {}],
+                    [{ text: 'Profesor:', style: 'row1' }, { text: data.profesor, style: 'cell' }],
+                    [{ text: 'Sede:', style: 'row2' }, { text: data.sede, style: 'cell' }],
+                    [{ text: 'Horario:', style: 'row3' }, { text: data.horario, style: 'cell' }],
+                    [{ text: 'No. Grupo:', style: 'row4' }, { text: data.grupo, style: 'cell' }],
+                ], headerRows: 1, widths: ['18%', '87%'] }, style: 'tabla' },
+                { table: { body: [
+                    [{ text: '', style: 'headerCell' }, { text: 'No. Carnet', style: 'headerCell' }, { text: 'Estudiante', style: 'headerCell' }, { text: 'Cédula', style: 'headerCell' }, { text: 'Nota', style: 'headerCell' }, { text: 'Nota Ext.', style: 'headerCell' }, { text: 'Nota Final', style: 'headerCell' }, { text: 'Resultado', style: 'headerCell' }],
+                    ...tableData.map(function(rowData) { return [
+                        { text: rowData[0], style: 'cell' }, { text: rowData[1], style: 'cell' }, { text: rowData[2], style: 'cell' }, { text: rowData[3], style: 'cell' },
+                        { text: rowData[4], style: 'cell' }, { text: rowData[5] === 0 || rowData[5] === '0' ? '--' : rowData[5], style: 'cell' }, { text: rowData[6], style: 'cell' }, { text: rowData[7], style: 'cell' }
+                    ]; })
+                ], widths: ['2%', '15%', '29%', '15%', '10%', '10%', '10%', '15%'] }, style: 'tablaDato' },
+                { text: 'REP: Reprobado. NSP: No se presentó. NPF: No presentó Examen Final. MAT: Matriculado.', style: 'subheader3' },
+                { text: 'Nota Mínima de Aprobación: 70.0 (Cursos Regulares) y 80.0 (Pruebas de Grado).', style: 'subheader3' },
+                { text: 'Examen Extraordinario: 60.0 - 69.0. Reprobado: < 60.0', style: 'subheader3' },
+                signatureLine, { text: 'Firma Profesor', style: 'prof' }, signatureLine2, { text: 'Firma Registro', style: 'reg' }, signatureLine3, { text: 'Fecha Recibido', style: 'fecha' },
+            ],
+            styles: {
+                header: { fontSize: 12, bold: true, alignment: 'right', margin: [0, -30, -25, 5] },
+                subheader: { fontSize: 12, bold: true, alignment: 'right', margin: [0, 0, -25, 5] },
+                subheader2: { fontSize: 10, bold: true, alignment: 'right', margin: [0, 0, -25, 8] },
+                subheader3: { fontSize: 9, alignment: 'left', margin: [-32, 0, 0, 0] },
+                headerCell: { fontSize: 10, bold: true, alignment: 'center', fillColor: '#C9D6ED' },
+                headerCellC: { fontSize: 12, bold: true, alignment: 'Left', fillColor: '#C9D6ED' },
+                tabla: { borderColor: '#bfbfbf', margin: [-32, 5, 0, 6] },
+                tablaDato: { borderColor: '#bfbfbf', margin: [-32, 10, 0, 5] },
+                prof: { fontSize: 9, margin: [25, 10, 0, 5] }, reg: { fontSize: 9, margin: [220, 10, 0, 5] }, fecha: { fontSize: 9, margin: [415, 10, 0, 5] },
+                cell: { fontSize: 9 },
+                row1: { fontSize: 10, alignment: 'left', fillColor: '#E9F1FD', bold: true }, row2: { fontSize: 10, alignment: 'left', fillColor: '#E9F1FD', bold: true },
+                row3: { fontSize: 10, alignment: 'left', fillColor: '#E9F1FD', bold: true }, row4: { fontSize: 10, alignment: 'left', fillColor: '#E9F1FD', bold: true },
+                footerT: { fontSize: 9, alignment: 'right', margin: [0, 0, 20, 0] }
+            },
+        };
+
+        pdfMake.createPdf(docDefinition).getBlob(function(blob) {
+            var formData = new FormData();
+            formData.append('email', emailPara);
+            if (emailCC) formData.append('emailCC', emailCC);
+            formData.append('asunto', asunto);
+            formData.append('mensaje', mensaje);
+            formData.append('file', blob, acta + '.pdf');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/envioCorreoP/', true);
+            xhr.setRequestHeader('X-CSRFToken', getCSRFToken());
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        statusDiv.innerHTML = '<span class="text-success">✓ Acta enviada correctamente.</span>';
+                        setTimeout(function() { if (divForm) divForm.remove(); }, 3000);
+                    } else {
+                        statusDiv.innerHTML = '<span class="text-danger">Error al enviar el correo. Intente de nuevo.</span>';
+                        document.getElementById('btnConfirmarEnvioActa').disabled = false;
+                    }
+                }
+            };
+            xhr.send(formData);
+        });
+    } catch(e) {
+        statusDiv.innerHTML = '<span class="text-danger">Error generando el PDF: ' + e.message + '</span>';
+        document.getElementById('btnConfirmarEnvioActa').disabled = false;
+    }
+}
 
 function calcularNotaFinal(notaMin) {
     var table = $('#tablaLista').DataTable();
