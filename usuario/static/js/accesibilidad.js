@@ -1,30 +1,30 @@
 $(document).ready(function () {
     var zoomIn = document.getElementById('zoomIn');
-    zoomIn.onclick = function () {
+    if (zoomIn) zoomIn.onclick = function () {
         aumentarFuente();
     }
 
     var zoomOut = document.getElementById('zoomOut');
-    zoomOut.onclick = function () {
+    if (zoomOut) zoomOut.onclick = function () {
         disminuirFuente();
     }
 
     var restablecer = document.getElementById('refres');
-    restablecer.onclick = function () {
+    if (restablecer) restablecer.onclick = function () {
         restablecerFuente();
     }
 
     var daltonize = document.getElementById('daltonismType');
-    daltonize.onchange = function () {
+    if (daltonize) daltonize.onchange = function () {
         changeColor();
     }
 
     var closeSocial = document.getElementById('closeSocial');
-    closeSocial.onclick = function () {
+    if (closeSocial) closeSocial.onclick = function () {
         hideNavbar();
     }
     var openSocial = document.getElementById('openSocial');
-    openSocial.onclick = function () {
+    if (openSocial) openSocial.onclick = function () {
         toggleNavbar();
     }
 
