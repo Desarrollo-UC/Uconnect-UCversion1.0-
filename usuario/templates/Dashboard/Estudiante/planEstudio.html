@@ -1,0 +1,311 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/pluginJs/progressbar.min.js' %}"></script>
+<script src="{% static 'js/planEstudio.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<a class="fab-content" style="display: none;" id="opcionPrematricula" data-bs-toggle="modal" data-bs-target="#modal_prematricula">
+    <span class="text-center">Ver Matrícula</span>
+</a>
+
+<div class="p-2 d-flex justify-content-center">
+    <div class="col-md-11 card cardPerfilCol">
+        <div class="row p-2 mx-auto">
+            <div class="form-group col-12 col-lg-12 col-md-12 col-sm-10  mx-auto">
+                <div id="typeE" hidden>{{ type }}</div>
+                <label for="carrera" class="col-11 mt-3 mb-3" style="font-size: 25px; text-align: center;">PLAN DE ESTUDIO</label>
+                <select id="carrera" class="form-select" name="carrera">
+                    <option value="" disabled selected hidden>Seleccioná un Plan de Estudio</option>
+                    <option value="{{ carrera.data.principal }}">{{ carrera.data.principal }}</option>
+                    {% if carrera.data.secundarios %}
+                    {% for secundario in carrera.data.secundarios %}
+                    <option value="{{ secundario }}">{{ secundario }}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-lg-12 col-md-12 col-sm-10 mx-auto">
+                <div class="card shadow p-2">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-10 mx-auto estado"></div>
+                        <div class="col-md-12" id="opciones">
+                            <div class="row" style="text-align: center;">
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="d-inline p-2">
+                                        <i class="bi bi-check-lg color-box" style="color: #3bb80a;"></i>
+                                        <p class="mb-0 planEstudioText" style="display: inline-block;">Cursos Aprobados.
+                                        </p>
+                                    </div>
+                                    <div class="d-inline p-2">
+                                        <i class="bi bi-plus-lg color-box" style="color: #006a9f;"></i>
+                                        <p class="mb-0 planEstudioText" style="display: inline-block;">Cursos
+                                            Matriculables.</p>
+                                    </div>
+                                    <div class="d-inline p-2">
+                                        <i class="bi bi-x-lg color-box" style="color: #83877b;"></i>
+                                        <p class="mb-0 planEstudioText" style="display: inline-block;">No cumple con los
+                                            requisitos.</p>
+                                    </div>
+                                    <div class="d-inline p-2">
+                                        <i class="bi bi-bookmark-check-fill" style="color: #98b3c5;"></i>
+                                        <p class="mb-0 planEstudioText" style="display: inline-block;">Cursos
+                                            Prematriculados.</p>
+                                    </div>
+                                    <div class="d-inline p-2">
+                                        <i class="bi bi-book-fill" style="color: #F3556C;"></i>
+                                        <p class="mb-0 planEstudioText" style="display: inline-block;">Cursos Matriculados.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" id="mainTable">
+            </div>
+        </div>
+        <div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 11; ">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <i class="bi bi-info-circle-fill "></i>
+                    <span class="ml-2" id="toastContent"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block modal_prematricula %}
+<div class="modal fade" id="modal_prematricula" tabindex="-1" aria-labelledby="modal_prematriculaTitle"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_prematriculaTitle">
+                    Prematricula
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body" id="prematriculaBody">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body px-md-4 px-2 pt-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span>G: Grupo</span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span>Dias de la semana: Lunes(L), Martes(K), Miercoles(M), Jueves(J), Viernes(V), Sábado(S)</span>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span>T: Teoría</span>
+                                        <span>L: Laboratorio</span>
+                                        <span>R: Rotación</span>
+                                        <span>S: Simulación</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow">
+                            <div class="card-body table-responsive px-md-4 px-2 pt-3 mt-2">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr class="border-bottom">
+                                            <th>
+                                                <div class="ps-3 d-flex flex-column justify-content">
+                                                    <p class="fw-bold"></p>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="ps-3 d-flex flex-column justify-content">
+                                                    <p class="fw-bold">Curso</p>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="ps-3 d-flex flex-column justify-content">
+                                                        <p class="fw-bold">Nombre Curso</p>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="ps-3 d-flex flex-column justify-content">
+                                                    <p class="fw-bold">Creditos</p>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="ps-3 d-flex flex-column justify-content">
+                                                    <p class="fw-bold"><i class="bi bi-clock-fill"></i></p>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="premTablaBody">
+                                    </tbody>
+                                </table>
+                                <div class="d-grid d-flex justify-content-center mt-2">
+                                    <button type="submit" class=" btn btn-sm btn-primary buttonCarrera "
+                                        id="enviarPrematricula"> Procesar Matrícula</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_prematricula %}
+
+{% block modal_levantamiento %}
+<div class="modal fade" id="modal_levantamiento" tabindex="-1" aria-labelledby="modal_levantamientoTitle"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_prematriculaTitle">
+                    Levantamiento de Requisito
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body" id="levantamientoBody">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body px-md-4 px-2 pt-3">
+                                <form method="POST" class="row g-3" enctype="multipart/form-data" action="">
+                                    {% csrf_token %}
+                                    <div class="form-floating mb-3 col-md-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control " id="cursoModal" placeholder="Curso" name="cursoModal" value="" disabled required>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 col-md-12">
+                                        <div class="input-group">
+                                            <textarea type="text" class="form-control " id="descripcionModal" placeholder="Descripcion" name="descripcionModal" rows="7" required></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_levantamiento %}
+
+{% block modal_Horario %}
+<div class="modal fade" id="modal_Horario" tabindex="-1" aria-labelledby="modal_HorarioTitle"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_HorarioTitle">
+                    Seleccionar un horario
+                </h5>
+                <button id="modalHora" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body" id="horarioBody">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body table-responsive px-md-4 px-2 pt-3 mt-2">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h5>Curso: <span id="cursoId"></span></h5>
+                                    <h5>Nombre: <span id="cursoNombre"></span></h5>
+                                    <h5>Credito: <span id="cursoCredito"></span></h5>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <label for="horario" class="form-label">Seleccionar un horarior</label>
+                                    <select id="horario" class="form-select" onchange="change();">
+                                        <option hidden selected>Seleccionar un Horarior</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_Horario %}
+
+{% block modal_cambio %}
+<div class="modal fade" id="modal_cambio" tabindex="-1" aria-labelledby="modal_cambioTitle"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal modal-lg" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_cambioTitle">
+                    Cambiar grupo de curso
+                </h5>
+                <button id="modalCambio" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body" id="cambioBody">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body table-responsive px-md-4 px-2 pt-3 mt-2">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h5>Curso: <span id="cursoIdC"></span></h5>
+                                    <h5>Nombre: <span id="cursoNombreC"></span></h5>
+                                    <h5>Horario: <span id="cursoHorarioC"></span></h5>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <label for="horarioC" class="form-label">Seleccione un nuevo horarior</label>
+                                    <select id="horarioC" class="form-select" onchange="horarioCambio();">
+                                        <option hidden selected>Seleccionar un Horarior</option>
+                                    </select>
+                                </div>
+                                <div class="d-grid d-flex justify-content-center mt-2">
+                                    <button type="submit" class=" btn btn-sm btn-primary buttonCarrera "
+                                        id="enviarPrematricula">Cambiar grupo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_cambio %}
+<div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 9999; width: 100%; display: flex; justify-content: center; ">
+    <div id="liveToastE" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="width: 30%;">
+        <div class="toast-header">
+            <strong class="me-auto" id="titleToast"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    option:checked,
+    option:hover {
+        box-shadow: 0 0 10px 100px #4ddc3b inset;
+    }
+
+</style>
+{% endblock content %}

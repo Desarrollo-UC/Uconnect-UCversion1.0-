@@ -1,0 +1,175 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+{% block extraJavaScript %}
+
+{% endblock %}
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
+{% endblock barranavegacion %}
+
+{% block content %}
+<div class="p-2 mt-5">
+    <section class="news section-padding mt-5 mb-3" id="estadoCuenta">
+        <div class="row p-2">
+            <div class="col-md-12 card cardPerfilCol mb-5">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-md-12 mt-2">
+                            <h2 class="card-title" id="infoCardTitleCuenta">Estado de Cuenta</h2>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <span class="colorText">En esta página podrá consultar los detalles de su estado de cuenta financiero con la
+                                Universidad. Aquí podrá ver si tiene financiamiento disponible para realizar su
+                                matrícula,
+                                si tiene algún saldo a favor para uso en pagos futuros, así como la lista de los
+                                financiamientos que tiene abiertos con la universidad y su estado actual de pago.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 card cardPerfilCol mb-5">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#favor" role="tab" aria-controls="favor"
+                                aria-selected="true" data-bs-toggle="pill">Saldo a favor</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#financiamientos" role="tab" aria-controls="financiamientos"
+                                aria-selected="false" data-bs-toggle="pill">Mis financiamientos</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <h4 class="card-title" id="infoCardTitleCuenta">Estudiante</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <h6 class="card-subtitle mb-3" id="infoCardTitleCuenta">{{ user.first_name }}</h6>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane container fade show active" id="favor" role="tabpanel">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <div class="card-box colorBox1">
+                                        <div class="inner">
+                                            <h3 class="finText"> Financiamiento Disponible </h3>
+                                            <p class="finText"> ₡ {{ financiamiento.data.FinDisponible }}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fas fa-regular fa-colon-sign finText" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <div class="card-box colorBox2">
+                                        <div class="inner">
+                                            <h3 class="finText"> Saldo a Favor </h3>
+                                            <p class="finText"> ₡ {{ financiamiento.data.SaldoFavor }}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fas fa-regular fa-colon-sign finText" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade show" id="financiamientos" role="tabpanel"
+                            aria-labelledby="financiamientos-tab">
+                            <div class="row">
+                                {% for financiamiento in financiamiento.data.Financiamientos %}
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-2">
+                                    <div class="card card-margin cardPerfilCol">
+                                        <div class="card-header no-border">
+                                            <h5 class="card-title mr-2 fw-bold">Estado </h5>
+                                            {% if financiamiento.estado %}
+                                            <i class="bi bi-check-lg estadoFin "></i>
+                                            {% else %}
+                                            <i class="bi bi-x-lg estadoFinC"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="card-body bodyfin pt-0">
+                                            <div class="widget-49">
+                                                <div class="widget-49-title-wrapper mb-2">
+                                                    <div class="widget-49-date-primary">
+                                                        <span class="widget-49-date-day fw-bold">#</span>
+                                                        <span class="widget-49-date-month">{{ financiamiento.numero }}</span>
+                                                        <br>
+                                                        <span class="widget-49-date-day fw-bold">Saldo Total</span>
+                                                        <span class="widget-49-date-month">{{ financiamiento.total }}</span> 
+                                                    </div>
+                                                </div>
+                                                <div class="widget-49-meeting-action">
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#modal_detalle{{financiamiento.numero}}"
+                                                        class="btn btn-sm" id="verMas">Ver
+                                                        detalle</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% block modal_detalle %}
+{% for financiamiento in financiamiento.data.Financiamientos %}
+<div class="modal fade" id="modal_detalle{{financiamiento.numero}}" tabindex="-1" aria-labelledby="modal_detalleTitle">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal_detalle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_detalleTitle">Detalle {{financiamiento.numero}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 payment-summary">
+                    <div class="card px-md-3 px-2 pt-4">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Fecha Emisión</small>
+                                <p id="matriculaP" class="smalltotal">{{financiamiento.fecha}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Vence</small>
+                                <p id="matriculaP" class="smalltotal">{{financiamiento.vence}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Monto Cuota</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.mc}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Cuotas Vencidas</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.cv}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Coutas Vencidas mas cuota por vencer</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.cvmcpv}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Balance</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.balance}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Intereses</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.interes}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Costo Morosidad</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.morosidad}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Saldo Total</small>
+                                <p id="matriculaP" class="smalltotal">₡{{financiamiento.total}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock modal_detalle %}
+{% endblock content %}

@@ -1,0 +1,73 @@
+<div class="offcanvas offcanvas-end accesibilidad-dark half-screen" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header accesibilidad-content">
+      <h5 id="offcanvasRightLabel">Accesibilidad</h5>
+      <button type="button" id="btnCloseAO" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg" id="btnCloseA"></i></button>
+    </div>
+    <div class="offcanvas-body accesibilidad-content">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <fieldset class="border p-2 ml-2 mb-3">
+                    <legend class="float-none w-auto p-2 fas fa-solid fa-text-height textoOffcanva"></legend>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-4 d-flex justify-content-center">
+                            <a id="zoomIn">
+                                <span class="material-symbols-outlined notranslate textoOffcanva">
+                                    text_increase
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-4 col-sm-3 col-md-3  col-lg-4 d-flex justify-content-center">
+                            <a id="zoomOut">
+                                <span class="material-symbols-outlined notranslate textoOffcanva">
+                                    text_decrease
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-4 d-flex justify-content-center">
+                            <a id="refres">
+                                <span class="material-symbols-outlined notranslate textoOffcanva">
+                                    autorenew
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="border p-2 ml-2 mb-3">
+                    <legend class="float-none p-2 w-auto fas fa-regular fa-earth-americas textoOffcanva"></legend>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <div id="google_translate_element"></div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="border p-2 ml-2 mb-3">
+                    <legend class="float-none w-auto p-2 fas fa-adjust textoOffcanva"></legend>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="daltonismType" class="textoOffcanva">Tipo de daltonismo</label>
+                                <select class="form-control select2" id="daltonismType">
+                                    <option value="normal">No daltonico</option>
+                                    <option value="protanopia">Protanopia</option>
+                                    <option value="deuteranopia">Deuteranopia</option>
+                                    <option value="tritanopia">Tritanopia</option>
+                                    <option value="monochromacy">Monochromacy</option>
+                                    <option value="enhance-r">Enhance-R</option>
+                                    <option value="enhance-g">Enhance-G</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <a id="toggle-daltonism">
+                            </a>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 500 – Soporte</title>
+    <style>
+        body {
+            font-family: Consolas, Monaco, monospace;
+            background-color: #0f172a;
+            color: #e5e7eb;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+        h1 {
+            color: #ef4444;
+        }
+        .info {
+            background: #020617;
+            padding: 12px;
+            border-left: 4px solid #38bdf8;
+            margin-bottom: 15px;
+        }
+        .traceback {
+            background: #020617;
+            padding: 15px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            border: 1px solid #334155;
+        }
+        .highlight {
+            color: #f97316;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 15px;
+            background-color: #ef4444;
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #dc2626;
+        }
+        .copiado {
+            margin-left: 10px;
+            color: #22c55e;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>🔥 Error 500 – Vista de Soporte</h1>
+
+    <div class="info">
+        <p><strong>Ruta:</strong> {{ path }}</p>
+        <p><strong>Soporte:</strong> {{ usuario_soporte }}</p>
+        <p><strong>Usuario inspeccionado:</strong> {{ usuario_inspeccionado }}</p>
+    </div>
+
+    <h3>📍 Punto de ruptura</h3>
+    <div class="traceback highlight">
+{{ traceback|linebreaksbr }}
+    </div>
+
+    <button onclick="copiarError()">📋 Copiar error</button>
+    <span id="copiado" class="copiado">✔ Copiado</span>
+
+</div>
+
+<script>
+    function copiarError() {
+        const texto = document.querySelector('.traceback').innerText;
+        navigator.clipboard.writeText(texto).then(() => {
+            const ok = document.getElementById('copiado');
+            ok.style.display = 'inline';
+            setTimeout(() => ok.style.display = 'none', 2000);
+        });
+    }
+</script>
+
+</body>
+</html>

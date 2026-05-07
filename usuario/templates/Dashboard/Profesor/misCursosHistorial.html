@@ -1,0 +1,84 @@
+{% extends 'adminlte/base.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/miscursosPH.js' %}"></script>
+<script src="{% static 'js/pluginJs/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/pluginJs/vfs_fonts.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="p-2">
+    <div class="row mb-5 d-flex justify-content-center">
+        <div class="col-md-11 card cardPerfilCol">
+            <div class="row p-2 mx-auto">
+                <div class="form-group col-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
+                    <label for="carrera"><i class=""> Seleccione un periodo</i></label>
+                    <select id="periodos" class="form-select" name="periodos" onchange="getPeriodo();">
+                        <option value="" disabled selected hidden>Seleccione un periodo</option>
+                        {% for curso in misCursosH %}
+                        <option value="{{ curso }}">{{ curso }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="cardsContainer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs card-header-tabs" role="tablist" id="v-pills-tab">
+                                    <li class="nav-item"><a class="tabsHT nav-link active" data-bs-toggle="tab"
+                                            href="#Regular">Regular</a></li>
+                                    <li class="nav-item"><a class="tabsHT nav-link" data-bs-toggle="tab"
+                                            href="#Suficiencia">Suficiencia</a></li>
+                                    <li class="nav-item"><a class="tabsHT nav-link" data-bs-toggle="tab"
+                                            href="#ModalidaG">Modalidad de Graduacion</a></li>
+                                </ul>
+                                <div class="tab-content tipoActasTabs" id="v-pills-tabContent" style="margin-left: -8px;">
+                                    <div id="Regular" class="tab-pane fade show active" role="tabpanel"
+                                        aria-labelledby="v-pills-home-tab">
+
+                                    </div>
+                                    <div id="Suficiencia" class="tab-pane fade show" role="tabpanel"
+                                        aria-labelledby="v-pills-home-tab">
+
+                                    </div>
+                                    <div id="ModalidaG" class="tab-pane fade show" role="tabpanel"
+                                        aria-labelledby="v-pills-home-tab">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal_funciones %}
+<div class="modal fade" id="modal_funciones" tabindex="-1" aria-labelledby="modal_funcionesTitle" style="display: none"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_funcionesTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="modal_funcionesBody">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_funciones %}
+{% endblock %}

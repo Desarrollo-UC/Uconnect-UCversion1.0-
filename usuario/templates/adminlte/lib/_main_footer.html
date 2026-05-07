@@ -1,0 +1,17 @@
+{% extends 'adminlte/lib/_main_footer.html' %}
+<footer class="main-footer mt-auto" id="dashFooter">
+    {% block footer_right %}
+
+    {% endblock %}
+    {% block footer_left %}
+    {% block legal %}
+    <div class="row text-center mx-auto justify-content-center" id="footer">
+        <div class="col-12 col-sm-12 col-md links">
+            <p class="mb-2 footerText" id="pLinksT">@ {{footerCorreo}}</p>
+            <p class="mb-2 footerText" id="pLinksT"><i class="fas fa-regular fa-mobile"></i> {{footerContacto1}}</p>
+            <p class="mb-2 footerTextD" id="pLinks">{{copyRigth|safe}}</p>
+        </div>
+    </div>
+    {% endblock %}
+    {% endblock %}
+</footer>

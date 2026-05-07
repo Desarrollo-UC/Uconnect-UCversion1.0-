@@ -1,0 +1,30 @@
+{% load i18n %}{% autoescape off %}
+<div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
+    <div>
+        <div>
+            {% if codigo %}
+            <img src="https://uc.ac.cr/wp-content/uploads/2024/03/Correos_1.png" width="1000"/>
+            {% else %}
+            <img src="https://uc.ac.cr/wp-content/uploads/2024/03/Correos_3.png" width="1000"/>
+            {%endif%}
+        </div>
+        <div style="margin-left: 130px ; font-size: 21px;">
+            {% if codigo %}
+            <p>{{ mensaje1 | linebreaksbr }}</p>
+            <p>{{ mensaje2 }} <span style="font-weight: bold; color: #e7004c">{{ codigo | linebreaksbr }}</span></p>
+            <p>{{ mensaje3 | linebreaksbr }}</p>
+            <p>{{ mensaje4 }}</p>
+            {% elif usernameU %}
+            <p>{{ mensaje1 }} <a href="https://uconnect.uc.ac.cr/" style="text-decoration: none; color: #10cfc9">UConnect</a> {{ mensaje4 | linebreaksbr }}</p>
+            <p>{{ mensaje2 }} <span>{{ usernameU | linebreaksbr }}</span></p>
+            <p>{{ mensaje3 | linebreaksbr }}</p>
+            {% elif usernameT %}
+            <p>{{ mensaje1 | linebreaksbr }}</p>
+            <p>{{ mensaje2 | linebreaksbr}}</p>
+            <p>{{ mensaje3 | linebreaksbr }}</p>
+            {%endif%}
+            <p>{{ mensaje | linebreaksbr }}</p>
+        </div>
+    </div>
+</div>
+{% endautoescape %}

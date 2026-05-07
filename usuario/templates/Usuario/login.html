@@ -1,0 +1,710 @@
+{% extends 'Usuario/principal.html' %}
+{% load static %}
+{% block content %}
+<div class="d-flex justify-content-between botonLoginRe" id="botonLoginRe">
+    <a type="button"
+        class="btn btn-md btn-login btn-next-back-ReL fw-bold fas fa-regular fa-arrow-left"
+        id="botonAnteriorDireccionP" onclick="btnRegresar();"></a>
+</div>
+<div class="col-auto" id="fondo" style="display: none;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-11 col-md-11 col-lg-6 ms-auto loginCards">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-12 col-sm-11 col-md-11 col-lg-12" id="divImagLogo">
+                            <div class="my-4 d-flex justify-content-center" id="divImagLogoH">
+                                <img src="../../static/img/logoUCONNECT.png" alt="logoUC" id="logoUCONNECT">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-11 col-md-11 col-lg-12 mt-2" id="divLogin">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-7 formLogin">
+                                    {% if form.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for field, errors in form.errors.items %}
+                                        <ul class="mb-0">
+                                            {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <main class="form-signin">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-floating mb-3">
+                                                <div class="input-group mb-3 input-group-lg">
+                                                    <input type="text" class="form-control" id="floatingInput"
+                                                        placeholder="Nombre de usuario" name="username" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-floating mb-3 ">
+                                                <div class="input-group mb-3 input-group-lg">
+                                                    <input type="password" class="form-control " id="floatingPassword"
+                                                        placeholder="Contraseña" name="password" required>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid mb-3" id="buttonDivLogin">
+                                                <button type="submit" class="w-100 btn btn-lg btnAcceder fw-bold"
+                                                    id="loading-indicator">
+                                                    Acceder</button>
+                                                <div id="loading-indicator2" class="hidden">
+                                                    <div class="spinner"></div>
+                                                </div>
+                                            </div>
+                                            <div class="hstack gap-3">
+                                                <a href="{% url 'password_reset' %}" id="linkloginP">¿Ha extraviado tu contraseña?</a>
+                                                <div class="vr"></div>
+                                                <a href="{% url 'registro_estudiantes' %}"
+                                                    id="linkloginP">Registrarse</a>
+                                            </div>
+                                            <hr class="mt-4 my-4 lineLogin">
+                                            <div class="hstack gap-3">
+                                                <span class="infoLoginE">Español - Internacional(es)</span>
+                                                <div class="vr"></div>
+                                                <span class="infoLoginE">Aviso de cookies</span>
+                                            </div>
+                                        </form>
+                                    </main>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="col-auto" id="fondo2" style="display: none;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-11 col-md-11 col-lg-6 ms-auto loginCards">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-12 col-sm-11 col-md-11 col-lg-12" id="divImagLogo">
+                            <div class="d-flex justify-content-center" id="divImagLogoH">
+                                <img src="../../static/img/logoUCONNECT.png" alt="logoUC" id="logoUCONNECT">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-11 col-md-11 col-lg-12 mt-2" id="divLogin">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-7 formLogin">
+                                    <h3 class="text-center titleRegular mb-2">¡Nos alegra verte de regreso!</h3>
+                                
+                                    {% if form.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for field, errors in form.errors.items %}
+                                        <ul class="mb-0">
+                                            {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    <main class="form-signin">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            {%comment%}
+                                            <div class="form-floating mb-3">
+                                                <div class="input-group mb-3 input-group-lg">
+                                                    <input type="text" class="form-control" id="floatingInput2"
+                                                        placeholder="Nombre de usuario" name="username" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-floating mb-3 ">
+                                                <div class="input-group mb-3 input-group-lg">
+                                                    <input type="password" class="form-control " id="floatingPassword2"
+                                                        placeholder="Contraseña" name="password" required>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid" id="buttonDivLogin">
+                                                <button type="submit" class="w-100 btn btn-lg btnAcceder fw-bold"
+                                                    id="loading-indicator3">
+                                                    Acceder</button>
+                                                <div id="loading-indicator4" class="hidden">
+                                                    <div class="spinner"></div>
+                                                </div>
+                                            </div>
+                                            <hr class="mt-4 my-4 lineLogin">
+                                            {%endcomment%}
+                                            <div class="d-flex text-center justify-content-center">
+                                                <div class="d-inline-block m-1">
+                                                    <a class="w-100 btn btn-lg btn-light fw-bold btnAccederIn"
+                                                        href="{% url 'microsoft_auth' %}"><img id="officeLogin"
+                                                            src="../../static/img/office1.png"> <span id="spanLogin">
+                                                            Acceder con Correo Institucional</span></a>
+                                                </div>
+                                            </div>
+                                            <hr class=" my-2 lineLogin">
+                                            <div class="hstack gap-3">
+                                                <span class="infoLoginE">Español - Internacional(es)</span>
+                                                <div class="vr"></div>
+                                                <span class="infoLoginE">Aviso de cookies</span>
+                                            </div>
+                                        </form>
+                                    </main>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="col-auto" id="fondo3" >
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ms-auto mb-3" id="divImagLogoB">       
+        </div>
+        </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3 d-flex justify-content-center align-items-center">
+            <a type="button" class=" btn btnAccederM" onclick="btnNuevoIn();">Soy nuevo ingreso</a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3 d-flex justify-content-center align-items-center">
+            <a type="button" class=" btn btnAccederR" id="loading-indicator8" onclick="btnRegularIn();">Soy estudiante regular o Docente</a>
+        </div>
+    </div>
+</div>
+<img src="../../static/img/logoLogin.png" alt="" class="responsiveLogoC " style="width: 120px;">
+<div class="toast-container position-fixed bottom-0 end-0 p-4 liveToast">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Registro Estudiantil</strong>
+            <small class="text-muted" style="color: white !important;">Justo Ahora</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <strong>La cuenta se ha creado con éxito. Puede proceder a iniciar sesión.</strong>
+        </div>
+    </div>
+</div>
+<div class="toast-container position-fixed top-0 end-0 p-4">
+    <div class="toast align-items-center text-white toatsError border-0" role="alert" aria-live="assertive"
+        aria-atomic="true" id="toastMessage">
+        <div class="d-flex">
+            <div class="toast-body">
+                Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+<style>
+
+    .titleRegular{
+        font-size: 23px;
+        color: #ffffff;
+    }
+
+    #divImagLogoB{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        height: 350px;
+        background: url("../../static/img/logoUCONNECT.png") center top/contain no-repeat;
+    }
+
+    .titleRegularNormal{
+        font-family: 'Nexa-Regular';
+        font-weight: normal;
+        font-size: 15px;
+        margin-bottom: 1em;
+        color: #ffffff;
+    }
+    
+    #officeLogin {
+        width: 10%;
+    }
+
+    #fondo .card {
+        background-color: transparent;
+        border: none;
+    }
+
+    #fondo2 .card {
+        background-color: transparent;
+        border: none;
+    }
+
+    
+    #fondo3 .card {
+        background-color: transparent;
+        border: none;
+    }
+
+    .input-group-lg>.form-control{
+        font-family: 'Nexa-Regular';
+        font-weight: normal;
+    }
+
+    .responsiveLogoC {
+        position: absolute;
+        bottom: 30px;
+        right: 40px;
+        max-width: 100%;
+    }
+
+    body {
+        background: #ffffff url('../../static/img/login-modal.png') center center/cover no-repeat;
+    }
+
+    #logoUCONNECT {
+        max-width: 50%;
+        max-height: 50%;
+    }
+
+    .btnAccederIn {
+        border: 15px;
+    }
+
+    @media (min-width: 150px) and (max-width: 320px) {
+        .container-fluid {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container-fluid .row {
+            align-items: center;
+        }
+
+        section .my-4 {
+            margin-top: 1px !important;
+            margin-bottom: 1px !important;
+        }
+
+        #floatingPassword, #floatingPassword2
+        #floatingInput, #floatingInput2 {
+            height: 30px;
+        }
+
+        #officeLogin {
+            width: 100%;
+        }
+
+        #linkloginP {
+            font-size: 14px !important;
+        }
+
+        .textoLogin {
+            font-size: 15px !important;
+        }
+
+        #spanLogin {
+            display: none;
+        }
+
+        #divImagLogo .my-4 {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .form-floating {
+            height: 28px;
+        }
+
+        #logoUCONNECT {
+            max-width: 40% ;
+            max-height: 40% ;
+        }
+
+        .hstack {
+            width: 90%;
+        }
+        
+    }
+
+    @media (min-width: 992px){
+        body {
+            overflow: hidden;
+        }
+        
+    }
+    @media (max-width: 767px){
+        #fondo2{
+            margin-top: -50px !important;
+        }
+    }
+    
+    @media (max-width: 390px) {
+        
+        .titleRegular{
+            font-size: 18px;
+        }
+        .titleRegularNormal, .infoLoginE {
+            font-size: 13px;
+        }
+        #fondo {
+            background: #ffffff url(../../static/img/loginL.png) center right/cover no-repeat;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container-fluid .row {
+            align-items: center;
+        }
+
+        .textoLogin {
+            font-size: 18px;
+        }
+
+        section .my-4 {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        #logoUCONNECT {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .responsiveLogoC {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 120px;
+        }
+
+        #officeLogin {
+            width: 100%;
+        }
+
+        .btnAccederIn {
+            width: 50% !important;
+        }
+
+        #spanLogin {
+            display: none;
+        }
+        
+    }
+
+    @media (min-width: 391px) and (max-width: 499px) {
+        .container-fluid {
+            width: 100%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+        }
+
+        #logoUCONNECT {
+            max-width: 70%;
+            max-height: 70%;
+        }
+
+        .responsiveLogoC {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 97px;
+        }
+
+        #divImagLogo {
+            margin-top: -50px !important;
+        }
+        
+       
+    }
+
+    @media (min-width: 500px) and (max-width: 767px) {
+        
+        section .my-4 {
+            margin-top: 10px !important;
+            margin-bottom: 50px !important;
+        }
+
+        .container-fluid {
+            width: 100%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container-fluid .row {
+            align-items: center;
+        }
+
+        #logoUCONNECT {
+            max-width: 70%;
+            max-height: 70%;
+        }
+
+        #spanLogin {
+            font-size: 15px;
+        }
+        
+    }
+
+    @media (min-width: 768px) and (max-width: 981px) {
+        #fondo{
+            background: #ffffff url('../../static/img/loginL.png') center right/cover no-repeat;
+            height: 100%;
+        }
+        #logoUCONNECT {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container-fluid .row {
+            align-items: center;
+        }
+        #fondo{
+            background-image: url('../../static/img/loginRT.png');
+        }
+    }
+
+    @media (max-width: 914px) and (orientation: landscape) {
+        #logoUCONNECT {
+            max-width: 50%;
+            max-height: 50%;
+        }
+
+        #fondo {
+            overflow-x: scroll !important;
+            /* Agrega una barra de desplazamiento horizontal */
+        }
+
+        #divLogin,
+        #divImagLogo {
+            width: 55%;
+        }
+        .container-fluid .card .row{
+            display: flex;
+            justify-content: end;
+        }
+        .responsiveLogoC {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            max-width: 100%;
+        }
+    }
+
+    @media (min-width: 2560px) {
+        #logoUCONNECT {
+            max-width:50%;
+            max-height: 50%;
+        }
+
+        
+        #floatingPassword, #floatingInput, #floatingInput2, #floatingPassword2{
+            height: 60px;
+        }
+
+        section .my-4 {
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+        }
+    }
+
+    .fondoModalAnimIn{
+        animation: fondoModalIn 1s ease 0s 1 normal forwards;
+    }
+
+    @keyframes fondoModalIn {
+        0% {
+            opacity: 0;
+        }
+    
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .fondoModalAnimOut{
+        animation: fondoModalOut 1s ease 0s 1 normal forwards;
+    }
+
+    @keyframes fondoModalOut {
+        0% {
+            opacity: 1;
+        }
+    
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .fondoNuevoAnim{
+        animation: fondoNuevo 1s ease 0s 1 normal forwards;
+    }
+
+    @keyframes fondoNuevo {
+        0% {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+    
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .fondoRegularAnim{
+        animation: fondoRegular 1s ease 0s 1 normal forwards;
+    }
+
+    @keyframes fondoRegular {
+        0% {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+    
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+</style>
+<script>
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    var isWV = false
+    if (isAndroid) {
+        if (window.Android && window.Android.isWebView()){
+            isWV = true
+        }
+        else{
+            console.log('Web');
+        }
+    } else if (isIOS) {
+        var message = {
+            action: "requestTrue"
+        };
+        try{
+            window.webkit.messageHandlers.bridge.postMessage(message);
+            isWV = true
+        }catch{
+            console.log('Web');
+        }
+    }
+
+    WebView(isWV);
+
+    function WebView(isWV){
+        var url = "/isWebView/?isWV=";
+        var request = new XMLHttpRequest();
+        request.open('GET', url + encodeURIComponent(isWV), true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+            }
+        };
+        request.send();
+    }
+    
+    $(document).ready(function () {
+        var toastTrigger = " {{ cuenta }}";
+        const toastLiveExample = document.getElementById('liveToast');
+        if (toastTrigger == " True") {
+            const toast = new bootstrap.Toast(toastLiveExample);
+            toast.show();
+        }
+        setTimeout(function () {
+            localStorage.removeItem('activeLink');
+        }, 1);
+    });
+
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    })
+
+    function btnRegularIn(){
+        var fondoRegular = document.getElementById('fondo2');
+        var fondoNuevo = document.getElementById('fondo');
+        var fondoModal = document.getElementById('fondo3');
+        var botonatras = document.getElementById('botonLoginRe');
+
+        fondoModal.classList.add('fondoModalAnimOut');
+
+        fondoRegular.style.display = 'flex';
+        botonatras.classList.remove('botonLoginRe');
+        fondoRegular.classList.add('fondoRegularAnim');
+        document.body.style.transition = 'background 0.5s ease';
+        document.body.style.background = "#ffffff url('../../static/img/login-regular.jpg') center right/cover no-repeat";
+        fondoModal.style.display = 'none';
+        document.getElementById('rowPrs').classList.remove('rowPr');
+        setTimeout(function (){
+            fondoModal.classList.remove('fondoModalAnimOut');
+            fondoRegular.classList.remove('fondoRegularAnim');
+        },1000)
+    }
+
+    function btnNuevoIn(){
+        var fondoRegular = document.getElementById('fondo2');
+        var fondoNuevo = document.getElementById('fondo');
+        var fondoModal = document.getElementById('fondo3');
+        var botonatras = document.getElementById('botonLoginRe');
+        fondoModal.classList.add('fondoModalAnimOut');
+
+        fondoNuevo.style.display = 'flex';
+        botonatras.classList.remove('botonLoginRe');
+        fondoNuevo.classList.add('fondoNuevoAnim');
+
+        document.body.style.transition = 'background 0.5s ease';
+        document.body.style.background = "#ffffff url('../../static/img/login-nuevo.jpg') center center/cover no-repeat";
+        fondoModal.style.display = 'none';
+        document.getElementById('rowPrs').classList.remove('rowPr');
+        setTimeout(function (){
+            fondoModal.classList.remove('fondoModalAnimOut');
+            fondoNuevo.classList.remove('fondoNuevoAnim');
+        },1000)
+    }
+
+    function btnRegresar(){
+        var fondoRegular = document.getElementById('fondo2');
+        var fondoNuevo = document.getElementById('fondo');
+        var fondoModal = document.getElementById('fondo3');
+        var botonatras = document.getElementById('botonLoginRe');
+        botonatras.classList.add('botonLoginRe');
+        fondoModal.style.display = 'block';
+        fondoModal.classList.add('fondoModalAnimIn');
+        fondoNuevo.style.display = 'none';
+        fondoRegular.style.display = 'none';
+        document.getElementById('rowPrs').classList.add('rowPr');
+        document.body.style.transition = 'background 0.5s ease';
+        document.body.style.background = "#ffffff url('../../static/img/login-modal.png') center center/cover no-repeat";
+
+        setTimeout(function (){
+            fondoModal.classList.remove('fondoModalAnimIn');
+        },1000)
+    }
+
+</script>
+{% endblock content %}

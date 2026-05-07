@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UConnect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href="{% static 'css/pluginCss/bootstrap.min.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/font-uc.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="{% static 'css/pluginCss/select2.min.css' %}" rel="stylesheet" />
+    <link rel='stylesheet' href="{% static 'css/pluginCss/bootstrap-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pluginCss/material.css' %}" />
+    <link rel='stylesheet' href="{% static 'css/pluginCss/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pluginCss/dataTables.min.css' %}">
+
+    <script src="{% static 'js/pluginJs/jquery.min.js' %}"></script>
+    <script src="{% static 'js/pluginJs/flatpickr.js' %}"></script>
+    <script src="{% static 'js/pluginJs/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/pluginJs/select2.min.js' %}"></script>
+    <script src="{% static 'js/accesibilidad.js' %}"></script>
+    <script src="{% static 'js/pluginJs/dataTables.min.js' %}"></script>
+    {% block extraJavaScript %}
+    {% endblock %}
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    {% block barranavegacion %}
+    {% endblock barranavegacion %}
+    {% block accesibilidad %}
+    {% include 'adminlte/lib/_main_accesibilidad.html' %}
+    {% endblock accesibilidad %}
+    <div class="container-fluid" id="wrapper">
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+    <svg style="display: none;">
+      <filter id="protanopia">
+        <feColorMatrix type="matrix" values="0.567,0.433,0,0,0 0.558,0.442,0,0,0 0 0.242,0.758,0,0,0 0,0,0,1,0">
+        </feColorMatrix>
+      </filter>
+      <filter id="deuteranopia">
+        <feColorMatrix type="matrix" values="0.625,0.375,0,0,0 0.7,0.3,0,0,0 0,0.3,0.7,0,0 0,0,0,1,0">
+        </feColorMatrix>
+      </filter>
+      <filter id="tritanopia">
+        <feColorMatrix type="matrix" values="0.95,0.05,0,0,0 0,0.433,0.567,0,0 0,0.475,0.525,0,0 0,0,0,1,0">
+        </feColorMatrix>
+      </filter>
+      <filter id="monochromacy">
+        <feColorMatrix type="matrix"
+          values="0.299,0.587,0.114,0,0 0.299,0.587,0.114,0,0 0.299,0.587,0.114,0,0 0,0,0,1,0"></feColorMatrix>
+      </filter>
+      <filter id="enhance-r">
+        <feColorMatrix type="matrix" values="1.25,0,0,0,0 0,0.5,0,0,0 0,0,0.5,0,0 0,0,0,1,0"></feColorMatrix>
+      </filter>
+      <filter id="enhance-g">
+        <feColorMatrix type="matrix" values="0.5,0,0,0,0 0,1.25,0,0,0 0,0,0.5,0,0 0,0,0,1,0"></feColorMatrix>
+      </filter>
+    </svg>
+    {% block footer %}
+    {% include 'adminlte/lib/_main_footer.html' %}
+    {% endblock footer %}
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UConnect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel='stylesheet' href="{% static 'css/pluginCss/bootstrap.min.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/font-uc.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark.css' %}">
+    <link href="{% static 'css/pluginCss/select2.min.css' %}" rel="stylesheet" />
+    <link rel='stylesheet' href="{% static 'css/pluginCss/bootstrap-icons.min.css' %}">
+    <link rel='stylesheet' href="{% static 'css/pluginCss/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pluginCss/dark.css' %}">
+    <script src="{% static 'js/pluginJs/jquery.min.js' %}"></script>
+    <script src="{% static 'js/pluginJs/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/pluginJs/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/pluginJs/flatpickr.js' %}"></script>
+    <script src="{% static 'js/pluginJs/finisher-header.es5.min.js' %}"></script>
+    <script src="{% static 'js/pluginJs/select2.min.js' %}"></script>
+    {% block extraJavaScript %}
+    {% endblock %}
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+</head>
+
+<body>
+    {% block barranavegacion %}
+    {% endblock barranavegacion %}
+        <div class="container-fluid" style="height: 100vh;">
+            <div class="row rowPr" id="rowPrs" style="height: 100%;">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    {% block footer %}
+    {% endblock footer %}
+</body>
+</html>

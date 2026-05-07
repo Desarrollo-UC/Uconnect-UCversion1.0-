@@ -1,0 +1,214 @@
+{% extends 'adminlte/base.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/correo.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="p-2">
+    <div class="col-md-12 card cardPerfilCol">
+        <div class="card-body p-4 p-sm-5 p-2">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-center tituloEnvioCo">
+                    <h3 class="card-title tituloEnvioCo">Nuevo Mensaje</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" onsubmit="enviarCorreoP(event);" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div id="idCP" hidden>{{ id }}</div>
+                        <div class="form-row mb-3 d-flex justify-content-between">
+                            <label for="to" class="col-form-label">Para:</label>
+                            <input type="email" multiple class="form-control form-control-sm" id="paraE" name="paraE"
+                                placeholder="johnDoe@uia.ac.cr,jonhD@uia.ac.cr" required hidden readonly>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-11">
+                                <select id="to" class="form-select form-select-sm" multiple="multiple" required>
+                                </select>
+                                <div class="toError" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex justify-content-between">
+                            <label for="cc" class="col-form-label">CC:</label>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-11">
+                                <input type="email" multiple class="form-control form-control-sm" id="paraCC"
+                                    name="paraCC" placeholder="johnDoe@uia.ac.cr,jonhD@uia.ac.cr" required hidden
+                                    readonly>
+                                <select id="cc" class="form-select form-select-sm" multiple="multiple" required>
+                                </select>
+                                <div class="ccError" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex justify-content-between">
+                            <label for="asunto" class="col-form-label">Asunto:</label>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-11">
+                                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <textarea class="form-control" id="message" name="body" rows="6"
+                                placeholder="Haga clic aquí para escribir un nuevo mensaje" required></textarea>
+                        </div>
+                        <div class="form-group mt-4">
+                            <input id="file" name="file" type="file" value="" style="display: none;">
+                            <a class="fileInfo">
+                                <div class="row m-0" id="rowFile" style="display: none;">
+                                    <div class="col-12 col-md-4 col-sm-4 d-flex justify-content-between" id="divFile">
+                                        <div class="truncate-text">
+                                            <span id="fileName"></span>
+                                            <span id="fileSize"></span>
+                                        </div>
+                                        <a class="closeFile" id="closeFile" onclick="cleanInput();"><i
+                                                class="fa-solid fa-xmark"></i></a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btnPrimaryUC">Enviar</button>
+                            <button type="button" class="btn btnOutlineSecondaryUC" onclick="adjuntar();">
+                                <span class="fa fa-paperclip"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block modalEnvio%}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="modalenvio">
+                <div class="custom-loader"></div>
+                <h2 class="text-center text-white text-xl font-semibold">Enviando...</h2>
+                <p class="text-center text-white">Esto puede tardar unos segundos, por favor no cierre esta página.</p>
+            </div>
+        </div>
+    </div>
+    {% endblock modalEnvio %}
+    {% block toastEnvio%}
+    <div class="toast-container position-fixed bottom-0 end-0 p-4">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                {% load static %}
+                <img id="img_check" src="{% static 'img/check.png' %}" class="rounded me-2" alt="...">
+                <strong class="me-auto" id="toastCorreo"></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {% endblock toastEnvio %}
+</div>
+<style>
+    .select2-container .select2-selection {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+      }
+</style>
+<script>
+    $(document).ready(function () {
+        const toInput = document.getElementById('to');
+        const validityStateTo = toInput.validity;
+        const ccInput = document.getElementById('cc');
+        const validityStateCC = ccInput.validity;
+        if (validityStateTo.valueMissing) {
+            toInput.setCustomValidity("Rellena este campo.");
+        }
+        if (validityStateCC.valueMissing) {
+            ccInput.setCustomValidity("Rellena este campo.");
+        }
+        $('#to').select2({
+            width: "100%",
+            tags: true,
+            tokenSeparators: [',', ' '],
+            minimumInputLength: 1,
+            language: {
+                noResults: function () {
+                    return '';
+                },
+            },
+        }).on('select2:open', function (e) {
+            $('.select2-results').css('display', 'none');
+            $('.no-results-message').css('display', 'block');
+        }).on('select2:close', function (e) {
+            // Llamar a tu función aquí
+            simularTeclaEnter();
+        });
+
+        $('#cc').select2({
+            width: "100%",
+            tags: true,
+            tokenSeparators: [',', ' '],
+            minimumInputLength: 1,
+            language: {
+                noResults: function () {
+                    return '';
+                },
+            },
+        }).on('select2:open', function (e) {
+            $('.select2-results').css('display', 'none');
+            $('.no-results-message').css('display', 'block');
+        });
+        $('#cc').on('input', function () {
+            $('.select2-results').css('display', 'block');
+            $('.no-results-message').css('display', 'none');
+        });
+    });
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    $('#to').on('change', function (e) {
+        const emails = $(this).val();
+        const invalidEmails = [];
+        for (const email of emails) {
+            if (!isValidEmail(email)) {
+                invalidEmails.push(email);
+            }
+        }
+        if (invalidEmails.length > 0) {
+            const errorMessage = 'Formato de correo inválido: ' + invalidEmails.join(', ');
+            $('.toError').text(errorMessage).css('display', 'block');
+            setTimeout(function () {
+                $('.toError').css('display', 'none');
+                $('#to').removeClass('error-border');
+            }, 9000);
+            $('#to').empty();
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    $('#cc').on('change', function (e) {
+        const emails = $(this).val();
+        const invalidEmails = [];
+        for (const email of emails) {
+            if (!isValidEmail(email)) {
+                invalidEmails.push(email);
+            }
+        }
+        if (invalidEmails.length > 0) {
+            const errorMessage = 'Formato de correo inválido: ' + invalidEmails.join(', ');
+            $('.ccError').text(errorMessage).css('display', 'block');
+            $('#cc').addClass('error-border');
+            setTimeout(function () {
+                $('.ccError').css('display', 'none');
+                $('#cc').removeClass('error-border');
+            }, 9000);
+            $('#cc').empty();
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    function simularTeclaEnter() {
+        const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13 });
+        document.dispatchEvent(enterEvent);
+      }
+      
+</script>
+
+{% endblock %}

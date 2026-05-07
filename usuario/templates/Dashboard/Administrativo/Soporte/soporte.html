@@ -1,0 +1,308 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+
+{% block extraJavaScript %}
+<script src="{% static 'js/administrativo.js' %}"></script>
+{% endblock %}
+
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
+{% endblock barranavegacion %}
+
+{% block content %}
+<div class="container-fluid p-2 mt-5">
+
+  <div class="row mt-5 d-flex justify-content-center">
+    <div class="col-lg-12 col-xl-6 mx-auto mt-5 d-flex justify-content-center mb-5">
+
+      <div class="card cardAdminSS shadow p-2 mb-5 rounded p-4">
+
+        <h4 class="text-center fw-bold mb-4">Usuarios</h4>
+
+        <!-- BUSCADOR -->
+        <div class="mb-4 position-relative">
+          <div class="input-group">
+            <input type="text" id="searchInput" class="form-control"
+              placeholder="Buscar por cédula o correo..." autocomplete="off">
+            <button class="btn btn-primary" id="btnBuscar">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+          <ul id="suggestionsList" class="list-group position-absolute w-100 shadow-sm"
+            style="z-index:1000;display:none;max-height:220px;overflow-y:auto;top:100%;"></ul>
+        </div>
+
+        <!-- RESULTADO -->
+        <div id="resultCard" class="text-center text-muted py-5">
+          Buscar un usuario
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<style>
+.cardAdminSS {
+  box-shadow: 0px 1px 15px 11px #a0a09e;
+  width: 80%;
+  border: white;
+  background-color: #F0E6E6;
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.rc-spinner {
+  height: 180px;
+}
+
+.spinner-ring {
+  width: 30px;
+  height: 30px;
+  border: 3px solid #e9ecef;
+  border-top-color: #0d6efd;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+(function(){
+
+const input = document.getElementById('searchInput');
+const btn   = document.getElementById('btnBuscar');
+const card  = document.getElementById('resultCard');
+const list  = document.getElementById('suggestionsList');
+
+/* ── Autocomplete ─────────────────────────────────── */
+let debounceTimer = null;
+
+input.addEventListener('input', function(){
+  clearTimeout(debounceTimer);
+  const q = this.value.trim();
+  if(q.length < 2){ hideSuggestions(); return; }
+  debounceTimer = setTimeout(() => fetchSuggestions(q), 280);
+});
+
+input.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowDown'){
+    e.preventDefault();
+    const first = list.querySelector('.sg-item');
+    if(first) first.focus();
+  }
+  if(e.key === 'Enter'){ hideSuggestions(); buscar(); }
+  if(e.key === 'Escape'){ hideSuggestions(); }
+});
+
+document.addEventListener('click', function(e){
+  if(!e.target.closest('#searchInput') && !e.target.closest('#suggestionsList')){
+    hideSuggestions();
+  }
+});
+
+async function fetchSuggestions(q){
+  try{
+    const res = await fetch('/api/buscar-usuario-sugerencias/?q=' + encodeURIComponent(q));
+    if(!res.ok) return;
+    const data = await res.json();
+    renderSuggestions(data.resultados || []);
+  }catch(err){ hideSuggestions(); }
+}
+
+function renderSuggestions(items){
+  if(!items.length){ hideSuggestions(); return; }
+  list.innerHTML = '';
+  items.forEach(function(item){
+    const li = document.createElement('li');
+    li.className = 'list-group-item list-group-item-action sg-item d-flex flex-column py-2 px-3';
+    li.tabIndex = 0;
+    li.style.cursor = 'pointer';
+    li.innerHTML = '<span class="fw-semibold text-dark">' + item.cedula + '</span>' +
+                   '<small class="text-muted">' + item.correo + '</small>';
+    function selectItem(){
+      input.value = item.cedula;
+      hideSuggestions();
+      buscar();
+    }
+    li.addEventListener('click', selectItem);
+    li.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ selectItem(); return; }
+      if(e.key === 'ArrowDown'){ e.preventDefault(); var nx = this.nextElementSibling; if(nx) nx.focus(); }
+      if(e.key === 'ArrowUp'){ e.preventDefault(); var pv = this.previousElementSibling; if(pv) pv.focus(); else input.focus(); }
+      if(e.key === 'Escape'){ hideSuggestions(); input.focus(); }
+    });
+    list.appendChild(li);
+  });
+  list.style.display = 'block';
+}
+
+function hideSuggestions(){
+  list.style.display = 'none';
+  list.innerHTML = '';
+}
+
+/* ── Buscar ───────────────────────────────────────── */
+btn.addEventListener('click', function(){ hideSuggestions(); buscar(); });
+
+/* CONFIG */
+function getUserConfig(grupo, id){
+  const config = {
+    'Estudiante': {
+      role:'Estudiante',
+      icon:'fa-user-graduate',
+      url:'/inspeccionar/estudiante/' + id + '/',
+      btn:'btn-success',
+      badge:'bg-success-subtle text-success'
+    },
+    'Docente': {
+      role:'Docente',
+      icon:'fa-chalkboard-teacher',
+      url:'/inspeccionarprofe/Profesor/' + id + '/',
+      btn:'btn-warning',
+      badge:'bg-warning-subtle text-warning'
+    },
+    'Docente y Estudiante': {
+      role:'Docente y Estudiante',
+      icon:'fa-users',
+      url:'/inspeccionarprofe/Profesor/' + id + '/',
+      btn:'btn-primary',
+      badge:'bg-primary-subtle text-primary'
+    },
+    'Prospecto': {
+      role:'Prospecto',
+      icon:'fa-user',
+      url:'/inspeccionarProspecto/Prospecto/' + id + '/',
+      btn:'btn-secondary',
+      badge:'bg-secondary-subtle text-secondary'
+    }
+  };
+  return config[grupo] || config['Estudiante'];
+}
+
+/* UPDATE UI */
+function updateUI(cfg){
+  const btnP  = document.getElementById('btnPerfil');
+  const badge = document.getElementById('badgeGrupo');
+  if(btnP){
+    btnP.href      = cfg.url;
+    btnP.className = 'btn ' + cfg.btn + ' btn-sm rounded-3';
+    btnP.innerHTML = '<i class="fa ' + cfg.icon + ' me-1"></i> Ver ' + cfg.role;
+  }
+  if(badge){
+    badge.className = 'badge ' + cfg.badge;
+    badge.innerHTML = '<i class="fa ' + cfg.icon + ' me-1"></i> ' + cfg.role;
+  }
+}
+
+/* CAMBIO ROL */
+window.handleRolChange = async function(select,id){
+  const cfg = getUserConfig(select.value, id);
+  updateUI(cfg);
+  await fetch('/usuarios/cambiar-grupo-ajax/',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({user_id:id, rol:select.value})
+  });
+};
+
+/* RENDER */
+function renderCard(data){
+  const cfg = getUserConfig(data.grupo, data.id);
+
+  const estado = data.activo
+    ? '<span class="badge bg-success-subtle text-success">Activo</span>'
+    : '<span class="badge bg-danger-subtle text-danger">Inactivo</span>';
+
+  const grupoBadge = data.grupo
+    ? '<span id="badgeGrupo" class="badge ' + cfg.badge + '"><i class="fa ' + cfg.icon + ' me-1"></i>' + cfg.role + '</span>'
+    : '';
+
+  card.innerHTML =
+  '<div class="card border-0 shadow-sm rounded-4 p-3 text-start">' +
+    '<div class="d-flex align-items-center gap-3 mb-3">' +
+      '<div class="avatar">' + data.email.substring(0,2).toUpperCase() + '</div>' +
+      '<div>' +
+        '<h6 class="fw-bold mb-1">' + data.email + '</h6>' +
+        '<div class="d-flex gap-2 flex-wrap small text-muted">' +
+          '<span>ID ' + data.id + '</span>' + estado + grupoBadge +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="row g-2 mb-3">' +
+      '<div class="col-6"><div class="bg-light rounded-3 p-2">' +
+        '<small class="text-muted d-block">Último ingreso</small>' +
+        '<strong>' + (data.fecha_ingreso || '—') + '</strong>' +
+      '</div></div>' +
+      '<div class="col-6"><div class="bg-light rounded-3 p-2">' +
+        '<small class="text-muted d-block">Fecha creación</small>' +
+        '<strong>' + (data.fecha_creacion || '—') + '</strong>' +
+      '</div></div>' +
+    '</div>' +
+    '<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">' +
+      '<div class="d-flex align-items-center gap-2">' +
+        '<small class="text-muted">Rol</small>' +
+        '<select class="form-select form-select-sm w-auto" onchange="handleRolChange(this,\'' + data.id + '\')">' +
+          '<option ' + (data.grupo==='Estudiante'?'selected':'') + '>Estudiante</option>' +
+          '<option ' + (data.grupo==='Docente'?'selected':'') + '>Docente</option>' +
+          '<option ' + (data.grupo==='Docente y Estudiante'?'selected':'') + '>Docente y Estudiante</option>' +
+          '<option ' + (data.grupo==='Prospecto'?'selected':'') + '>Prospecto</option>' +
+        '</select>' +
+      '</div>' +
+      '<a href="' + cfg.url + '" id="btnPerfil" class="btn ' + cfg.btn + ' btn-sm rounded-3">' +
+        '<i class="fa ' + cfg.icon + ' me-1"></i> Ver ' + cfg.role +
+      '</a>' +
+    '</div>' +
+  '</div>';
+}
+
+/* BUSCAR */
+async function buscar(){
+  const q = input.value.trim();
+  if(!q) return;
+
+  btn.innerHTML = 'Buscando...';
+  btn.disabled = true;
+
+  card.innerHTML =
+    '<div class="d-flex justify-content-center align-items-center rc-spinner">' +
+      '<div class="spinner-ring"></div>' +
+    '</div>';
+
+  try{
+    const res  = await fetch('/api/buscar-usuario/?id_user=' + encodeURIComponent(q));
+    const data = await res.json();
+    if(!res.ok) throw 'error';
+    renderCard(data);
+  }catch(err){
+    card.innerHTML =
+      '<div class="text-danger py-5">' +
+        '<i class="fa fa-exclamation-circle"></i> No encontrado' +
+      '</div>';
+  }
+
+  btn.innerHTML = '<i class="fa fa-search"></i>';
+  btn.disabled  = false;
+}
+
+})();
+</script>
+
+{% endblock %}

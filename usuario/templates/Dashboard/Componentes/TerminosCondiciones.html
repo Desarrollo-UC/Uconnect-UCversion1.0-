@@ -1,0 +1,924 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/legal.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="container containerUb">
+    <div class="row">
+        <div class="col-md-12 card cardPerfilCol" id="cardContactos">
+            <div class="card-header d-flex justify-content-center">
+                <h5 class=" mt-4 titleUb text-center">Términos y Condiciones</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <ul class="tab-list nav nav-pills nav-fill" role="tablist" id="navTer">
+                        <li class="nav-item tab-list__item">
+                            <a class="nav-link mb-3 p-3 shadow active" data-bs-toggle="pill" href="#v-pills-Sitio">Uso
+                                del sitio web</a>
+                        </li>
+                        <li class="nav-item tab-list__item">
+                            <a class="nav-link mb-3 p-3 shadow" data-bs-toggle="pill"
+                                href="#v-pills-Matricula">Condiciones de matrícula</a>
+                        </li>
+                    </ul>
+                    <div class="col-md-12 cardColPoInf hidden" id="cardColPoInf">
+                        <div class="card">
+                            <div class="rowPoN">
+                                <div class="col-md-2 cardHeader cardHeaderPo2" id="PoPriInfo">
+                                </div>
+                                <div class="col-md-9 cardBodyPo2">
+                                    <div class="card-body">
+                                        <div class="rowPoN">
+                                            <div class="col-md-12">
+                                                <h5 class=" carTitleInfo" id="carTitleInfo"></h5>
+                                                <br>
+                                            </div>
+                                            <div class="col-md-12" id="cardBodyU">
+                                                <ol type="a" class="pCardBodyUInfo textColorInfo"
+                                                    id="pCardBodyUInfo"></ol>
+                                                <ol type="1" class="pCardBodyU2Info textColorInfo" id="pCardBodyU2Info">
+                                                </ol>
+                                                <p class="pCardBodyInfo" id="pCardBodyInfo"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade shadow rounded bg-white show active p-2" id="v-pills-Sitio"
+                        role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="row g-1 rowCardPo d-flex justify-content-center">
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri20">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Propósito del Sitio </h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad
+                                                                    Central pone a disposición de sus usuarios una
+                                                                    plataforma e-Commerce para realizar la matrícula, el
+                                                                    pago de cursos y de otros servicios que serán
+                                                                    cancelados mediante los depósitos en línea y con
+                                                                    tarjetas de crédito.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad
+                                                                    Central se reserva el derecho de ofrecer y modificar
+                                                                    la configuración de los servicios que presta y de
+                                                                    modificar estos Términos y Condiciones de Uso. Todos
+                                                                    los términos enmendados serán efectivos
+                                                                    inmediatamente después de ser publicados en la
+                                                                    página de internet.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Las violaciones
+                                                                    de estas Condiciones de Uso, incluyendo el uso no
+                                                                    autorizado del sitio, pueden facultar a la
+                                                                    Universidad Central para tomar las acciones técnicas
+                                                                    y legales que se requieran.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad
+                                                                    Central podrá restringir el acceso al Sitio,
+                                                                    cancelar el pago de servicios adquiridos, eliminar
+                                                                    cualquier contenido del Usuario no autorizado, o
+                                                                    ejercer cualquier otra acción disponible, si posee
+                                                                    elementos o indicios que la conducta del usuario o
+                                                                    de cualquier tercero son inconsistentes con los
+                                                                    Términos y Condiciones de Uso establecidos en esta
+                                                                    página o en la Legislación, o que violan los
+                                                                    derechos de la Universidad Central, de un usuario de
+                                                                    http://www.uc.ac.cr o cualquier otro usuario del
+                                                                    Sitio.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">El Usuario acepta
+                                                                    que la Universidad Central no tiene la obligación de
+                                                                    rendir ningún tipo de reembolso o indemnización si
+                                                                    ejerce cualquier acción ante una presunta violación
+                                                                    de los Términos y Condiciones de Uso o derechos de
+                                                                    la Universidad Central o de terceros.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Además, acepta
+                                                                    que la Universidad Central en todo momento se
+                                                                    reserva el derecho de modificar, suspender o
+                                                                    descontinuar cualquier parte de este Sitio, con o
+                                                                    sin previo aviso. Del mismo modo, es entendido que
+                                                                    la Universidad Central, a su entera discreción,
+                                                                    podrá imponer límites en ciertas funciones y
+                                                                    servicios, así como restringir el acceso a cualquier
+                                                                    parte o a todo el Sitio sin previo aviso.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri21">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Términos de pago </h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo"> Los términos de pago serán determinados
+                                                                    discrecionalmente por la Universidad Central y así lo comunicará
+                                                                    oportunamente a los usuarios.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Para que el sitio acepte su pago, la
+                                                                    Universidad Central deberá haber recibido la correspondiente aprobación de
+                                                                    parte de Ente Emisor de la tarjeta de crédito.
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad Central no se hace de
+                                                                    ninguna manera responsable si tal institución financiera rechaza la tarjeta
+                                                                    de crédito por cualquier razón.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad Central
+                                                                    no se hace responsable por cobros administrativos, diferenciales
+                                                                    cambiarios
+                                                                    ni
+                                                                    por cargos de su banco o tarjeta por conversiones de moneda.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri22">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Términos de Aceptación de Orden </h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad Central
+                                                                    se reserva el derecho en cualquier momento, después de que haya recibido
+                                                                    la
+                                                                    confirmación de su orden, de aceptar o de revocar su orden por
+                                                                    cualquiera
+                                                                    razón
+                                                                    que estime conveniente u oportuna.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Si se declinara y existe un número de
+                                                                    autorización establecido en la confirmación del cliente, el cual fue
+                                                                    solicitado
+                                                                    al banco emisor de la tarjeta, la Universidad Central
+                                                                    solicitará a éste la anulación o cancelación de esa autorización para
+                                                                    que el
+                                                                    disponible le sea liberado al cliente lo más pronto posible.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri23">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Medio para el pago </h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">La Universidad Central
+                                                                    no se hará responsable de ninguna manera si su proveedor de correo
+                                                                    electrónico
+                                                                    rechaza o cataloga como spam los correos electrónicos enviados desde
+                                                                    nuestro
+                                                                    sitio Web.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Es importante que imprima o escriba y
+                                                                    conserve los datos que contiene el documento “factura electrónica”. El
+                                                                    documento
+                                                                    “factura electrónica” contiene entre otros datos, su número de factura.
+                                                                    Este
+                                                                    número de factura será necesario para poder realizar cualquier gestión o
+                                                                    reclamo
+                                                                    relacionado con la compra o el servicio pagado.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri24">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Políticas de Envío</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Condiciones.</strong> Los
+                                                                    cursos
+                                                                    y
+                                                                    servicios se
+                                                                    impartirán únicamente en las sedes de la Universidad Internacional de
+                                                                    las
+                                                                    Americas. Es responsabilidad del estudiante asistir a ellos. En caso de
+                                                                    solicitud de documentos el solicitante lo deberá retirar personalmente
+                                                                    presentando identificación que lo autentique como tal en la Sede de la
+                                                                    Universidad en donde se encuentre matriculado. La Universidad no envía a
+                                                                    domicilio ningún documento solicitado o pagado por este medio.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Tiempo.</strong> La
+                                                                    confección de
+                                                                    los
+                                                                    documentos tiene
+                                                                    una duración de cuatro días después de los cuales el solicitante puede
+                                                                    acudir a
+                                                                    la Universidad a retirarlos.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Procedimiento.</strong> La
+                                                                    Universidad Internacional
+                                                                    de las Americas no envía ninguno de sus servicios, certificaciones ni
+                                                                    títulos.
+                                                                    Todo debe ser retirado en la Universidad y todo trámite es estrictamente
+                                                                    personal.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri25">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Políticas de Cancelación y Devolución</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Política de
+                                                                        reembolso.</strong>
+                                                                    Todos
+                                                                    los cargos son
+                                                                    no-reembolsables.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Condiciones.</strong> La
+                                                                    Universidad
+                                                                    no realizará
+                                                                    retiros justificados, devoluciones, congelamientos o acreditaciones de
+                                                                    fondos
+                                                                    salvo que el servicio no se preste por causas imputables a la
+                                                                    Institución.
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Tiempo.</strong> Si el
+                                                                    interesado
+                                                                    realizó el pago del
+                                                                    curso y no podrá asistir, deberá informar de esa situación con al menos
+                                                                    quince
+                                                                    días hábiles de anticipación al inicio del respectivo curso. De no
+                                                                    cumplir
+                                                                    con
+                                                                    el plazo establecido la Universidad Internacional de las Americas no
+                                                                    devolverá
+                                                                    ni acreditará suma alguna al interesado.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Procedimiento.</strong>
+                                                                    Deberá
+                                                                    entregar una nota
+                                                                    explicativa por escrito dirigida a la Dirección Administrativa, en las
+                                                                    oficinas
+                                                                    de la Universidad. La nota deberá entregarse en forma personal
+                                                                    únicamente.
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Asignación.</strong> Los
+                                                                    alumnos
+                                                                    y
+                                                                    clientes de la
+                                                                    Universidad Internacional de las Americas no pueden transferir ni
+                                                                    asignar
+                                                                    los
+                                                                    derechos u obligaciones que tengan por el uso de esta plataforma.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo"><strong>Inactividad.</strong> El
+                                                                    acceso a
+                                                                    la
+                                                                    información se
+                                                                    pierde al inicio de cada periodo lectivo, si el alumno no ha cancelado
+                                                                    la
+                                                                    matrícula no podrá visualizar sus datos.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri26">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Políticas de Privacidad</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">Usted acepta la recopilación,
+                                                                    procesamiento y
+                                                                    almacenamiento por parte de la Universidad Internacional de las Americas
+                                                                    de
+                                                                    su
+                                                                    información personal de acuerdo con los términos de la Política de
+                                                                    Privacidad de
+                                                                    la Universidad Internacional de las Americas, que está disponible en
+                                                                    esta
+                                                                    página. Usted se compromete a cumplir con todas las leyes y reglamentos
+                                                                    aplicables, y los términos de la Política de Privacidad de la
+                                                                    Universidad
+                                                                    Internacional de las Americas, con respecto al acceso, uso y / o envío
+                                                                    de
+                                                                    cualquier información personal en conexión con este Sitio Web.
+                        
+                                                                    Si alguna cláusula de los Términos y Condiciones de Uso llegara a ser
+                                                                    inválida,
+                                                                    ilegal o inaplicable, la validez, la legalidad y la aplicabilidad de las
+                                                                    cláusulas restantes de ninguna manera serán afectadas ni deterioradas de
+                                                                    ningún
+                                                                    modo.
+                        
+                                                                    El Usuario, declara haber leído, conocido y aceptado en todas sus
+                                                                    extensiones
+                                                                    los Términos y Condiciones de Uso y las condiciones expuestas.
+                        
+                                                                    Si tiene alguna duda o pregunta por favor contáctenos a
+                                                                    <strong>sa-en-linea@uia.ac.cr</strong>
+                                                                </p>
+                                                            </li>
+                                                        </ol>
+                                                        <ul class="pCardBodyU2" style="display: none;"></ul>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade shadow rounded bg-white p-2" id="v-pills-Matricula" role="tabpanel"
+                        aria-labelledby="v-pills-home-tab">
+                        <div class="row g-1 rowCardPo d-flex justify-content-center">
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri27">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Condiciones de matrícula estudiante regular</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                        </ol>
+                                                        <ol type="1" class="pCardBodyU2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">Formalizar los trámites, en caso de
+                                                                    que desee
+                                                                    el reconocimiento de estudios efectuados en otra institución de
+                                                                    Educación
+                                                                    Superior, dentro del mes siguiente a mi ingreso a la Universidad
+                                                                    Internacional
+                                                                    de las Americas.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Cursar la carrera de manera ordenada
+                                                                    y
+                                                                    aprobar los cursos que se constituyen en requisito para cursar otros
+                                                                    cursos
+                                                                    posteriores.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Asistir puntualmente a las lecciones
+                                                                    y otras
+                                                                    actividades relacionadas con su formación académica.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Colaborar y participar activamente en
+                                                                    las
+                                                                    lecciones.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Atender con compromiso,
+                                                                    responsabilidad,
+                                                                    seriedad y esfuerzo sus procesos de aprendizaje</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Contribuir, con mi conducta y mi
+                                                                    participación responsables, en la creación, el mantenimiento y el
+                                                                    fortalecimiento de un ambiente adecuado para el aprendizaje.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Cumplir estricta y puntualmente con
+                                                                    el
+                                                                    calendario, los horarios y las instrucciones que rigen para el
+                                                                    desarrollo de las
+                                                                    actividades universitarias.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Justificar, ante el profesor, mis
+                                                                    ausencias a
+                                                                    las lecciones, en el entendido de que tres ausencias injustificadas a
+                                                                    lecciones
+                                                                    conllevan la pérdida del curso.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Dar seguimiento a los resultados de
+                                                                    las
+                                                                    materias cursadas.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Actuar con honestidad y honradez en
+                                                                    todas sus
+                                                                    acciones académicas.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Ejecutar, en forma personal, las
+                                                                    pruebas,
+                                                                    según los criterios y procedimientos de evaluación que se establezcan.
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Respetar los derechos de los
+                                                                    compañeros
+                                                                    estudiantes y profesores, así como su dignidad.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Cuidar las instalaciones, equipos y
+                                                                    materiales de la Universidad Internacional de las Americas, de los
+                                                                    compañeros
+                                                                    estudiantes y profesores.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Mostrar una conducta y comportamiento
+                                                                    que me
+                                                                    dignifiquen como persona y que enaltezcan mi buen nombre tanto de la
+                                                                    Universidad, como de la comunidad en general.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Vestir con decoro y cumplir
+                                                                    estrictamente con
+                                                                    las regulaciones, establecidas por La Universidad Central,
+                                                                    en cuanto a la presentación personal.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Practicar con esmero las normas de
+                                                                    consideración y respeto en las relaciones con mis compañeros, con los
+                                                                    profesores, con el personal y autoridades de la Universidad.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Respetar celosamente las normas de
+                                                                    convivencia humana, dentro y fuera de la Universidad y, muy
+                                                                    particularmente, los
+                                                                    derechos que corresponden a las demás personas.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Actuar, en todo momento y lugar, con
+                                                                    la
+                                                                    dignidad y el decoro que imponen las normas de urbanidad vigentes en la
+                                                                    sociedad
+                                                                    costarricense.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Respetar la integridad física,
+                                                                    emocional y
+                                                                    moral de mis compañeros, profesores y, en general, de todos los
+                                                                    funcionarios de
+                                                                    la institución.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Respetar los bienes de mis profesores
+                                                                    y
+                                                                    compañeros y de los funcionarios de la Universidad.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Cumplir cabalmente las orientaciones
+                                                                    e
+                                                                    indicaciones que me formulen las autoridades universitarias.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Ejercer mi derecho a revisión y
+                                                                    apelación de
+                                                                    los exámenes y de las calificaciones finales, mediante los
+                                                                    procedimientos que
+                                                                    establecen los reglamentos universitarios.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Mantenerme al día en el pago de mis
+                                                                    obligaciones económicas con la Universidad.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="font-italic text-muted mb-3">Conocer mis deberes y derechos que se
+                                                                    explicitan en el Reglamento del Régimen Estudiantil y en el Manual del
+                                                                    Estudiante.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <p class="pCardBody" style="display: none;">
+                                                            Estoy de acuerdo que solo podré hacer retiro
+                                                            o
+                                                            congelamiento en aquellos casos en que la Universidad Internacional de las
+                                                            Americas no
+                                                            pueda brindar el servicio, que conozco las disposiciones para realizar cambios.
+                                                            Asimismo
+                                                            acepto que esta matricula se considera provisional y queda sujeta a la
+                                                            aprobación de los
+                                                            requisitos académicos correspondientes.<br>
+
+                                                            Declaro que conozco las características de la carrera que matriculo, los
+                                                            requisitos de
+                                                            ingreso y los requisitos de graduación. Así mismo, que he recibido el manual
+                                                            básico del
+                                                            estudiante y acepto las disposiciones que en él se indican.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri28">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Disposiciones especiales para la carrera de medicina y cirugía</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                        </ol>
+                                                        <ol type="1" class="pCardBodyU2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">En las ciencias básicas y humanidades
+                                                                    incluidos hasta el cuarto ciclo lectivo de la carrera, el estudiante que
+                                                                    pierde
+                                                                    un curso por primera vez, debe repetirlo en el ciclo lectivo siguiente,
+                                                                    en
+                                                                    sustitución de una de las materias de ese bloque, y podrá cursar las
+                                                                    otras
+                                                                    materias de ese bloque que no requieran del curso no aprobado como
+                                                                    requisito
+                                                                    académico. Si no lo aprueba en esa segunda oportunidad, debe matricular
+                                                                    solamente ese curso en el siguiente ciclo lectivo. Si por tercera vez no
+                                                                    lo
+                                                                    aprueba deberá de cambiar de carrera.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Ningún estudiante podrá ingresar a
+                                                                    los
+                                                                    bloques de ciencias clínicas-del quinto ciclo lectivo de la carrera en
+                                                                    adelante
+                                                                    si no ha aprobado todas las materias comprendidas hasta el cuarto ciclo
+                                                                    lectivo
+                                                                    de la carrera.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">En lo que respecta a las ciencias
+                                                                    preclínicas
+                                                                    y clínicas, si un estudiante no aprueba una de las materias de un ciclo
+                                                                    lectivo
+                                                                    o bloque, debe aprobar ese curso antes de avanzar al siguiente bloque,
+                                                                    puesto
+                                                                    que cada una de las materias es requisito para cursar aquellas ubicadas
+                                                                    en los
+                                                                    cuatrimestres siguientes.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Quedan excluidos de las disposiciones
+                                                                    de los
+                                                                    puntos 2 y 3, los cursos de Inglés Médico I y II y Métodos de
+                                                                    Investigación, los
+                                                                    que el alumno puede cursar en conjunto con una materia de las áreas
+                                                                    preclínica y
+                                                                    clínica o matricularlos antes de ingresar al quinto ciclo lectivo.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">En los casos en que el estudiante
+                                                                    solicite
+                                                                    matrícula y no haya aprobado aún el curso o bloque anterior, que es
+                                                                    requisito
+                                                                    del que desea matricular, deberá declararlo así en su boleta de
+                                                                    matrícula y
+                                                                    aceptar su reubicación en el curso anterior, si no lo aprueba.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Los estudiantes de Medicina y Cirugía
+                                                                    deberán
+                                                                    presentarse a sus lecciones, tanto en las instalaciones de la
+                                                                    Universidad como
+                                                                    en los hospitales, con ropa formal.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Los estudiantes de Medicina y Cirugía
+                                                                    deberán
+                                                                    presentarse a sus laboratorios, en las instalaciones de la universidad
+                                                                    como en
+                                                                    los hospitales con su respectiva gabacha con la insignia de Escuela de
+                                                                    Medicina
+                                                                    y los equipos de seguridad que se requieran. En caso contrario no podrán
+                                                                    ingresar a estos servicios.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Todos aquellos estudiantes que
+                                                                    realicen sus
+                                                                    rotaciones en hospitales y clínicas deberán contar con las vacunas
+                                                                    exigidas para
+                                                                    el ingreso a los diferentes servicios, de acuerdo con las disposiciones
+                                                                    propias
+                                                                    de la Universidad y de los hospitales y clínicas.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Todos aquellos estudiantes que
+                                                                    realicen sus
+                                                                    rotaciones en los hospitales y clínicas deberán asistir y participar en
+                                                                    los
+                                                                    cursos preparatorios específicos, que se requieran para su ingreso a un
+                                                                    determinado servicio.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Las disposiciones del Reglamento de
+                                                                    la
+                                                                    Actividad Clínica Docente de la CCSS son de obligatorio acatamiento por
+                                                                    parte de
+                                                                    los estudiantes de Medicina y Cirugía.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 cardColPo">
+                                <div class="card">
+                                    <div class="rowPo">
+                                        <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri29">
+                                        </div>
+                                        <div class="col-md-12 cardBodyPo">
+                                            <div class="card-body">
+                                                <div class="rowPo">
+                                                    <div class="col-md-12">
+                                                        <h5 class="carTitle">Disposiciones especiales para la carrera de arquitectura</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <ol type="a" class="pCardBody2" style="display: none;">
+                                                        </ol>
+                                                        <ol type="1" class="pCardBodyU2" style="display: none;">
+                                                            <li>
+                                                                <p class="textColorInfo">El estudiante que pierda hasta tres
+                                                                    veces el
+                                                                    mismo curso, deberá repetirlo en el ciclo lectivo siguiente; no
+                                                                    obstante, si lo
+                                                                    pierde por tercera vez, puede pedir autorización al Director de Carrera,
+                                                                    para
+                                                                    poder cursarlo por cuarta vez. Si por cuarta vez reprueba, deberá
+                                                                    retirarse de
+                                                                    la carrera un cuatrimestre; salvo que exista una autorización especial
+                                                                    del
+                                                                    Consejo de Carrera.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Ningún estudiante podrá ingresar al
+                                                                    bloque de
+                                                                    Licenciatura, si no ha aprobado todas las materias comprendidas hasta el
+                                                                    octavo
+                                                                    ciclo de la carrera (Bachillerato) Para optar por alguna de las materias
+                                                                    de
+                                                                    Licenciatura que no tiene requisitos eslabonados, requerirá de la
+                                                                    autorización
+                                                                    de la Dirección de Carrera.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Los estudiantes están en la
+                                                                    obligación de
+                                                                    formalizar las solicitudes de convalidación de estudios realizados en
+                                                                    otras
+                                                                    entidades de la Educación Superior, como máximo, durante el ciclo
+                                                                    lectivo de su
+                                                                    ingreso a la Universidad. Los estudiantes que no cuentan con la
+                                                                    convalidación
+                                                                    definitiva, pasado ese término, se arriesgan a que su matrícula no sea
+                                                                    aceptada
+                                                                    por la Dirección de Registro. De igual manera, podrán ser objeto de
+                                                                    cambios en
+                                                                    la convalidación provisional, producto de modificaciones en la política
+                                                                    de
+                                                                    reconocimiento, por acuerdo del Consejo Universitario, posteriores a la
+                                                                    fecha de
+                                                                    la solicitud. Las convalidaciones de materias se realizan por una sola
+                                                                    vez, de
+                                                                    manera que no se admitirán solicitudes de convalidaciones adicionales.
+                                                                </p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">En los casos en que el estudiante
+                                                                    matriculó
+                                                                    provisionalmente una materia, porque aún no tiene los resultados de la
+                                                                    materia
+                                                                    del curso requisito; en caso de no aprobar dicho curso, deberá solicitar
+                                                                    su
+                                                                    reubicación en el curso reprobado.</p>
+                                                            </li>
+                                                            <li>
+                                                                <p class="textColorInfo">Estoy de acuerdo que solo podré hacer
+                                                                    retiro
+                                                                    o congelamiento en aquellos casos en que la Universidad Internacional de
+                                                                    las
+                                                                    Americas no pueda brindar el servicio, que conozco las disposiciones
+                                                                    para
+                                                                    realizar cambios. Asimismo acepto que esta matricula se considera
+                                                                    provisional y
+                                                                    queda sujeta a la aprobación de los requisitos académicos
+                                                                    correspondientes.</p>
+                                                            </li>
+                                                        </ol>
+                                                        <p class="pCardBody" style="display: none;"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var links = document.querySelectorAll('.tab-list a');
+    links.forEach(function(link) {
+        link.addEventListener('click', function() {
+            // Obtenemos el ID del destino del enlace
+            var targetId = this.getAttribute('href');
+            // Eliminamos el "#" del ID para obtener solo el nombre del div
+            var divId = targetId.substring(1);
+            // Ocultamos el div correspondiente
+            hidden(divId);
+        });
+    });
+    function hidden(){
+        var card = document.getElementById('cardColPoInf');
+        card.classList.add('hidden');
+    }
+    let activeCard = null; // Mantener una referencia al card actualmente activo
+    let cardsHT = document.getElementById("carTitleInfo");
+    let cardsHP = document.getElementById("pCardBodyInfo");
+    let cardsHPU = document.getElementById("pCardBodyUInfo");
+    let cardsHPU2 = document.getElementById("pCardBodyU2Info");
+
+    const cards = document.querySelectorAll(".cardColPo");
+    const cardsH = document.getElementById("cardColPoInf");
+    let imgP = document.getElementById('PoPriInfo');
+    for (let card of cards) {
+        var cardBodyU = document.getElementById('cardBodyU');
+        cardsHP.innerText = '';
+        cardsHPU.innerHTML = '';
+        cardsHPU2.innerHTML = '';
+        card.addEventListener("click", function () {
+            if (cardsH.classList.contains('hidden')) {
+                cardsH.classList.remove('hidden');
+            }
+    
+            if (activeCard && activeCard !== card) {
+                activeCard.classList.remove('hidden');
+            }
+    
+            if (activeCard === card && !card.classList.contains('hidden')) {
+                // Si se hace clic en el card activo, ocultarlo
+                card.classList.remove('hidden');
+                activeCard = null;
+            } else {
+                // Mostrar el nuevo card
+                card.classList.add('hidden');
+                activeCard = card;
+            }
+    
+            let title = card.querySelector('.carTitle').innerText;
+            let body = card.querySelector('.pCardBody').innerHTML;
+            
+            let bodyu2 = card.querySelector('.pCardBodyU2').innerHTML;
+            let bodyu = card.querySelector('.pCardBody2').innerHTML;
+            cardsHPU.innerHTML = bodyu;
+            cardsHPU2.innerHTML = bodyu2;
+
+            let imgPN = card.querySelector('.rowPo .cardHeaderPo');
+            let estiloComputado = window.getComputedStyle(imgPN);
+            let fondo = estiloComputado.getPropertyValue('background-image');
+            fondo = fondo.replace('url("', '').replace('")', '');
+            imgP.style.background = '#ffffff url("' + fondo + '") center center/contain no-repeat';
+            cardsHT.innerText = title;
+            cardsHP.innerHTML = body;
+        });
+    }
+</script>
+{% endblock content %}

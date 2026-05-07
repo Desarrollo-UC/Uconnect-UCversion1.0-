@@ -1,0 +1,434 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block content %}
+
+<div class="p-2">
+    <div class="col-md-12 card cardPerfilCol">
+        <div class="row p-2">
+            <h3 class="text-center mb-4 colorText">SOLICITUD DE PRUEBAS DE SUFICIENCIA</h3>
+            <div class="mb-3">
+                <div class="card-body table-responsive px-md-4 px-2 pt-3">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr class="border-bottom">
+                                <th>
+                                    <div class="ps-3 d-flex flex-column justify-content">
+                                        <p class="fw-bold"></p>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="ps-3 d-flex flex-column justify-content">
+                                        <p class="fw-bold">Curso</p>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ps-3 d-flex flex-column justify-content">
+                                            <p class="fw-bold">Nombre Curso</p>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="ps-3 d-flex flex-column justify-content">
+                                        <p class="fw-bold">Créditos</p>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="premTablaBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12">
+                        <div class="mb-3">
+                            <label class="form-label colorText">Me encuentro en capacidad de aprobar el curso, en vista de
+                                que:</label>
+                            <textarea class="form-control" name="capacidad" aria-label="With textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12">
+                        <div class="mb-3">
+                            <label class="form-label colorText">Declaro que conozco de los contenidos del (de los) curso(s).
+                                Asimismo, que
+                                mi
+                                solicitud está sujeta a la aprobación de la Universidad y que debo apersonarme a la
+                                Dirección de
+                                Registro de la Sede en que matriculo, durante la CUARTA SEMANA del cuatrimestre, para
+                                enterarme
+                                del
+                                resultado de mi solicitud.</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3 pointer-cursor  col-12 col-md-4" data-bs-toggle="modal"
+                            data-bs-target="#modal_declaracion">
+                            <a id="divart"><strong >Artículos Regulatorios</strong>
+                                <p id="artL">No leídos</p>
+                            </a>
+                            
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12">
+                        <div class="mb-2">
+                            <label class="form-label">Firma:</label>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2 mb-3">
+                        <canvas id="canvas" width="290" height="100" class="border"></canvas>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between" >
+                    <div class="form-group">
+                        <button id="clearBtn" class="btn botonesTra btnPrimaryUC">Limpiar</button>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn botonesTra btnPrimaryUC">Enviar Solicitud</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model de Cambio de data -->
+{% block modal_declaracion%}
+<div class="modal fade" id="modal_declaracion" tabindex="-1" aria-labelledby="modal_declaracionTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal_declaracion" role="document">
+        <div class="modal-content rounded-4" id="modalContNS">
+            <div class="modal-header" id="modalHeaderN">
+                <h5 class="modal-title" id="modal_declaracionTitle">
+                    Artículos Regulatorios
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalSufi">
+                <div class="row p-2">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6" >
+                        <div class="row p-2" id="divCardS">
+                            <div id="36" class="article button-div mb-3" onclick="collapse(36)">
+                                <div class="title">Artículo 36</div>
+                                <p id="leido36" class="author">No leído</p>
+                            </div>
+
+                            <div id="40" class="article button-div mb-3" onclick="collapse(40)">
+                                <div class="title">Artículo 40</div>
+                                <p id="leido40" class="author">No leído</p>
+                            </div>
+                            <div id="41" class="article button-div mb-3" onclick="collapse(41)">
+                                <div class="title">Artículo 41</div>
+                                <p id="leido41" class="author">No leído</p>
+                            </div>
+                            <div id="42" class="article button-div mb-3" onclick="collapse(42)">
+                                <div class="title">Artículo 42</div>
+                                <p id="leido42" class="author">No leído</p>
+                            </div>
+                            <div id="43" class="article button-div mb-3" onclick="collapse(43)">
+                                <div class="title">Artículo 43</div>
+                                <p id="leido43" class="author">No leído</p>
+                            </div>
+                            <div id="44" class="article button-div mb-3" onclick="collapse(44)">
+                                <div class="title">Artículo 44</div>
+                                <p id="leido44" class="author">No leído</p>
+                            </div>
+                            <div id="46" class="article button-div mb-3" onclick="collapse(46)">
+                                <div class="title">Artículo 46</div>
+                                <p id="leido46" class="author">No leído</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                        <div class="containerArt" id="divCardS">
+                            <div class="art36 art" style="display: none;">
+                                <p class="text-justify">
+                                    Si un estudiante ingresa tarde a un examen, no tendrá derecho a que se le
+                                    otorgue tiempo
+                                    adicional al establecido para su finalización. Si algún estudiante ha terminado
+                                    la prueba y
+                                    ha salido del salón, con anterioridad al arribo del estudiante que llegó tarde,
+                                    este último
+                                    NO podrá realizar la prueba y deberá justificar su llegada tardía, para poder
+                                    optar a una
+                                    prueba de reposición, de conformidad con lo que establece el artículo 39.
+                                    ("deberá cancelar
+                                    de nuevo el derecho de hacer el examen de reposición " )
+                                </p>
+                            </div>
+                            <div class="art40 art" style="display: none;">
+                                <p class="text-justify">
+                                    El examen por suficiencia, es la oportunidad que se otorga a los estudiantes
+                                    para aprobar un
+                                    curso, demostrando pleno conocimiento en la materia mediante la realización de
+                                    un examen
+                                    escrito, oral o práctico. Dicho examen comprende todos los contenidos de la
+                                    materia del
+                                    curso a evaluar.
+                                    Los cursos prácticos y teóricos prácticos, que requieren el aprendizaje gradual
+                                    de
+                                    conocimientos, herramientas y destrezas, con ineludible presencia, no podrán ser
+                                    aprobados
+                                    por suficiencia.
+                                    No podrán realizar exámenes por suficiencia quienes hayan matriculado y
+                                    reprobado el curso.
+                                </p>
+                            </div>
+                            <div class="art41 art" style="display: none;">
+                                <p class="text-justify">
+                                    Se iustifica el examen por suficiencia, a los estudiantes que deseen subsanar
+                                    diferencias de
+                                    planes de estudios, o que deseen iniciar estudios de grado y postgrado para
+                                    efectos de
+                                    equipararlos. Se podrá autorizar por suficiencia hasta un Máximo del 20% de los
+                                    créditos de
+                                    la carrera, siempre y cuando, la suma de los créditos totales de las materias
+                                    convalidadas
+                                    por reconocimiento directo y aquellos de las materias aprobadas por suficiencia,
+                                    no excedan
+                                    el 60% de los créditos totales de la carrera.
+                                </p>
+                            </div>
+                            <div class="art42 art" style="display: none;">
+                                <p class="text-justify">
+                                    La solicitud de examen por suficiencia deberá hacerse en la Dirección de
+                                    Registro de la
+                                    Universidad, en el período ordinario de matrícula
+                                </p>
+                            </div>
+                            <div class="art43 art" style="display: none;">
+                                <p class="text-justify">
+                                    Los estudiantes que soliciten un examen por suficiencia en una materia, podrán
+                                    hacerlo un
+                                    máximo de una vez. (si la cursaron normalmente no la podrán hacer)
+                                </p>
+                            </div>
+                            <div class="art44 art" style="display: none;">
+                                <p class="text-justify">
+                                    La solicitud de los exámenes por suficiencia deberá fundamentarse debidamente y
+                                    acompañarla
+                                    con el recibo cancelado.
+                                    Si dicha solicitud no fuese aceptada, la Universidad devolverá al estudiante el
+                                    monto
+                                    pagado. En caso de ser acogida, se le entregará al interesado las indicaciones
+                                    que
+                                    correspondan.
+                                </p>
+                            </div>
+                            <div class="art46 art" style="display: none;">
+                                <p class="text-justify">
+                                    La nota mínima de aprobación de los exámenes por suficiencia es de 70 en la
+                                    escala de 1 a
+                                    100.
+                                </p>
+                            </div>
+                            <input type="hidden" id="contador" value="1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_declaracion %}
+
+<style>
+    .button-div {
+        padding: 10px 20px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .button-div:hover {
+        border: 1px solid var(--color-U-2);
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    #clearBtn {
+        margin-right: auto;
+    }
+
+    .button-like {
+        border: 2px solid transparent;
+        padding: 4px 8px;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-like:hover {
+        border-color: #007bff;
+        border-radius: 5px;
+    }
+
+    .pointer-cursor {
+        cursor: pointer;
+    }
+
+    .btn-link {
+        text-decoration: none;
+        /* Elimina el subrayado */
+        color: black;
+        /* Cambia el color del texto a negro */
+    }
+
+    .containerArt {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .article {
+        display: flex;
+        flex-direction: column;
+        margin-right: 30px;
+    }
+
+    .title {
+        font-weight: bold;
+    }
+
+    .author {
+        font-style: italic;
+    }
+
+    .art {
+        display: flex;
+        flex-direction: column;
+        margin-top: 25px;
+        color: var(--color-U-2);
+    }
+</style>
+
+<script>
+    function collapse(id) {
+        var collapse36 = document.getElementsByClassName('art36')[0];
+        var collapse40 = document.getElementsByClassName('art40')[0];
+        var collapse41 = document.getElementsByClassName('art41')[0];
+        var collapse42 = document.getElementsByClassName('art42')[0];
+        var collapse43 = document.getElementsByClassName('art43')[0];
+        var collapse44 = document.getElementsByClassName('art44')[0];
+        var collapse46 = document.getElementsByClassName('art46')[0];
+
+        var contador = document.getElementById('contador').value;
+
+        collapse36.style.display = "none";
+        collapse40.style.display = "none";
+        collapse41.style.display = "none";
+        collapse42.style.display = "none";
+        collapse43.style.display = "none";
+        collapse44.style.display = "none";
+        collapse46.style.display = "none";
+
+        if (parseInt(contador) < 7) {
+            var newcont = parseInt(contador);
+            newcont += 1;
+            var contador = document.getElementById('contador')
+            contador.value = newcont;
+        } else if (parseInt(contador) == 7) {
+            var contArt = document.getElementById('divart');
+            var leidoArt = document.getElementById('artL');
+            contArt.style.color = "#B7BD6D";
+            leidoArt.textContent = "Articulos Leidos";
+        }
+
+        if (id == 36) {
+            var cont = document.getElementById('36');
+            var leido = document.getElementById('leido36');
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse36.style.display = "block";
+            leido.textContent = "Leido";
+        } else if (id == 40) {
+            var cont = document.getElementById('40');
+            var leido = document.getElementById("leido40");
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse40.style.display = "block";
+            leido.textContent = "Leido";
+        } else if (id == 41) {
+            var cont = document.getElementById('41');
+            var leido = document.getElementById("leido41");
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse41.style.display = "block";
+            leido.textContent = "Leido";
+        } else if (id == 42) {
+            var cont = document.getElementById('42');
+            var leido = document.getElementById("leido42");
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse42.style.display = "block";
+            leido.textContent = "Leido";
+        } else if (id == 43) {
+            var cont = document.getElementById('43');
+            var leido = document.getElementById("leido43");
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse43.style.display = "block";
+            leido.textContent = "Leido";
+        } else if (id == 44) {
+            var cont = document.getElementById('44');
+            var leido = document.getElementById("leido44");
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse44.style.display = "block";
+            leido.textContent = "Leido";
+        } else if (id == 46) {
+            var cont = document.getElementById('46');
+            var leido = document.getElementById("leido46");
+            cont.style.backgroundColor = "#B7BD6D";
+            cont.style.borderRadius = '5px';
+            collapse46.style.display = "block";
+            leido.textContent = "Leido";
+        }
+    }
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    let isDrawing = false;
+    let previousX = 0;
+    let previousY = 0;
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mouseout", stopDrawing);
+
+    document.getElementById("clearBtn").addEventListener("click", clearCanvas);
+
+    function startDrawing(e) {
+        isDrawing = true;
+        const rect = canvas.getBoundingClientRect();
+        previousX = e.clientX - rect.left;
+        previousY = e.clientY - rect.top;
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const currentX = e.clientX - rect.left;
+        const currentY = e.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(previousX, previousY);
+        ctx.lineTo(currentX, currentY);
+        ctx.stroke();
+
+        previousX = currentX;
+        previousY = currentY;
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+    }
+</script>
+
+{% endblock content %}

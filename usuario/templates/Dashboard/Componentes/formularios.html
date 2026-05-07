@@ -1,0 +1,314 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block content %}
+{% block extra_js %}
+
+
+<script src="{% static 'js/pluginJs/jszip.min.js' %}"></script>
+
+{% endblock %}
+<div class="container" id="containerFormUC">
+    <div class="row g-1" id="rowFormUc">
+        <div class="col-md-4">
+            <div class="row g-1">
+                <div class="col-md-12">
+                    <div class="fondoPrimerIngreso">
+                        <div class="row mb-3">
+                            <div class="TextoForm exclude-filter">
+                                <h5>PRIMER INGRESO</h5>
+                                <a class="botonVisible" data-bs-toggle="modal" data-bs-target="#modal_forms" onclick="modalAccionForm('primeringreso')" id="botonVisiblePR">MÁS INFORMACION</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="fondoAstro">
+                        <div class="row mb-3">
+                            <div class="TextoForm exclude-filter">
+                                <h5>ASTROTHINKING</h5>
+                                <a class="botonVisible" id="botonVisibleA">MÁS INFORMACION</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row g-1">
+                <div class="col-md-12">
+                    <div class="fondoCursoLibres">
+                        <div class="row mb-3">
+                            <div class="TextoForm exclude-filter">
+                                <h5>CURSO LIBRES</h5>
+                                <a class="botonVisible" data-bs-toggle="modal" data-bs-target="#modal_forms" onclick="modalAccionForm('cursolibre')" id="botonVisibleC">MÁS INFORMACION</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row g-1">
+                        <div class="col-md-6">
+                            <div class="row mb-1">
+                                <div class="col-md-12">
+                                    <div class="fondoTecnico mb-1">
+                                        <div class="row mb-3">
+                                            <div class="TextoForm exclude-filter">
+                                                <h5>TÉCNICOS</h5>
+                                                <a class="botonVisible" data-bs-toggle="modal" data-bs-target="#modal_forms" onclick="modalAccionForm('tecnico')" id="botonVisibleT">MÁS INFORMACION</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="fondoMicro">
+                                        <div class="row mb-3">
+                                            <div class="TextoForm exclude-filter">
+                                                <h5>FORMACIÓN PROFESIONAL</h5>
+                                                <a class="botonVisible" data-bs-toggle="modal" data-bs-target="#modal_forms" onclick="modalAccionForm('micromaster')" id="botonVisibleM">MÁS INFORMACION</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fondoPosgrado">
+                                <div class="row mb-3">
+                                    <div class="TextoForm exclude-filter">
+                                        <h5>POSGRADOS</h5>
+                                        <a class="botonVisible" data-bs-toggle="modal" data-bs-target="#modal_forms" onclick="modalAccionForm('posgrado')" id="botonVisibleP">MÁS INFORMACION</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block offcanvasExample %}
+<div class="offcanvas offcanvas-start my-offcanvas" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel" style="font-size: 25px; font-weight: bold;" >TÉRMINOS Y CONDICIONES DE SERVICIO</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="divLegal mt-2" id="divSitio" style="text-align: justify;">
+            <p class="font-italic text-muted mb-2" style="font-size: 18px;">El suscrito {{ user.first_name }} {{ user.last_name }}, declaro que los documentos aportados para mi proceso de ingreso a La Universidad Central UC son fidedignos, comprendiendo y aceptando que la falsedad de los mismos causará la anulación de mi matrícula y las acciones correspondientes.</p>
+        </div>
+        <div style="justify-content: center; text-align: center;">
+            <a id="btn-terms" onclick="AceptoTerminos();" class="btn btn-success-terms mt-2">Acepto</a>
+        </div>
+    </div>
+  </div>
+{% endblock offcanvasExample %}
+{% block modal_forms %}
+<div class="modal fade" id="modal_forms" tabindex="-1" aria-labelledby="modal_formsTitle">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal_primer_ingreso">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_formsTitle">FORMULARIO DE PRIMER INGRESO</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formProspecto" method="post" action="{% url 'enviar_archivo_a_dspace' %}"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" id="tipoForm" name="tipoForm" value="" style="display: none;" />
+                    <div id="liveAlertPlaceholder"></div>
+                    <div class="row">
+                        <div class="form-group col-12 col-sm-6 mb-3 " id="divTitulo">
+                            <div class="mb-3">
+                                <label for="titulobachillerto" id="labeltitulo">
+                                    <i class="fa fa-upload" aria-hidden="true"></i> Título de Educación Media
+                                </label>
+                                <input class="form-control formColorM"  type="file"
+                                    id="titulobachillerto" name="titulobachillerto" name="titulobachillerto" onchange="verificarInputFile('Título de Educación Media','titulobachillerto');" accept-language="es" />
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3 " id="divTituloUniversidad">
+                            <div class="mb-3">
+                                <label for="titulouniversitario">
+                                    <i class="fa fa-upload" aria-hidden="true"></i> Título Universitario
+                                </label>
+                                <input class="form-control formColorM"  type="file" id="titulouniversitario" onchange="verificarInputFile('Título Universitario','titulouniversitario');"
+                                    name="titulouniversitario" />
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3 " id="divFechaGraduacion">
+                            <div class="mb-3">
+                                <label for="fechaGraduacion" class="labelForms">
+                                    <i class="fa-solid fa-circle formsIcons" ></i>
+                                        Fecha de graduación
+                                </label>
+                                <input class="form-control formColorM" type="date"
+                                    id="fechaGraduacion" name="fechaGraduacion"  />
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3 " id="divIdent">
+                            <div class="mb-3">
+                                <label for="cedulafotografia">
+                                    <i class="fa fa-upload" aria-hidden="true"></i> Identificación (Ambos lados)
+                                </label>
+                                <input class="form-control formColorM"  type="file" id="cedulafotografia"
+                                    name="cedulafotografia" name="cedulafotografia" onchange="verificarInputFile('Identificación','cedulafotografia');"/>
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3" id="divFoto">
+                            <label for="fotoperfil">
+                                <i class="fa fa-upload" aria-hidden="true"></i> Foto Tipo Pasaporte
+                            </label>
+                            <input class="form-control formColorM"  type="file" id="fotoperfil"
+                                name="fotoperfil" name="fotoperfil" onchange="verificarInputFile('Foto Tipo Pasaporte','fotoperfil');"/>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 " id="divIngreso">
+                            <label for="ingreso_economico"><i class="bi bi-wallet-fill"> Tipo de Ingreso Económico</i></label>
+                            <select id="ingreso_economico" class="form-select select2 formColorM " name="ingreso_economico" required
+                                title="Ingreso Economico">
+                                <option value="" disabled selected hidden>Tipos de Ingreso Económico</option>
+                                <option value="Asalariado">Asalariado</option>
+                                <option value="Independiente">Ingresos Propios</option>
+                                <option value="Dependiente">Dependiente Económico</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-2 mt-2" id="divTrabajo" style="display: none;">
+                            <label for="divTrabajoInput" class="labelForms"><i
+                                class="fa-solid fa-circle formsIcons"></i> Lugar de trabajo</label>
+                            <input type="text" class="form-control formColorM" id="divTrabajoInput" name="divTrabajoInput" aria-describedby="basic-addon3" placeholder="Lugar de trabajo">
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="form-group col-12 col-sm-6 mb-3" id="divColegio">
+                            <label for="colegio_select"><i class="bi bi-book-fill"> Colegio de Procedencia</i></label>
+                            <select id="colegio_select" class="form-select" name="colegio_select"
+                                data-placeholder="Colegio donde egresó" title="Colegio">
+                                <option value="" disabled selected hidden></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-sm-6 mb-3" id="divUniversidad">
+                            <label for="universidad_select"><i class="bi bi-book-fill"> Universidad de
+                                Procedencia</i></label>
+                            <select id="universidad_select" class="form-select" name="universidad_select"
+                                data-placeholder="Universidad de procedencia" title="Universidad">
+                                <option value="" disabled selected hidden></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-sm-6 mb-3 dropdown-parent" id="divCarreraSede">
+                            <label for="carrera_sede">Seleccioná una sede</label>
+                            <select id="carrera_sede" class="form-select selectorbuscador formColorM" name="carrera_sede"
+                                onchange="datacarreras();" data-placeholder="Seleccioná la sede"
+                                title="Carrera">
+                                <option value="" disabled selected hidden>Seleccioná la sede en la que desea
+                                    estudiar
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3 dropdown-parent" id="divCarrera">
+                            <label for="carrera_select" id="carrera_select_label">Seleccioná una carrera</label>
+                            <select id="carrera_select" class="form-select selectorbuscador formColorM" name="carrera_select"
+                                data-placeholder="Seleccioná la carrera" onchange="habilitarTitulo();" title="Carrera">
+                                <option  value="" disabled selected hidden>
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3" id="divUniversidadPI">
+                            <label for="universidad_selectPI"><i class="bi bi-book-fill"> Universidad de
+                                Procedencia</i></label>
+                            <select id="universidad_selectPI" class="form-select" name="universidad_selectPI"
+                                data-placeholder="Universidad de procedencia" title="Universidad">
+                                <option value="" disabled selected hidden></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-sm-6 mb-3 dropdown-parent" id="divTituloUniversidadPI">
+                            <label for="titulouniversitarioPI">Título Universitario</label>
+                            <input class="form-control formColorM"  type="file" id="titulouniversitarioPI" name="titulouniversitarioPI" onchange="verificarInputFile('Título Universitario','titulouniversitarioPI');" />
+                        </div>
+                    </div>
+                    {%comment%}
+                    <div class="col-12 col-sm-6 form-check" id="divConvalidacionCheck">
+                        <input class="form-check-input formColorM" type="checkbox" value="" id="convalidacion" name="convalidacion"
+                            onchange="show('certificaciones')">
+                        <label class="form-check-label" for="convalidacion">
+                            Convalidación de Cursos
+                        </label>
+                    </div>
+                    <div class="row" style="display: none;" id="certificaciones">
+                        <div id="certificacion" class="form-group col-12 col-sm-6 ">
+                            <label for="certificacionnotas">Certificación de Materias Aprobadas</label>
+                            <input class="form-control formColorM"  type="file" id="certificacionnotas"
+                                name="certificacionnotas" onchange="verificarInputFile('Certificación de Materias Aprobadas','certificacionnotas');" />
+                        </div>
+
+                        <div id="plan" class="form-group col-12 col-sm-6 ">
+                            <label for="planestudio">Programas de Estudio - Contenido del Curso</label>
+                            <input class="form-control formColorM"  type="file" id="planestudio"
+                                name="planestudio" onchange="verificarInputFile('Programas de Estudio - Contenido del Curso','planestudio');"/>
+                        </div>
+                    </div>
+                    {%endcomment%}
+                    {% comment %}
+                    <div class="col-12 col-sm-6 form-check" id="divAsesorCheck">
+                        <input class="form-check-input formColorM" type="checkbox" value="" id="asesor" name="asesor"
+                            onchange="show('select_asesor')">
+                        <label class="form-check-label" for="asesor">
+                            ¿Fuiste atendido por un asesor?
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12 col-sm-6 dropdown-parent" id="select_asesor"
+                            style="display: none;">
+                            <label for="asesor_select">Seleccioná el asesor que te ha
+                                atendido</label>
+                            <select id="asesor_select" class="form-select selectorbuscador formColorM" name="asesor_select"
+                                data-placeholder="Seleccioná el asesor que te ha atendido" title="Asesor">
+                                <option value="" disabled selected hidden>Seleccioná el asesor que te ha
+                                    atendido
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endcomment %}
+                    <div class="form-check col-md-12" style="align-items: center;">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" required>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            <a style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">Acepto los <span class="texto_hipervinculo">Términos de Condiciones Servicio</span></a>
+                        </label>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6 d-flex justify-content-center">
+                            <button type="submit" class="btn btnPrimaryUC btn-sm rounded fw-bold" id="btnModal" style="max-width: 175px;">Enviar Formulario</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_forms %}
+
+{% block modal_instrucciones %}
+<div class="modal fade" id="modal_instrucciones" tabindex="-1" aria-labelledby="modal_instruccionesTitle"
+    style="display: none">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_instruccionesTitle">
+                    INSTRUCCIONES PARA COMPLETAR FORMULARIO DE PRIMER INGRESO
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span ><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_instrucciones %}
+<script src="{% static 'js/formProspectoValidacion.js' %}"></script>
+<script src="{% static 'js/formProspecto.js' %}"></script>
+{% endblock %}

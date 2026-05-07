@@ -1,0 +1,292 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="container containerUb">
+    <div class="row">
+        <div class="col-12 co-sm-12 col-md-12 col-lg-12 col-xl-12 card" id="cardContactos">
+            <div class="card-header d-flex justify-content-center mb-4">
+                <h5 class="card-title mt-4 titleUb text-center">¿Dónde nos ubicamos?</h5>
+            </div>
+            <div class="card-body cardBodyUb">
+                <div class="row g-0" style="max-width: 100%;">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-2 ">
+                        <div class="scrollable-tabs">
+                            <ul class="tab-list nav nav-pills" id="contact">
+                                <li class="nav-item col-6 col-sm-4 col-md-12 col-lg-12 col-xl-12">
+                                    <a class="nav-link SanJopc active text-center" data-bs-toggle="pill"
+                                        href="#sanjose">San José</a>
+                                </li>
+                                <li class="nav-item tab-list__item col-6 col-sm-4 col-md-12 col-lg-12 col-xl-12">
+                                    <a class="nav-link Alaopc text-center" data-bs-toggle="pill"
+                                        href="#alajuela">Alajuela</a>
+                                </li>
+                                <li class="nav-item tab-list__item col-6 col-sm-4 col-md-12 col-lg-12 col-xl-12">
+                                    <a class="nav-link Heropc text-center" data-bs-toggle="pill"
+                                        href="#heredia">Heredia</a>
+                                </li>
+                                <li class="nav-item tab-list__item col-6 col-sm-4 col-md-12 col-lg-12 col-xl-12">
+                                    <a class="nav-link Puropc text-center" data-bs-toggle="pill"
+                                        href="#puriscal">Puriscal</a>
+                                </li>
+                                <li class="nav-item tab-list__item col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
+                                    <a class="nav-link Sanopc text-center" data-bs-toggle="pill" href="#santos">San
+                                        Marcos <br>de Tarrazú</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-10">
+                        <div class="row g-0">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="tab-content">
+                                    <div class="tab-pane container fade show active" id="sanjose">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-7" id="sanjMap">
+
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 ubicacionInfo">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12">
+                                                        <img src="../../../static/img/Mapas/Sedes/Sedes_01.png"
+                                                            width="200" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="row textoUbicacionUc" >
+                                                    <div class="col-5 col-md-8">
+                                                        <p class="pubicT ml-2">De la Iglesia Santa Teresita 150 mts este y 25 mts norte.</p>
+                                                    </div>
+                                                    <div class="col-7 col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6 ">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-02.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2">+506 4108-9400 <br>ext 9900</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-md-6 gps">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3 ">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-022.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2"><a href="https://www.waze.com/ul?ll=9.936405,-84.065014&navigate=yes" target="_blank">Waze</a></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container fade show" id="alajuela">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-7 col-md-7 col-lg-7 col-xl-7" id="alaMap">
+
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 ubicacionInfo">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12">
+                                                        <img src="../../../static/img/Mapas/Sedes/Sedes_2.png"
+                                                            width="200" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="row textoUbicacionUc" >
+                                                    <div class="col-5 col-md-8">
+                                                        <p class="pubicT ml-2">200mts al norte y 50mts este de la catedral de Alajuela.</p>
+                                                    </div>
+                                                    <div class="col-7 col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6 ">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-04.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2">+506 4108-9400 <br>ext 9970, 9971</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-md-6 gps">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3 ">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-044.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2"><a href="https://www.waze.com/ul?ll=9.936405,-84.065014&navigate=yes" target="_blank">Waze</a></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container fade show" id="heredia">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-7 col-md-7 col-lg-7 col-xl-7" id="herMap">
+
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 ubicacionInfo">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12">
+                                                        <img src="../../../static/img/Mapas/Sedes/Sedes_1.png"
+                                                            width="200" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="row textoUbicacionUc" >
+                                                    <div class="col-5 col-md-8">
+                                                        <p class="pubicT ml-2">Mall Paseo de las Flores, segundo piso, ala sur.</p>
+                                                    </div>
+                                                    <div class="col-7 col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6 ">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-05.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2">+506 4108-9400 <br>ext 9960, 9962</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-md-6 gps">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3 ">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-055.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2"><a href="https://www.waze.com/ul?ll=9.936405,-84.065014&navigate=yes" target="_blank">Waze</a></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container fade show" id="puriscal">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-7 col-md-7 col-lg-7 col-xl-7" id="purMap">
+
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 ubicacionInfo">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12">
+                                                        <img src="../../../static/img/Mapas/Sedes/Sedes_3.png"
+                                                            width="200" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="row textoUbicacionUc" >
+                                                    <div class="col-5 col-md-8">
+                                                        <p class="pubicT ml-2">100 mts norte del gimnasio del Liceo de Puriscal.</p>
+                                                    </div>
+                                                    <div class="col-7 col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6 ">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-01.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2">+506 4108-9400 <br>ext 9980, 9982</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-md-6 gps">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3 ">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-011.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2"><a href="https://www.waze.com/ul?ll=9.936405,-84.065014&navigate=yes" target="_blank">Waze</a></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane container fade show" id="santos">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-7 col-md-7 col-lg-7 col-xl-7" id="sanMap">
+
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 ubicacionInfo">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12">
+                                                        <img src="../../../static/img/Mapas/Sedes/Sedes_4.png"
+                                                            width="200" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="row textoUbicacionUc" >
+                                                    <div class="col-5 col-md-8">
+                                                        <p class="pubicT ml-2">De la Antigua Bomba San Bosco 150 mts Norte.</p>
+                                                    </div>
+                                                    <div class="col-7 col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-6 ">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-03.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2">+506 4108-9400 <br>ext 9991, 9990</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-md-6 gps">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-3 ">
+                                                                        <img src="../../../static/img/Mapas/Iconos/ubicacion-033.png" class="logoUbicacion" alt="">
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <p class="pubic mt-2"><a href="https://www.waze.com/ul?ll=9.936405,-84.065014&navigate=yes" target="_blank">Waze</a></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('resize', function () {
+        var tabList = document.querySelector('.tab-list');
+        var scrollableTabs = document.querySelector('.scrollable-tabs');
+
+        if (tabList.offsetWidth > scrollableTabs.offsetWidth) {
+            scrollableTabs.classList.add('scrollable');
+        } else {
+            scrollableTabs.classList.remove('scrollable');
+        }
+    });
+
+    // Llamar al evento 'resize' para inicializar
+    window.dispatchEvent(new Event('resize'));
+</script>
+{% endblock content %}

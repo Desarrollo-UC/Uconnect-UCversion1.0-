@@ -1,0 +1,607 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/pluginJs/finisher-header.es5.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/pluginJs/anime.min.js' %}" type="text/javascript"></script>
+
+<div class="container overflow-x">
+    <div class="row" id="rowFormsUc">
+        <input type="text" id="input_status" value="{{ status }}" hidden>
+        {% if status == 'Enviado' %}
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9 d-flex justify-content-between" id="col1">
+            <div class="row ">
+                <div class="col-12 col-md-12 col-lg-12 mt-5">
+                    <div class="row ">
+                        <div class="col-12 col-md-12 justify-content-end">
+                            <h2 id="tituloPP" class="ml1 titulo1">
+                                <span class="text-wrapper">
+                                    <span class="letters">Ya estás más cerca de</span><br>
+                                    <span class="letters">ser parte de la comunidad UC</span>
+                                </span>
+                            </h2>
+                        </div>
+                        <div class="col-12 col-md-12 textoMat d-flex justify-content-end">
+                            <h1 id="tituloSP" class="titulo2 hidden">¡Tus documentos<br>fueron recibidos!</h1>
+                            <h1 id="tituloSP" class="titulo2 tituloM-2 hidden">Realizá tu<br>matrícula</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-12 align-self-end">
+                    <div class="row d-flex justify-content-center text-center">
+                        <div class="col-12 col-md-8 col-lg-6">
+                            <a id="btnSeP" href="{% url 'planEstudio' type=type %}"
+                                class="btnformMatri btn hidden">Matrícula</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-12 d-flex align-items-end">
+                    <img src="../../../static/img/Matricula/Matricula/Nube-2UC.png" class="img-pc nube-2 hidden" alt="">
+                    <img src="../../../static/img/Matricula/Matricula/B1-UC.png" class="B1" alt="">
+                    <img src="../../../static/img/Matricula/Matricula/B2-UC.png" class="B2" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-3" id="checkForms">
+            <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-md-12">
+                    <img src="../../../static/img/Matricula/Matricula/Nube-UC.png" class="img-pc nube1" alt="">
+                    <img src="../../../static/img/Matricula/Matricula/B1-UC.png" class="B-1" alt="">
+                    <img src="../../../static/img/Matricula/Matricula/B2-UC.png" class="B-2" alt="">
+                </div>
+                <div class="col-md-12 divSom">
+                    <img src="../../../static/img/Matricula/Matricula/Birrete-UC.png" class="birrete anim-pc" alt="">
+                    <img src="../../../static/img/Matricula/Matricula/Check-UC.png" class="img-check img-check-2 hidden"
+                        alt="">
+                </div>
+                <div class="col-md-12 d-flex justify-content-end">
+                    <img src="./../../../static/img/Matricula/Matricula/Titulo-UC.png" class="img-check img-Titulo"
+                        alt="">
+                </div>
+            </div>
+        </div>
+        {% elif status == 'Correccion' %}
+        <div class="row div-correccion">
+            <div class="col-md-12">
+                <h1 class="titulo1">DOCUMENTOS EN REVISIÓN.</h1>
+                <h3 style="color: white;">¡ARCHIVO NECESITA <span
+                        style="font-weight: bold; color: white;">CORRECCIÓN!</span></h3>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-white btn-animate mt-4" id="btn-correccion" data-bs-toggle="collapse"
+                    href="#multiCollapseExample1" role="button" aria-expanded="false"
+                    aria-controls="multiCollapseExample1">Presioná acá para ver lo
+                    requerido.</a>
+            </div>
+            <div>
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body bg-div">
+                        <p class="text-message">Por favor, asegúrate de que los archivos escaneados o fotografiados
+                            que
+                            estás
+                            subiendo sean de alta calidad y estén libres de manchas o defectos visibles y además
+                            sean
+                            los documentos correctos solicitados.
+                            Esto nos ayudará a obtener mejores resultados al procesar tus documentos.
+                            Si puedes, escanea o fotografiá tus documentos en un lugar iluminado y utilizá una
+                            resolución adecuada para asegurarte de que todo salga perfecto.</p>
+
+                        <form action="{% url 'corregir_data' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% if doc.docTitulo %}
+                            <div id="div-docTitulo" class="div-archivos">
+                                <h5>Título de Educación Media</h5>
+                                <input class="form-control" type="file" id="docTitulo" style="opacity: 0.65"
+                                    name="docTitulo" />
+                            </div>
+                            {% endif %}
+                            {% if doc.docTituloUniversitario %}
+                            <div id="div-docTituloUniversitario" class="div-archivos">
+                                <h5>Título Universitario</h5>
+                                <input class="form-control" type="file" id="docTituloUniversitario"
+                                    style="opacity: 0.65" name="docTituloUniversitario" />
+                            </div>
+                            {% endif %}
+                            {% if doc.docIdentificacion %}
+                            <div id="div-docIdentificacion" class="div-archivos">
+                                <h5>Identificación (fotografía ambos lados)</h5>
+                                <input class="form-control" type="file" id="docIdentificacion" style="opacity: 0.65"
+                                    name="docIdentificacion" />
+                            </div>
+                            {% endif %}
+                            {% if doc.docFotoPasaporte %}
+                            <div id="div-docFotoPasaporte" class="div-archivos">
+                                <h5>Foto Tipo Pasaporte</h5>
+                                <input class="form-control" type="file" id="docFotoPasaporte" style="opacity: 0.65"
+                                    name="docFotoPasaporte" />
+                            </div>
+                            {% endif %}
+                            {% if doc.docMateriasAprobadas %}
+                            <div id="div-docMateriasAprobadas" class="div-archivos">
+                                <h5>Certificación de Materias Aprobadas</h5>
+                                <input class="form-control" type="file" id="docMateriasAprobadas" style="opacity: 0.65"
+                                    name="docMateriasAprobadas" />
+                            </div>
+                            {% endif %}
+                            {% if doc.docPlanEstudios %}
+                            <div id="div-docPlanEstudios" class="div-archivos">
+                                <h5>Programas de Estudio - Contenido del Curso</h5>
+                                <input class="form-control" type="file" id="docPlanEstudios" style="opacity: 0.65"
+                                    name="docPlanEstudios" />
+                            </div>
+                            {% endif %}
+                            <button class="mt-4 btn-cargar fw-bold">Enviar Archivos</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    body {
+        overflow-x: hidden;
+    }
+
+    @keyframes zigzag {
+        0% {
+            transform: translateX(-20px) translateY(0);
+        }
+
+        50% {
+            transform: translateX(-60px) translateY(10px);
+        }
+
+        100% {
+            transform: translateX(90px) translateY(-130px);
+        }
+    }
+
+    @keyframes B-1 {
+        0% {
+            transform: translate(0, 0);
+        }
+
+        50% {
+            transform: translate(-30px, -70px);
+        }
+
+        100% {
+            transform: translate(-30px, -70px);
+        }
+    }
+
+    @keyframes B-2 {
+        0% {
+            transform: translate(0, 0);
+        }
+
+        50% {
+            transform: translate(-110px, -100px);
+        }
+
+        100% {
+            transform: translate(-110px, -100px);
+        }
+    }
+
+    @keyframes arco {
+        0% {
+            transform: translateX(0) translateY(0);
+        }
+
+        25% {
+            transform: translateX(0) translateY(100px);
+        }
+
+        50% {
+            transform: translateX(100px) translateY(-100px);
+        }
+
+        100% {
+            transform: translateX(290px) translateY(50px);
+        }
+    }
+
+    .B1,
+    .B-1 {
+        width: 90px;
+    }
+
+    .B-1 {
+        position: absolute;
+        top: 67px;
+        left: 24px;
+        animation: B-1 7s forwards;
+    }
+
+    .B-2 {
+        width: 80px;
+        position: absolute;
+        top: 250px;
+        left: 295px;
+        animation: B-2 7s forwards;
+    }
+
+    .B1 {
+        position: relative;
+        top: 61px;
+        left: -391px;
+        animation: zigzag 4s forwards;
+    }
+
+    .B2 {
+        width: 80px;
+        position: relative;
+        top: -190px;
+        left: -460px;
+        animation: arco 4s forwards;
+    }
+
+    .content-header {
+        display: none;
+    }
+
+    .img-check2 {
+        display: none;
+    }
+
+    #col2 {
+        align-self: center;
+    }
+
+    #checkForms {
+        align-self: start;
+    }
+
+    @media (max-width: 767px) {
+
+        .B1,
+        .B2,
+        .B-1,
+        .B-2,
+        .birrete {
+            display: none !important;
+        }
+
+        .textoFormUc {
+            margin-top: 65px !important;
+        }
+
+        #col1 {
+            display: flex;
+            justify-content: center;
+            align-self: center;
+        }
+
+        .img-pc {
+            width: 300px;
+            display: none;
+        }
+
+        .img-check {
+            width: 100px !important;
+            display: none;
+        }
+
+        .img-check2 {
+            width: 100px !important;
+            display: block;
+        }
+
+        .titulo2,
+        .titulo1 {
+            margin-left: 0px !important;
+            text-align: center;
+        }
+
+        .titulo1 {
+            font-size: 24px !important;
+        }
+
+        .titulo2 {
+            font-size: 18px !important;
+        }
+
+        .content-wrapper {
+            display: block !important;
+        }
+
+        .content {
+            display: block !important;
+        }
+
+        .titulo-3 {
+            position: absolute;
+            bottom: 66px !important;
+            left: 84px !important;
+        }
+
+        .titulo-2 {
+            position: absolute;
+            bottom: -20px !important;
+            left: 0px !important;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .B1,
+        .B2,
+        .birrete, .nube-2, .img-check-2{
+            display: none !important;
+        }
+
+        .titulo2{
+            font-size: 50px !important;
+        }
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+        .titulo2 {
+
+            font-size: 46px !important;
+        }
+
+        .img-check-2,
+        .birrete {
+            display: none;
+        }
+
+        .img-Titulo {
+            margin-top: 0 !important;
+        }
+
+        .nube-2,
+        .B1,
+        .B2,
+        .birrete {
+            display: none;
+        }
+    }
+
+
+    .content {
+        background: #ffffff url(../../../static/img/Matricula/Matricula/Matricula-UC.png) center left/cover no-repeat;
+        padding: 0 !important;
+        height: 610px;
+    }
+
+    .content #rowFormsUc {
+        height: 600px;
+    }
+
+    .img-Titulo {
+        margin-top: -79px;
+    }
+
+    .birrete {
+        margin-top: -79px;
+        margin-left: -145px;
+        width: 336px;
+    }
+
+    .img-pc {
+        width: 300px;
+    }
+
+    .img-check {
+        width: 100px;
+    }
+
+    .rowRevision {
+        margin-top: 9em;
+    }
+
+    #tituloPP {
+        font-family: 'Nexa-Regular';
+        font-weight: normal;
+        color: #00416B;
+        font-size: 35px;
+    }
+
+    .titulo2 {
+        font-family: 'Nexa-Black';
+        font-weight: 900;
+        color: #00416B;
+        font-size: 77px;
+    }
+
+    .nube1 {
+        animation: anim-pc 2s ease 0s 1 normal forwards;
+    }
+
+    .nube2 {
+        animation: anim-pc 2s ease 0s 1 normal forwards;
+    }
+
+    .anim-pc {
+        animation: anim-pc 2s ease 0s 1 normal forwards;
+    }
+
+    @keyframes anim-pc {
+        0% {
+            transform: rotateY(0deg) scale(0.2);
+        }
+
+        100% {
+            transform: rotateY(180deg) scale(1);
+        }
+    }
+
+    .anim-check {
+        animation: anim-check 2s ease 0s 1 normal forwards;
+        margin-top: -79px;
+        margin-left: -145px;
+        width: 336px;
+    }
+
+    @keyframes anim-check {
+
+        0% {
+            transform: scale(0);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .ml1 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+
+    .ml1 .text-wrapper {
+        position: relative;
+        display: inline-block;
+        padding-top: 0.1em;
+        padding-right: 0.05em;
+        padding-bottom: 0.15em;
+    }
+
+    .ml1 .line {
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        height: 3px;
+        width: 100%;
+        background-color: #fff;
+        transform-origin: 0 0;
+    }
+
+    .textoMat {
+        width: 100%;
+        height: 220px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .titulo-2 {
+        position: absolute;
+        bottom: 0;
+        left: 100px;
+        animation: titulo-2 2s ease 0s 1 normal forwards;
+    }
+
+    .titulo-3 {
+        position: absolute;
+        bottom: 0;
+        left: 100px;
+        animation: titulo-3 2s ease 0s 1 normal forwards;
+    }
+
+    @keyframes titulo-3 {
+        0% {
+            transform: translateY(100%);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+
+    }
+
+    @keyframes titulo-2 {
+        0% {
+            transform: translateY(100%);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+
+    }
+
+    @keyframes titulo-up {
+        0% {
+            transform: translateY(0);
+            /* Inicia desde la posición inicial */
+        }
+
+        100% {
+            transform: translateY(-120%);
+            /* Se desplaza hacia arriba, fuera del div */
+        }
+
+    }
+
+    .birrete-2 {
+        animation: exitTitulo 2s ease 0s 1 normal forwards;
+    }
+
+    @keyframes exitTitulo {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+    }
+</style>
+
+<script>
+
+    var textWrapper = document.querySelectorAll('.ml1 .letters');
+    textWrapper[0].innerHTML = textWrapper[0].textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    textWrapper[1].innerHTML = textWrapper[1].textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+    anime.timeline({ loop: false })
+        .add({
+            targets: '.ml1 .letter',
+            scale: [0.3, 1],
+            opacity: [0, 1],
+            translateZ: 0,
+            easing: "easeOutExpo",
+            duration: 600,
+            delay: (el, i) => 70 * (i + 1)
+        }).add({
+            targets: '.ml1 .line',
+            scaleX: [0, 1],
+            opacity: [0.5, 1],
+            easing: "easeOutExpo",
+            duration: 700,
+            offset: '-=875',
+            delay: (el, i, l) => 80 * (l - i)
+        });
+
+    setTimeout(function () {
+        document.querySelector('.nube-2').classList.remove('hidden');
+        document.querySelector('.nube-2').classList.add('nube2');
+    }, 2000);
+    setTimeout(function () {
+        document.querySelector('.titulo2').classList.remove('hidden');
+        document.querySelector('.titulo2').classList.add('titulo-2');
+        document.querySelector('.birrete').classList.add('birrete-2');
+
+    }, 4000);
+    setTimeout(function () {
+        document.querySelector('.birrete').classList.add('hidden');
+        document.querySelector('.img-check').classList.remove('hidden');
+        document.querySelector('.img-check').classList.add('anim-check');
+    }, 5000);
+
+    setTimeout(function () {
+        document.querySelector('.titulo2').classList.add('hidden');
+        document.querySelector('.tituloM-2').classList.remove('hidden');
+        document.querySelector('.tituloM-2').classList.add('titulo-3');
+        document.querySelector('.btnformMatri').classList.remove('hidden');
+    }, 8000);
+    var myCollapse = document.getElementById('multiCollapseExample1');
+    var btn = document.getElementById('btn-correccion');
+    if (myCollapse && btn) {
+        myCollapse.addEventListener('show.bs.collapse', function () {
+            btn.style.display = 'none';
+            console.log('El colapso se ha expandido');
+        });
+        myCollapse.addEventListener('hide.bs.collapse', function () {
+            btn.style.display = 'block';
+            console.log('El colapso se ha cerrado');
+        });
+    }
+
+</script>
+{% endblock content %}

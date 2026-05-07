@@ -1,0 +1,740 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/legal.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="container containerUb">
+    <div class="row">
+        <div class="col-md-12 card cardPerfilCol" id="cardContactos">
+            <div class="card-header d-flex justify-content-center">
+                <h5 class=" mt-4 titleUb text-center">Políticas de privacidad</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-1 rowCardPo d-flex justify-content-center">
+                    <div class="col-md-12 cardColPoInf hidden" id="cardColPoInf">
+                        <div class="card">
+                            <div class="rowPoN">
+                                <div class="col-md-2 cardHeader cardHeaderPo2" id="PoPriInfo">
+                                </div>
+                                <div class="col-md-9 cardBodyPo2">
+                                    <div class="card-body">
+                                        <div class="rowPoN">
+                                            <div class="col-md-12">
+                                                <h5 class=" carTitleInfo" id="carTitleInfo"></h5>
+                                                <br>
+                                            </div>
+                                            <div class="col-md-12" id="cardBodyU">
+                                                <p class="pCardBodyInfo" id="pCardBodyInfo"></p>
+                                                <ul class="pCardBodyUInfo textColorInfo" id="pCardBodyUInfo"></ul>
+                                                <p class="pCardBody2Info textColorInfo" id="pCardBody2Info"></p>
+                                                <ul class="pCardBodyU2Info textColorInfo" id="pCardBodyU2Info"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Política de Privacidad </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">La Universidad Central ("Universidad Central") se toma la privacidad y la protección de su información personal ("Información Personal") muy en serio. Cuando visite el sistema académico en línea de la Universidad Central ("Sistema Académico"), el sitio web de la Universidad Central ("Sitio") y/o solicite productos y servicios (de forma colectiva, "Productos") de La Universidad Central, confirma que acepta las prácticas y las directrices que se encuentran en esta política de privacidad ("Política de privacidad"). A menos que se indique lo contrario, los términos en mayúsculas tienen los mismos significados que los estipulados en los Términos y Condiciones Generales de Venta, donde puede encontrarlos y que incluye esta Política de privacidad como anexo de referencia.</p>
+                                                <ul class="pCardBody2" style="display: none;"></ul>
+                                                <p class="pCardBodyU" style="display: none;"></p>
+                                                <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri2">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Cobertura de esta Política de Privacidad </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">Esta Política de Privacidad describe el uso que la
+                                                    Universidad Central da a la Información personal y la Información anónima que recogemos
+                                                    cuando visita el Sistema Académico y/o adquiere un Producto/Servicio. Esta Política de
+                                                    Privacidad no se aplica al uso de su Información Personal que recogen terceras partes
+                                                    que la Universidad Central no posee o controla o que no apoyan a la Universidad Central
+                                                    en el suministro del Sistema Académico o de los Productos.&nbsp;
+                                                    &nbsp;
+                                                    CUANDO VISITA EL SISTEMA ACADÉMICO, ENCARGA PRODUCTOS O ENVÍA INFORMACIÓN PERSONAL DE
+                                                    OTRA FORMA MEDIANTE EL SISTEMA ACADÉMICO, USTED DA SU CONSENTIMIENTO EXPRESO PARA QUE SE
+                                                    PROCESE SU INFORMACIÓN PERSONAL SEGÚN ESTA POLÍTICA DE PRIVACIDAD.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri3">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Controlador de Información Personal </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Cualquier Información Personal del visitante que se facilite o recoja el Sistema
+                                                    Académico y/o al encargar Productos de la Universidad Central, la controla la
+                                                    Universidad Central, S.A., San José, Costa Rica ("Controlador de datos").</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri4">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Tipos y uso de la información que recogemos </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Por lo general, la Información Personal que nos envía la utilizamos para su registro,
+                                                    para facilitarle los Productos que adquiere, procesar los pagos, responder a sus
+                                                    solicitudes, definir las características, rendimiento y el apoyo del Sistema Académico
+                                                    con mayor precisión y para ofrecerle información, oportunidades y servicios adicionales.
+                                                    También utilizamos esta información para evitar o detectar fraudes o abusos en nuestro
+                                                    sitio web y hacer posible que terceras partes lleven a cabo funciones técnicas,
+                                                    logísticas o de otro tipo en nuestra representación.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri4">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Información personal </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> La "Información Personal" es información que se puede identificar personalmente, tal
+                                                    como nombres, direcciones, direcciones de correo electrónico o números de teléfono, así
+                                                    como otra información no pública que está relacionada con la anterior.
+                                                    Recogemos la siguiente Información Personal que nos envía de forma voluntaria:</p>
+                                                    <ul class="pCardBodyU" style="display: none;">
+                                                        <li>Cuando accede a nuestro Sitio y/o Sistema Académico, se recoge de forma automática
+                                                            información adicional y, a continuación, se guarda en archivos de protocolo (los
+                                                            llamados datos de uso). Esta información incluye, entre otras cosas, su dirección
+                                                            Internet Protocol (IP). Puede que utilicemos esta información con fines internos,
+                                                            como determinar algunos ajustes para el Sistema Académico, tales como el idioma y la
+                                                            ubicación, mantener nuestra capacidad operativa, evitar accesos fraudulentos a
+                                                            nuestro servicio de pedidos o analizar modelos de uso. Si desea más información
+                                                            visite la sección "Recolección automática de datos e información anónima".</li>
+                                                        <li>Para adquirir Productos en el Sistema Académico, tiene que facilitarnos (y nosotros
+                                                            lo recogeremos) su nombre, dirección, dirección de correo electrónico y la
+                                                            información financiera necesaria para la facturación (o un subgrupo de lo anterior).
+                                                        </li>
+                                                    </ul>
+                                                   
+                                                    <p class="pCardBody2" style="display: none;">La información necesaria para la facturación depende del método de pago seleccionado y
+                                                        puede incluir el número de tarjeta de crédito, el código de verificación de la tarjeta,
+                                                        el número de cuenta, el código postal de la facturación o cualquier otra información
+                                                        necesaria relacionada con los métodos de pago que ha seleccionado.</p>
+                                                    
+
+                                                    <ul class="pCardBodyU2" style="display: none;">
+                                                        <li>Si rellena cualquier documento de contacto del Sitio o del Sistema Académico,
+                                                            recogemos su nombre, empresa, país, dirección de correo electrónico, la descripción
+                                                            de su solicitud de ayuda y cualquier otra información que decida facilitar.</li>
+                                                        <li>Cuando se pone en contacto con nosotros por correo electrónico o por teléfono o si
+                                                            está utilizando cualquiera de las direcciones de correo electrónico o números de
+                                                            teléfono facilitados en el Sitio, recogemos cualquier Información Personal que nos
+                                                            facilite de forma voluntaria relativa a esta comunicación.</li>
+                                                        <li>Si nos hace algún comentario puede que utilicemos y desvelemos dicho comentario con
+                                                            cualquier fin si no relacionamos dicho comentario con su Información Personal.
+                                                            Recogeremos cualquier información que contenga dicho comentario y trataremos la
+                                                            Información Personal según esta Política de Privacidad.</li>
+                                                        <li>Le remitiremos comunicaciones relativas al servicio estrictamente (tales como, pero
+                                                            no exclusivamente, avisos relativos a su adquisición de Productos, actualizaciones
+                                                            de nuestros Términos y Condiciones Generales de Venta o Política de Privacidad)
+                                                            cuando consideremos que sea necesario hacerlo. Puede que no desee estas
+                                                            comunicaciones, cuyo fin no es promocional en esencia.</li>
+                                                        <li>Dentro del ámbito de los servicios personalizados de la Universidad Central, sus
+                                                            datos se utilizarán, siempre con su consentimiento, para fines publicitarios,
+                                                            estudios de mercado y personalización de servicios electrónicos. Las instrucciones
+                                                            para darse de baja se adjuntarán a cada boletín o comunicación promocional que le
+                                                            remitamos. Además, puede retirar su consentimiento en cualquier momento en el
+                                                            futuro. Para más información consulte: Revisión y Corrección de la Información
+                                                            Personal.</li>
+                                                    </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri5">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Información Personal de otras fuentes </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Puede que recibamos Información Personal sobre usted de otras fuentes como teléfono o
+                                                    fax o de terceras partes que presten servicios en relación al Sistema Académico/Sitios.
+                                                    Puede que añadamos esta información a los datos que ya hemos recogido sobre usted
+                                                    mediante el Sistema Académico/ Sitio.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri6">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Divulgación de Información Personal </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Excepto si se afirma lo contrario en esta Política de Privacidad, no utilizamos o
+                                                    compartimos su Información Personal con terceras partes a menos que nos lo pida o
+                                                    autorice. No venderemos ni alquilaremos ningún tipo de Información Personal a terceras
+                                                    partes con fines de mercadotecnia y solo compartiremos su información personal con
+                                                    terceras partes tal y como se describe a continuación.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri7">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Proveedor de Productos del Sistema Académico </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Facilitaremos la Información Personal a los proveedores de los productos que se ofrezcan
+                                                    en el Sistema Académico para permitirles que se los proporcionen, registrarle en calidad
+                                                    de usuarios autorizados, proporcionarle ayuda y actualizaciones y otros fines similares.
+                                                    Tenga en cuenta que los proveedores utilizan su Información Personal según su propia
+                                                    política de privacidad, que puede ser distinta a esta Política de Privacidad. Si desea
+                                                    saber la forma en la que los proveedores recogen, utilizan y difunden la Información
+                                                    Personal, visite su sitio web y revise su política de privacidad.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri8">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Proveedores de servicios de terceras partes </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Puede que facilitemos su Información Personal a proveedores de servicios de terceras
+                                                    partes que trabajan en representación de o con nosotros para ofrecerle el Sistema
+                                                    Académico y los Productos, el servicio de atención al cliente, facilitar la comunicación
+                                                    con los clientes y operar en el Sitio y en el Sistema Académico. Los ejemplos de dichos
+                                                    servicios incluyen comunicación con usted vía correo electrónico, procesamiento de
+                                                    operaciones de pago, envío de Productos, filtrar pedidos para actividades fraudulentas,
+                                                    cumplir con las leyes aplicables y/o atender a los clientes y cumplir los servicios para
+                                                    nosotros. Sin embargo, estos proveedores no tienen ningún derecho independiente para
+                                                    utilizar esta información salvo para ayudarnos con el Sistema Académico, sus procesos
+                                                    relacionados y los Productos.
+                    
+                                                    Para evitar incumplimientos en los pagos, nos reservamos el derecho de obtener
+                                                    información sobre su solvencia de terceras partes para algunos métodos de pago (débito
+                                                    directo, orden de compra), por ejemplo, según procesos matemático-estadísticos. En este
+                                                    caso, se le informará explícitamente durante el proceso de compra.
+                    
+                                                    En caso de no reembolso de una operación de débito directo no provocada por una
+                                                    revocación del titular de la cuenta, nos reservamos el derecho de comunicar la
+                                                    información de su cuenta (número de cuenta, número de ruta bancaria) a una tercera parte
+                                                    que guarde estos datos en un archivo seguro y los envíe a otras empresas que participen
+                                                    en el procedimiento de débito directo. Se eliminará el bloqueo una vez liquidada la
+                                                    cantidad facturada.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri9">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Cumplimiento de la ley, autoridades y agencias gubernamentales </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> Puede que transmitamos información que hemos recogido de y acerca de usted (incluida la
+                                                    Información Personal) si creemos que tal divulgación es necesaria para:</p>
+                                                    <ul class="pCardBody2" style="display: none;">
+                                                        <li>Cumplir con las leyes o dar respuesta a citaciones u órdenes judiciales recibidas.
+                                                        </li>
+                                                        <li>Cumplir con nuestros Términos y Condiciones Generales de Venta y nuestra Política de
+                                                            Privacidad.</li>
+                                                        <li>Proteger y defender nuestros derechos o propiedad, a los visitantes del Sistema
+                                                            Académico y el Sitio y a nuestros clientes o a terceras partes.</li>
+                                                    </ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri10">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Traspaso de empresas </h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;"> En caso de que la Universidad Internacional de las Americas pase por un traspaso
+                                                    empresarial, como una fusión o adquisición por parte de otra empresa o venta de parte o
+                                                    del total de sus activos, es probable que su Información Personal se encuentre entre los
+                                                    activos que se transfieran. Usted manifiesta su acuerdo con que dichos traspasos pueden
+                                                    tener lugar y con que cualquier comprador de la Universidad Internacional de las
+                                                    Americas o de sus activos puede continuar utilizando su Información Personal, como está
+                                                    estipulado en esta Política de Privacidad. Por tanto, por medio de la presente, usted
+                                                    expresa su consentimiento a que la Universidad Internacional de las Americas comparta su
+                                                    Información Personal en dichas circunstancias.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri11">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Seguridad y confidencialidad de los datos</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">A fin de mantener la mayor protección de nuestros clientes, nos adherimos a las normas y
+                                                    disposiciones industriales aplicables. Así, mantenemos medidas y procedimientos físicos,
+                                                    electrónicos y de gestión adecuados y razonables desde el punto de vista comercial para
+                                                    garantizar la seguridad de su Información Personal durante la recogida, la transmisión y
+                                                    el almacenamiento de datos. Solo las personas autorizadas que están familiarizadas con
+                                                    las políticas de privacidad de datos de la Universidad Internacional de las Americas
+                                                    tienen acceso a sus datos. No obstante, ninguna empresa, incluida la Universidad
+                                                    Internacional de las Americas, puede eliminar por completo los riesgos de seguridad
+                                                    relativos a la Información Personal.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri12">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Secure Socket Layer</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">Los accesos a las páginas de pedidos de el Sistema Académico en línea de la Universidad Central están garantizados gracias al uso de la tecnología Secure Sockets Layer (SSL), que cifra la Información Personal que usted facilita durante el proceso de compra. Así pues, los datos confidenciales están protegidos ante una posible interceptación por terceras partes y su Información Personal se difunde mediante este canal seguro. Para garantizar este nivel de seguridad, nuestros sistemas utilizan un certificado que es una práctica común en el comercio electrónico. Este certificado lo emite un proveedor de servicios de confianza. Todos los buscadores web estándar son compatibles con esta tecnología y aceptan los certificados de proveedores de confianza automáticamente. Sin embargo, no hay ningún método de transmisión por Internet ni de almacenamiento electrónico que sea 100% seguro. Por lo tanto, no podemos garantizar su seguridad absoluta.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri13">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Datos de la tarjeta de crédito</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">La Universidad Internacional de las Americas cumple en su totalidad con PCI DSS (Payment
+                                                    Card Industry Data Security Standard) para mejorar la seguridad de los datos de la
+                                                    tarjeta de pago y facilitar un entorno seguro de comercio electrónico para nuestros
+                                                    clientes. El estándar PCI DSS establece los requisitos para la arquitectura en red, el
+                                                    desarrollo de software, la gestión de seguridad y otras medidas proactivas básicas para
+                                                    garantizar la seguridad de las operaciones con tarjeta de crédito.
+                    
+                                                    Por consiguiente, solo revelamos los cuatro últimos dígitos de su tarjeta de crédito
+                                                    cuando confirmamos un pedido. Por supuesto, transmitimos el número de tarjeta de crédito
+                                                    completo al procesador adecuado de pago durante el procesamiento del pedido. Debido a
+                                                    los requisitos de PCI DSS, esta transferencia se asegura mediante el uso de SSL.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri14">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Revisión y corrección de Información Personal</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">Para revisar, corregir, bloquear o eliminar su Información Personal almacenada, envíenos
+                                                    una breve solicitud por escrito, por correo postal o por correo electrónico (véase a
+                                                    continuación). En caso de que, a pesar de nuestros intentos de mantener los datos
+                                                    correctos y actualizados, se guarde información falsa, la modificaremos cuando lo
+                                                    solicite. Es normal que reciba una respuesta a su solicitud en el plazo de treinta (30)
+                                                    días.
+                    
+                                                    Si desea más información sobre si almacenamos Información Personal sobre usted y sobre
+                                                    estos datos o temas de privacidad de datos, póngase en contacto por escrito con nuestro
+                                                    agente de privacidad de datos-:
+                    
+                                                    Universidad Internacional de las Americas
+                                                    San José, Costa Rica
+                    
+                                                    Dirección de correo electrónico: sa-en-linea@uia.ac.cr</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri15">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Conservación de datos</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">La Universidad Central conservará los datos personales que procesemos en representación
+                                                    de nuestros clientes hasta que sea necesario para suministrar los servicios. La
+                                                    Universidad Central conservará y utilizará esta Información Personal de la manera
+                                                    necesaria para cumplir con sus obligaciones legales, resolver conflictos y hacer cumplir
+                                                    nuestros acuerdos.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri16">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Tenga en cuenta</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">Tras la finalización total de su relación contractual con la Universidad Central, sus
+                                                    datos (incluyendo la Información Personal) se bloquearán, si así lo solicita, en los
+                                                    sistemas internos de la Universidad Central para que no se procesen más y se eliminarán
+                                                    una vez expirado el período legal obligatorio de retención.
+                                                    Está manifiesto su acuerdo con que cualquier eliminación de su Información Personal solo
+                                                    abarca los datos relativos a usted como persona. La Universidad Central no tendrá
+                                                    responsabilidad alguna ante usted por cualquier cierre de su Cuenta o eliminación
+                                                    asociada de su Información Personal o datos.
+                                                    Cuando eliminemos Información Personal que hemos recogido de o sobre usted, se eliminará
+                                                    de nuestras bases de datos activas pero puede que permanezca en nuestros archivos.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri17">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Enlaces a otros sitios web</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">El Sitio puede contener enlaces a otros sitios web que la Universidad Central no posee o
+                                                    controla. La difusión de dichos enlaces se hace para su comodidad y no suponen nuestra
+                                                    adhesión a dichos sitios web, su localización o contenidos. No tenemos el control, no
+                                                    revisamos y no somos responsables de las políticas de privacidad ni del contenido
+                                                    mostrado en otros sitios web de este tipo. Tenga en cuenta que los términos de nuestra
+                                                    Política de Privacidad no se aplican a ningún sitio web externo.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri18">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Privacidad de menores</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">En principio, las personas menores de dieciocho (18) años no deben comunicarnos ninguna
+                                                    Información Personal sin el consentimiento de alguno de sus padres o tutor legal. No
+                                                    pediremos de forma intencionada Información Personal de menores, ni la recogeremos o
+                                                    comunicaremos.
+                    
+                                                    Aviso a los residentes de los Estados Unidos: No recogemos de forma intencionada ni
+                                                    mantenemos información de aquellos visitantes del Sitio que tengan menos de trece (13)
+                                                    años.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 cardColPo">
+                        <div class="card">
+                            <div class="rowPo">
+                                <div class="col-md-12 cardHeader cardHeaderPo" id="PoPri19">
+                                </div>
+                                <div class="col-md-12 cardBodyPo">
+                                    <div class="card-body">
+                                        <div class="rowPo">
+                                            <div class="col-md-12">
+                                                <h5 class="carTitle">Cambios en esta Política de Privacidad y en las versiones anteriores</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="pCardBody" style="display: none;">Esta Política de Privacidad es un documento vivo. Como parte de los Términos y
+                                                    Condiciones Generales de Venta, esta Política de Privacidad está sujeta a modificaciones
+                                                    esporádicas de acuerdo con los Términos y Condiciones Generales de Venta. Además, puede
+                                                    que actualicemos esta Política de Privacidad para reflejar los cambios en nuestras
+                                                    prácticas informativas. Si realizamos cualquier cambio material, se lo notificaremos
+                                                    mediante un aviso en este Sitio antes de que sea efectivo. Le animamos a que revise
+                                                    periódicamente esta página para obtener información actualizada sobre nuestras prácticas
+                                                    de privacidad.</p>
+                                                    <ul class="pCardBody2" style="display: none;"></ul>
+                                                    <p class="pCardBodyU" style="display: none;"></p>
+                                                    <ul class="pCardBodyU2" style="display: none;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let activeCard = null; // Mantener una referencia al card actualmente activo
+    let cardsHT = document.getElementById("carTitleInfo");
+    let cardsHP = document.getElementById("pCardBodyInfo");
+    let cardsHP2 = document.getElementById("pCardBody2Info");
+    let cardsHPU = document.getElementById("pCardBodyUInfo");
+    let cardsHPU2 = document.getElementById("pCardBodyU2Info");
+
+    const cards = document.querySelectorAll(".cardColPo");
+    const cardsH = document.getElementById("cardColPoInf");
+    let imgP = document.getElementById('PoPriInfo');
+    for (let card of cards) {
+        var cardBodyU = document.getElementById('cardBodyU');
+        cardsHP.innerText = '';
+        cardsHP2.innerText = '';
+        cardsHPU.innerHTML = '';
+        cardsHPU2.innerHTML = '';
+        card.addEventListener("click", function () {
+            if (cardsH.classList.contains('hidden')) {
+                cardsH.classList.remove('hidden');
+            }
+    
+            if (activeCard && activeCard !== card) {
+                activeCard.classList.remove('hidden');
+            }
+    
+            if (activeCard === card && !card.classList.contains('hidden')) {
+                // Si se hace clic en el card activo, ocultarlo
+                card.classList.remove('hidden');
+                activeCard = null;
+            } else {
+                // Mostrar el nuevo card
+                card.classList.add('hidden');
+                activeCard = card;
+            }
+    
+            let title = card.querySelector('.carTitle').innerText;
+            let body = card.querySelector('.pCardBody').innerHTML;
+            
+            let body2 = card.querySelector('.pCardBody2').innerHTML;
+            let bodyu2 = card.querySelector('.pCardBodyU2').innerHTML;
+            let bodyu = card.querySelector('.pCardBodyU').innerHTML;
+            cardsHPU.innerHTML = bodyu;
+            cardsHPU2.innerHTML = bodyu2;
+
+            let imgPN = card.querySelector('.rowPo .cardHeaderPo');
+            let estiloComputado = window.getComputedStyle(imgPN);
+            let fondo = estiloComputado.getPropertyValue('background-image');
+            fondo = fondo.replace('url("', '').replace('")', '');
+            imgP.style.background = '#ffffff url("' + fondo + '") center center/contain no-repeat';
+            cardsHT.innerText = title;
+            cardsHP.innerHTML = body;
+            cardsHP2.innerHTML = body2;
+        });
+    }
+</script>
+{% endblock content %}

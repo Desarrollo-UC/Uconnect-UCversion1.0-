@@ -1,0 +1,297 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+{% block aside %}
+{% load static %}
+
+<aside class="main-sidebar sidebar-dark-primary" >
+    {% block logo %}
+    <!-- Comentar o eliminar este bloque de código -->
+    {% endblock %}
+    <div class="sidebar p-3">
+        {% block user_panel %}
+        <div class="user-panel mt-3 pb-3 mb-2 d-flex align-items-center">
+            <div class="image">
+                <img src="{% url 'mostrar_foto' %}" class="img-circle elevation-2" alt="User Image"
+                    style="width: 40px; height: 40px;" id="iconNav">
+            </div>
+            <div class="info">
+                <a href="{% url 'perfil' type=type %}" class="d-block" id="iconNav">
+                    <i aria-hidden="true" id="iconNav"></i> {{ user.first_name }}</a>
+            </div>
+        </div>
+        <ul class="nav nav-sidebar flex-column p-1 mt-3 menusidebar" >
+            {% if menu.inicio %}
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" id="inicioLink" href="{% url 'inicio' type=type %}">
+                    <i class="fas fa-home"></i>
+                    <p>Inicio</p>
+                </a>
+            </li>
+            {% endif %}
+            {% if menu.ver_proceso %}
+            <li class="nav-item">
+                <a href="{% url 'revision_form' type=type %}" class="nav-link" id="iconNav">
+                    <i class="bi bi-folder-fill"></i>
+                    <p>Proceso de Matrícula</p>
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                {% if menu.cursos %}
+                <a href="#ServicioSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fa-cloud"></i>
+                    <p>Servicios Estudiante</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                {% endif %}
+                <ul class="collapse list-unstyled" id="ServicioSubmenu">
+                    {% if menu.cursos %}
+                    <li class="nav-item">
+                        <a href="#CursoSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                            <i class="fas fa-chalkboard"></i>
+                            <p>Cursos</p>
+                            <p>
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="collapse list-unstyled secondSubmenu" id="CursoSubmenu">
+                            <li class="nav-item">
+                                <a href="{% url 'misCursos' type=type %}" class="nav-link" id="iconNav">
+                                    <i class="nav-icon fas fa-book-open"></i>
+                                    <p>Mis Cursos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'horarioEstudiante' type=type %}" class="nav-link" id="iconNav">
+                                    <i class="nav-icon fas fa-clock"></i>
+                                    <p>Horario</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'planEstudio' type=type %}" class="nav-link" id="iconNav">
+                                    <i class="nav-icon fas fa-scroll"></i>
+                                    <p>Plan de Estudio</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if menu.matricula %}
+                    <li class="nav-item">
+                        <a href="{% url 'matricula' type=type %}" class="nav-link" id="iconNav">
+                            <i class="fas fa-edit"></i>
+                            <p>Matrícula</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </li>
+            {% comment %}
+            <li class="nav-item">
+                {% if menu.tramites %}
+                <a href="#TramiteSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Trámites</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                <ul class="collapse list-unstyled" id="TramiteSubmenu">
+                    <li class="nav-item">
+                        <a href="{% url 'suficiencia' type=type %}" class="nav-link" id="iconNav">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                            <p>Suficiencia</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'certificacion' type=type %}" class="nav-link" id="iconNav">
+                            <i class="fa-solid fas fa-certificate"></i>
+                            <p>Certificaciones</p>
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </li>
+            {% endcomment %}
+
+            {% if menu.financiero %}
+            <li class="nav-item">
+                <a href="#FinancieroSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Financiero</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                <ul class="collapse list-unstyled" id="FinancieroSubmenu">
+                    <li class="nav-item">
+                        <a href="{% url 'estadoCuentaEstudiante' type=type %}" class="nav-link" id="iconNav">
+                            <i class="fas fa-list-alt"></i>
+                            <p>Estado de Cuenta</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if type == 'profesor' or type == 'profesor-estudiante' %}
+            <li class="nav-item">
+                <a href="#LineaSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Servicios Docente</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                <ul class="collapse list-unstyled" id="LineaSubmenu">
+                    <li class="nav-item">
+                        <a href="#CursosPSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                            <i class="fas fa-chalkboard"></i>
+                            <p>Cursos</p>
+                            <p>
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="collapse list-unstyled secondSubmenu" id="CursosPSubmenu">
+                            <li class="nav-item">
+                                <a href="{% url 'misCursosP' type=type %}" class="nav-link" id="iconNav">
+                                    <i class="nav-icon fas fa-book-open"></i>
+                                    <p>Mis Cursos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'historialCurso' type=type %}" class="nav-link" id="iconNav">
+                                    <i class="nav-icon fas fa-book"></i>
+                                    <p>Histórico de Cursos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'correo' type=type %}" class="nav-link" id="iconNav">
+                                    <i class="nav-icon fas fa-paper-plane"></i>
+                                    <p>Enviar Mensaje</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a href="{% url 'ubicacion' type=type %}" class="nav-link" id="iconNav">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Ubíquenos</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'contactenos' type=type %}" class="nav-link" id="iconNav">
+                    <i class="fas fa-envelope"></i>
+                    <p>Contáctenos</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                {% if menu.informacion %}
+                <a href="#InfoSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fas fa-info-circle"></i>
+                    <p>Información</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                <ul class="collapse list-unstyled" id="InfoSubmenu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="iconNav">
+                            <i class="nav-icon fas fa-question-circle"></i>
+                            <p>Preguntas Frecuentes</p>
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </li>
+            <li class="nav-item">
+                <a href="#LegalSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Legal</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                <ul class="collapse list-unstyled" id="LegalSubmenu">
+                    <li class="nav-item">
+                        <a href="{% url 'politicas' type=type %}" class="nav-link" id="iconNav">
+                            <i class="fas fa-shield-alt"></i>
+                            <p>Política de Privacidad</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'terminos' type=type %}" class="nav-link" id="iconNav">
+                            <i class="fas fa-file-contract"></i>
+                            <p>Términos y Condiciones</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#EnlacesSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link toggleLink" id="iconNav">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Enlaces</p>
+                    <p>
+                        <i class="right fas fa-angle-right"></i>
+                    </p>
+                </a>
+                <ul class="collapse list-unstyled" id="EnlacesSubmenu">
+                    <li class="nav-item">
+                        <a href="https://uc.ac.cr/" target="_blank" class="nav-link" id="iconNav">
+                            <i class="fa-solid fa-link"></i>
+                            <p>UC</p>
+                        </a>
+                    </li>
+                    {% if type == 'profesor' or type == 'estudiante'%}
+                    <li class="nav-item">
+                        <a href="{% url 'redirect_moodle' %}" target="_blank" class="nav-link" id="iconNav">
+                            <i class="fa-solid fa-link"></i>
+                            <p>Connect-Campus</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% comment %}
+                    <li class="nav-item">
+                        <a href="https://uiaradar.com/boleta/" target="_blank" class="nav-link" id="iconNav">
+                            <i class="fa-solid fa-link"></i>
+                            <p>Boleta</p>
+                        </a>
+                    </li>
+                    {% endcomment %}
+                </ul>
+            </li>
+            {% if menu.moroso == False%}
+                {% if type == 'profesor' or type == 'profesor-estudiante' or type == 'estudiante'%}
+                <li class="nav-item">
+                    <a href="{% url 'estudiaUia' type=type %}" class="nav-link" id="iconNav">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <p>Estudiar en UC</p>
+                    </a>
+                </li>
+                {% endif %}
+            {% endif %}
+            
+            {% if status == 1 or status == 2 or status == 3 %}
+            <li class="nav-item has-tree-view ">
+                <a href="https://erp.uc.ac.cr/jobs" target="_blank" class="nav-link" id="iconNav">
+                    <i class="fas fa-briefcase"></i>
+                    <p>Bolsa de Empleo</p>
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item sidebar-bottom">
+                <a href="{% url 'logout' %}" class="nav-link" id="iconNav">
+                    <i class="fa fa-power-off"></i>
+                    <p>Cerrar sesión</p>
+                </a>
+            </li>
+        </ul>
+        {% endblock %}
+        {% block nav_links_ul %}
+        {% endblock %}
+    </div>
+</aside>
+{% endblock %}

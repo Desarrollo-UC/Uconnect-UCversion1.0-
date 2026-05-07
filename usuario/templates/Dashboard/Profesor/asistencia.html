@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+<style>
+@page {
+  size: A4;
+  margin: 1.2cm;
+}
+
+.logo-container {
+  margin-bottom: 6px;
+}
+
+.logo-container img {
+  height: 55px;   /* ajusta según tu logo */
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10.5px;
+  color: #000;
+}
+
+/* ===== TITULO ===== */
+.titulo {
+  background: #D9E1F2;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px;
+  border: 1px solid #B4C6E7;
+  margin-bottom: 6px;
+}
+
+/* ===== INFO ===== */
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.info-table td {
+  border: 1px solid #B4C6E7;
+  padding: 6px;
+}
+
+.info-label {
+  background: #EEF3FB;
+  width: 140px;
+  font-weight: bold;
+}
+
+/* ===== ASISTENCIA ===== */
+.asistencia-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+
+.nombre-estudiante {
+  font-size: 14px !important;   /* ⬅️ más grande */
+  font-weight: normal;
+}
+
+.carnet {
+  font-size: 14px !important;
+}
+
+
+.asistencia-table th {
+  background: #D9E1F2;
+  border: 1px solid #9EB6D8;
+  padding: 6px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.asistencia-table td {
+  border: 1px solid #B4C6E7;
+  padding: 4px;
+}
+
+
+.col-carnet {
+  width: 90px;
+}
+
+.col-nombre {
+  width: 230px;
+}
+
+/* columnas de asistencia */
+.col-dia {
+  width: 18px;
+  text-align: center;
+}
+
+/* repetir encabezado */
+thead {
+  display: table-header-group;
+}
+
+/* evitar corte de filas */
+tr {
+  page-break-inside: avoid;
+}
+</style>
+</head>
+
+<body>
+<div class="titulo">
+  {{ curso }}
+</div>
+
+<table class="info-table">
+  <tr>
+    <td class="info-label">Profesor:</td>
+    <td>{{ profesor }}</td>
+  </tr>
+  <tr>
+    <td class="info-label">Sede:</td>
+    <td>{{ sede }}</td>
+  </tr>
+  <tr>
+    <td class="info-label">Horario:</td>
+    <td>{{ horario }}</td>
+  </tr>
+  <tr>
+    <td class="info-label">No. de Grupo:</td>
+    <td>{{ grupo }}</td>
+  </tr>
+</table>
+
+<table class="asistencia-table">
+  <thead>
+    <tr>
+      <th class="col-n">#</th>
+      <th class="col-carnet">No. Identificación</th>
+      <th class="col-nombre">Nombre del Estudiante</th>
+      <th colspan="15">Detalle de Asistencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in estudiantes %}
+    <tr>
+      <td class="col-n carnet">{{ forloop.counter }}</td>
+      <td class="col-carnet">{{ e.carnet }}</td>
+      <td class="col-nombre">{{ e.nombre }}</td>
+
+      <!-- 15 columnas de asistencia -->
+      {% for i in "123456789012345" %}
+        <td class="col-dia"></td>
+      {% endfor %}
+    </tr>
+
+    {% if forloop.counter|divisibleby:30 %}
+      </tbody>
+      </table>
+      <div style="page-break-after: always;"></div>
+      <table class="asistencia-table">
+        <thead>
+          <tr>
+            <th class="col-n">#</th>
+            <th class="col-carnet carnet">No. Carnet</th>
+            <th class="col-nombre nombre-estudiante">Nombre del Estudiante</th>
+            <th colspan="15">Detalle de Asistencia</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% endif %}
+
+    {% endfor %}
+  </tbody>
+</table>
+
+</body>
+</html>

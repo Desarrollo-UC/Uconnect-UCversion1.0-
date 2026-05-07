@@ -1,0 +1,604 @@
+{% extends 'Usuario/principal.html' %}
+{% load static %}
+{% block content %}
+{% block extraJavaScript %}
+<script src="{% static 'js/validacion.js' %}"></script>
+<script src="{% static 'js/function.js' %}"></script>
+
+{% endblock extraJavaScript%}
+<div class="registroPr">
+    <div class="col-sm-12 col-md-11 col-lg-8 registroPrH">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="text-center mb-4" id="tituloReg">Registro Estudiantil</h5>
+                {% if form.errors %}
+                <div class="boxMessa" role="alert">
+                    {% for field, errors in form.errors.items %}
+                    <ul class="mb-0">
+                        {% for error in errors %}
+                        <li id="message">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <form class="row g-3" method="POST">
+                    {% csrf_token %}
+                    <div class="row mt-3">
+                        <ul class="tab-list nav nav-pills justify-content-center">
+                            <li class="nav-item tab-list__item">
+                                <a class="next-step step-tab1 tab-list__link nav-link active regNav"
+                                    data-bs-toggle="pill" href="#datosP">Datos Personal
+                                </a>
+                            </li>
+                            <li class="nav-item tab-list__item">
+                                <a class="next-step step-tab1 tab-list__link nav-link regNav disabled"
+                                    id="direccionUl" data-bs-toggle="pill" href="#direccionP">Dirección
+                                </a>
+                            </li>
+                            <li class="nav-item tab-list__item">
+                                <a class="next-step step-tab1 tab-list__link nav-link regNav disabled" id="correoUl"
+                                    data-bs-toggle="pill" href="#correoP">Correo Electrónico
+                                </a>
+                            </li>
+                            <li class="nav-item tab-list__item">
+                                <a class="next-step step-tab1 tab-list__link nav-link regNav disabled" id="validarUl"
+                                    data-bs-toggle="pill" href="#validarP"
+                                    onclick="llamarFunciones()">Validar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content mt-4">
+                        <div class="tab-pane container fade show active" id="datosP">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                    <label for="tipo" class="form-label">Tipo de Identificación</label>
+                                    <select id="tipo" class="form-select formColorInputInput select2" onchange="change();">
+                                        <option style="opacity: .65;" value="" disabled selected hidden>Tipo de Identificación
+                                        </option>
+                                        <option value="Cédula">Cédula Física</option>
+                                        <option value="Dimex">DIMEX</option>
+                                        <option value="Pasaporte">Pasaporte</option>
+                                        <option value="Cédula Residente">Cédula Residente</option>
+                                        <option value="Permiso">Permiso de Trabajo</option>
+                                        <option value="Refugiado">Refugiado</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-sm-12 col-md-6 col-lg-6">
+                                    <label for="identificacion" class="form-label">Identificación</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-regular fa-address-card fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput"
+                                            id="identificacion" placeholder="" name="username"
+                                            onkeyup="datacedula()" data-bs-toggle="tooltip" data-bs-placement="top" title="La identificación es con los ceros y sin guiones"  disabled required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class=" mb-3 col-sm-12 col-md-4 col-lg-4">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-regular fa-user-plus fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput" id="nombre"
+                                            placeholder="" name="first_name" readonly required>
+                                    </div>
+                                </div>
+                                <div class=" mb-3 col-sm-12 col-md-4 col-lg-4">
+                                    <label for="primerapellido" class="form-label">Primer Apellido</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-regular fa-user-plus fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput"
+                                            id="primerapellido" placeholder=""
+                                            name="last_name" readonly required>
+                                    </div>
+                                </div>
+                                <div class=" mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
+                                    <label for="segundoapellido" class="form-label">Segundo Apellido</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-regular fa-user-plus fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput"
+                                            id="segundoapellido" placeholder=""
+                                            name="segundoapellido" readonly required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="  mb-3 col-12 col-sm-12 col-md-6 col-lg-6"
+                                    id="dis_nacimiento" style="display: block;">
+                                    <label for="fechanacimiento" class="form-label">Fecha de Nacimiento</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text fas fa-solid fa-calendar-days fa-lg d-flex justify-content-center"
+                                            id="basic-addon1"></span>
+                                        <label for="fechanacimiento"></label>
+                                        <input class="form-control  formColorInput" id="fechanacimiento" placeholder=""
+                                            name="fechanacimiento" type="date" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3" id="dis_genero"
+                                    style="display: block;">
+                                    <label for="genero" class="form-label">Género</label>
+                                    <select id="genero" class="form-select formColorInput" name="Genero_select"
+                                        data-placeholder="Genero" onchange="checkOtro()">
+                                        <option style="opacity: 0.65" value="" disabled selected hidden>
+                                            Género</option>
+                                        <option value="femenino">Femenino</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="no_decirlo">Prefiero no decirlo</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <input type="hidden" value="NA" id="otro_trato" name="trato">
+                                    <input type="hidden" value="NA" id="otro_sexo" name="sexo2">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class=" mb-3 col-12 col-sm-12 col-md-6 col-lg-4"
+                                    id="dis_telefono" style="display: block;">
+                                    <label for="telefono" class="form-label">Número Telefónico</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-solid fa-phone fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput" id="telefono"
+                                            placeholder="" name="telefono">
+                                    </div>
+                                </div>
+                                <div class=" mb-3 col-12 col-sm-12 col-md-6 col-lg-4"
+                                    id="dis_telefono2" style="display: block;">
+                                    <label for="telefono2" class="form-label">Segundo Número Telefónico (Opcional)</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-solid fa-phone fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput" id="telefono2"
+                                            placeholder="" name="telefono2">
+                                    </div>
+                                </div>
+                                <div class="mb-3  mb-3 col-12 col-sm-12 col-md-4 col-lg-4" id="dis_pais" style="display: block;">
+                                    <label for="pais_select" class="form-label">País de Origen</label>
+                                    <select id="pais_select" class="form-select select2"
+                                        onchange="obtenerPais(this)" name="pais_select"
+                                        data-placeholder="Seleccioná Nacionalidad">
+                                        <option style="opacity: 0.65" value="" disabled selected hidden>
+                                            Seleccioná
+                                            Nacionalidad</option>
+                                    </select>
+                                    <input type="hidden" id="pais" name="pais">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <a type="button"
+                                    class="btn btn-md btn-next-back-Re btn-login fw-bold fas fa-regular fa-arrow-right disabled"
+                                    id="botonSiguienteDatosP" onclick="mostrarSiguiente()">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade show" id="direccionP">
+                            <div class="row">
+                                <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4" id="dis_provincia"
+                                    style="display: block;">
+                                    <label for="provincia_select" class="form-label">Provincia</label>
+                                    <select id="provincia_select" class="form-select formColorInput"
+                                        name="provincia_select" data-placeholder="Selecione Provincia"
+                                        onchange="obtenerProvincia(this)" onclick="cargarProvincias()">
+                                        <option style="opacity: 0.65" value="" disabled selected hidden>
+                                            Seleccioná
+                                            Provincia</option>
+                                    </select>
+                                    <input type="hidden" id="provincia" name="provincia">
+                                </div>
+                                <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4" id="dis_canton"
+                                    style="display: block;">
+                                    <label for="canton_select" class="form-label">Cantón</label>
+                                    <select id="canton_select" class="form-select formColorInput"
+                                        name="canton_select" data-placeholder="Selecione Canton"
+                                        onchange="obtenerCanton(this)">
+                                        <option style="opacity: 0.65" value="" disabled selected hidden>
+                                            Seleccioná
+                                            Cantón</option>
+                                    </select>
+                                    <input type="hidden" id="canton" name="canton">
+                                </div>
+                                <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4" id="dis_distrito"
+                                    style="display: block;">
+                                    <label for="distrito_select" class="form-label">Distrito</label>
+                                    <select id="distrito_select" class="form-select formColorInput"
+                                        name="distrito_select" data-placeholder="Selecione Distrito"
+                                        onchange="obtenerDistrito(this)">
+                                        <option style="opacity: 0.65" value="" disabled selected hidden>
+                                            Seleccioná
+                                            Distrito</option>
+                                    </select>
+                                    <input type="hidden" id="distrito" name="distrito">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class=" mb-3 col-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label for="direccion_exacta" class="form-label">Dirección Exacta</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-solid fa-address-book fa-xl"
+                                            id="basic-addon1"></span>
+                                        <input type="text" class="form-control formColorInput"
+                                            id="direccion_exacta" placeholder=""
+                                            name="direccion_exacta" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a type="button"
+                                    class="btn btn-md btn-login btn-next-back-Re fw-bold fas fa-regular fa-arrow-left"
+                                    id="botonAnteriorDireccionP" onclick="mostrarAnterior()"></a>
+                                <a type="button"
+                                    class="btn btn-md btn-login btn-next-back-Re fw-bold fas fa-regular fa-arrow-right disabled"
+                                    id="botonSiguienteDireccionP" onclick="mostrarSiguiente()"></a>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade show" id="correoP">
+                            <div class="row">
+                                <div class=" mb-3 col-12 col-sm-12 col-md-4 col-lg-4"
+                                    id="dis_correo" style="display: block;">
+                                    <label for="correo" class="form-label">Correo Electrónico</label>
+                                    <div class="input-group">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-regular fa-envelope fa-lg"
+                                            id="basic-addon1"></span>
+                                        <input type="email" class="form-control formColorInput" id="correo"
+                                            placeholder="" name="email" required
+                                            pattern="(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}">
+                                    </div>
+                                </div>
+                                <div class=" mb-3 col-12 col-sm-12 col-md-4 col-lg-4"
+                                    id="dis_contrasena" style="display: block;">
+                                    <label for="password1" class="form-label">Contraseña</label>
+                                    <div class="input-group mb-3 input-group-lg align-items-center">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-lock fa-lg"
+                                            id="basic-addon1" style="height: 56px;"></span>
+                                        <input type="password" class="form-control formColorInput" id="password1"
+                                            placeholder="" name="password1" required>
+                                        <i class="fas fa-eye-slash eye" id="togglePassword"
+                                            style="margin-left: -30px; cursor: pointer; z-index: 9999;"
+                                            onclick="showPassword('password1','.eye');"></i>
+                                    </div>
+                                </div>
+                                <div class=" mb-3 col-12 col-sm-12 col-md-4 col-lg-4"
+                                    id="dis_confirmar" style="display: block;">
+                                    <label for="password2" class="form-label">Confirmar Contraseña</label>
+                                    <div class="input-group mb-3 input-group-lg align-items-center">
+                                        <span
+                                            class="input-group-text d-flex justify-content-center fas fa-lock fa-lg"
+                                            id="basic-addon1" style="height: 56px;">
+                                        </span>
+                                        <input type="password" class="form-control formColorInput" id="password2"
+                                            placeholder="" name="password2" required>
+                                        <i class="fas fa-eye-slash eye2" id="togglePassword2"
+                                            style="margin-left: -30px; cursor: pointer; z-index: 9999;"
+                                            onclick="showPassword('password2','.eye2');"></i>
+                                    </div>
+    
+                                </div>
+                                <div class="alert alert-danger mb-3" id="messageDiv" style="display: none;" role="alert">
+                                    <ul class="mb-0">
+                                      <li id="message"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a type="button"
+                                    class="btn btn-md btn-login fw-bold btn-next-back-Re fas fa-regular fa-arrow-left"
+                                    id="botonAnteriorCorreoP" onclick="mostrarAnterior()"></a>
+                                <a type="button"
+                                    class="btn btn-md btn-login fw-bold btn-next-back-Re fas fa-regular fa-arrow-right disabled"
+                                    id="botonSiguienteCorreoP" onclick="llamarFunciones()">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade show" id="validarP">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    <h5 class="card-title text-center mb-4 fw-light fw-bold">Se envió al
+                                        correo un
+                                        código de verificación
+                                        para registrarse</h5>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mb-3 col-sm-2 col-md-1 col-lg-1 m-1" id="Código1"
+                                            style="display: block;">
+                                            <input type="text" class="form-control formColorInput" id="input1"
+                                                maxlength="1" onkeyup="moverInput(event, 2)" required>
+                                        </div>
+                                        <div class="mb-3 col-sm-2 col-md-1 col-lg-1 m-1" id="Código2"
+                                            style="display: block;">
+                                            <input type="text" class="form-control formColorInput" id="input2"
+                                                maxlength="1" onkeyup="moverInput(event, 3)" required>
+                                        </div>
+                                        <div class="mb-3 col-sm-2 col-md-1 col-lg-1 m-1" id="Código3"
+                                            style="display: block;">
+                                            <input type="text" class="form-control formColorInput" id="input3"
+                                                maxlength="1" onkeyup="moverInput(event, 4)" required>
+                                        </div>
+                                        <div class="mb-3 col-sm-1 col-md-1 col-lg-1 m-1" id="Código4"
+                                            style="display: block;">
+                                            <input type="text" class="form-control formColorInput" id="input4"
+                                                maxlength="1" oninput="verificarCodigo()" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a type="button"
+                                    class="btn btn-md btn-login fw-bold btn-next-back-Re fas fa-regular fa-arrow-left"
+                                    id="botonAnteriorCorreoP" onclick="mostrarAnterior()"></a>
+                                <button type="submit"
+                                    class="btn btn-md btn-login fw-bold bi bi-save disabled"
+                                    id="registrarEstudiante"> Registrar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-grid mb-2">
+                        <span class="ml-auto linksInicio"> ¿Ya tenés una cuenta? <a href="{% url 'login' %}"
+                                class="text-info linksPerf">Ingresar</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <img src="../../static/img/logoLogin.png" alt="" class="responsiveLogoC " style="width: 110px; height: 50px;" >
+</div>
+<!-- Model de Cambio de data -->
+{% block modal_inclusivo%}
+<div class="modal fade" id="modal_inclusivo" tabindex="-1" aria-labelledby="modal_inclusivoTitle" style="display: none"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_inclusivoTitle">
+                    INFORMACIÓN EXTRA
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class=" mb-3 col-md-12">
+                        <label for="trato2" class="textColor" style="opacity: .65;">¿Cuál es tu sexo?</label>
+                        <input type="text" class="form-control formColorInput" id="trato2"
+                                name="trato2" style="height: 60px;">
+                    </div>
+                    <div class=" col-md-12">
+                        <label for="tipoTrato" class="textColor" style="opacity: .65;">Prefiero que me traten como</label>
+                        <select id="tipoTrato" class="form-select form-select-sm mb-3 formColorInput">
+                            <option style="opacity: .65;" value="" disabled selected hidden>Trato
+                            </option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="no_decirlo">Prefiero no decirlo</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row d-grid mb-4 d-flex justify-content-center">
+                    <button type="submit" onclick="continuarGenero()"
+                        class="w-100 btn btnPrimaryUC rounded fw-bold" style="max-width: 175px;">
+                         Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .form-label{
+        font-size: 16px;
+        font-family: 'Nexa-Bold';
+    }
+    body {
+        background: #ffffff url("../../static/img/Pantalla_Inicio/pantallaInicioDesefoque.png") center center/cover no-repeat;
+    }
+    .formColorInput{
+        background-color: #f5f5f5;
+        border-color: #f5f5f5;
+        height: 56px;
+    }
+    .responsiveLogoC {
+        position: absolute;
+        bottom: 30px; /* Espacio desde la parte inferior */
+        right: 20px; /* Espacio desde la derecha */
+        max-width: 100%; /* Evita que la imagen se desborde del contenedor */
+        max-height: 100%; /* Evita que la imagen se desborde del contenedor */
+      }
+    .btn.disabled {
+        background-color: var(--color-U-5);
+        border-color: var(--color-U-5);
+        color: #ffffff;
+    }
+
+    .btn{
+        border-radius: 5px !important;
+        color: #ffffff !important;
+    }
+
+
+    #fondo {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-link.disabled {
+        color: var(--color-U-2);
+    }
+
+    .input-group-text {
+        border: none !important;
+        background-color: none;
+    }
+
+  
+    .input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+    }
+
+    #registroH {
+        align-self: center;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        padding-top: 8px;
+    }
+
+    .select2-container .select2-results__option {
+        color: var(--color-U-2) !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        background-color: #f5f5f5;
+        border: 1px solid #f5f5f5;
+        border-radius: 5px;
+    }
+
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+        background-color: var(--color-U-5);
+        color: var(--color-U-2);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: var(--color-U-2) !important;
+        font-size: 16px !important;
+    }
+
+    .select2-container--default .select2-results__option--selected {
+        background-color: var(--color-U-5);
+        color: var(--color-U-2);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: var(--color-U-2);
+    }
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 56px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    @media (max-width: 319px) {
+        .d-flex {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .mb-3 {
+            margin-bottom: 10px;
+        }
+
+        .watch .mt-5 {
+            margin-top: 0 !important;
+            /* Anula el margen superior */
+        }
+
+        .my-2 {
+            margin-top: 0 !important;
+        }
+
+        .cardPerfilCol {
+            margin-top: 0 !important;
+            margin-left: -10px;
+            width: 170px;
+        }
+
+        .input-group {
+            width: 115px
+        }
+
+        #basic-addon1 {
+            margin-left: -35px;
+        }
+
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            margin-left: -35px;
+            width: 152px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+
+        .tab-list {
+            margin-left: 15px !important;
+        }
+
+        #tipo,
+        #genero,
+        #distrito_select,
+        #provincia_select,
+        #canton_select {
+            margin-left: -35px !important;
+            width: 150px;
+        }
+
+        #registrarEstudiante {
+            margin-left: 5px !important;
+            font-size: 0;
+            width: 50px;
+
+        }
+
+        #registrarEstudiante::before {
+            display: inline-block;
+            font-family: "Font Awesome";
+            /* Asegúrate de tener la fuente Font Awesome cargada */
+            font-size: 20px;
+            /* Ajusta el tamaño del icono según sea necesario */
+        }
+    }
+
+    @media (max-width: 767px) {
+        .container-fluid{
+            height: auto !important;
+        }
+       body{
+        height: auto !important;
+       }
+        .responsiveLogoC{
+            display: none;
+        }
+    }
+    @media (max-width: 914px) and (orientation: landscape) {
+        .registroPr{
+            width: 100%;
+        }
+        .responsiveLogoC{
+            display: none;
+        }
+    }
+</style>
+<script>
+    $(document).ready(function(){
+      $('[data-bs-toggle="tooltip"]').tooltip();   
+  });
+</script>
+{% endblock modal_inclusivo %}
+{% endblock content %}

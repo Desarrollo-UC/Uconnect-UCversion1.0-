@@ -1,0 +1,265 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/lineaCredito.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="container " id="rowContacto" data-financiero="{{ financiero }}" data-documento="{{ documentos }}">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-11 card pagare mb-5 mt-3">
+            <div class="row p-2">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-md-12 mt-2">
+                            <h2 class="card-title" id="infoCardTitleCuenta">Estado de Cuenta</h2>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <span class="colorText">En esta página podrá consultar los detalles de su estado de cuenta financiero con la
+                                Universidad. Aquí podrá ver si tiene financiamiento disponible para realizar su matrícula,
+                                si tiene algún saldo a favor para uso en pagos futuros, así como la lista de los
+                                financiamientos que tiene abiertos con la universidad y su estado actual de pago.</span>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-11 col-lg-11 card pagare mb-5">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#favor" role="tab" aria-controls="favor" aria-selected="true"
+                            data-bs-toggle="pill">Saldo a favor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#financiamientos" role="tab" aria-controls="financiamientos"
+                            aria-selected="false" data-bs-toggle="pill">Mis financiamientos</a>
+                    </li>
+                    {%comment%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#lineaCredito" role="tab" aria-controls="financiamientos"
+                            aria-selected="false" data-bs-toggle="pill">Línea de Crédito</a>
+                    </li>
+                    {%endcomment%}
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <h4 class="card-title" id="infoCardTitleCuenta">Estudiante</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <h6 class="card-subtitle mb-3" id="infoCardTitleCuenta">{{ user.first_name }}</h6>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane container fade show active" id="favor" role="tabpanel">
+                        <div class="row">
+                            {%comment%}
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                                <div class="card-box colorBox1">
+                                    <div class="inner">
+                                        <h3 class="finText"> Financiamiento Disponible </h3>
+                                        <p class="finText" style="font-size: 20px;"> ₡ {{ financiamiento.data.pagares.financiamiento_Disponible }}</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-regular fa-colon-sign finText" aria-hidden="true"></i>
+                                    </div>
+                               </div>                              
+                            </div>
+                            {%endcomment%}
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                                <div class="card-box colorBox2">
+                                    <div class="inner">
+                                        <h3 class="finText"> Saldo a Favor </h3>
+                                        <p class="finText" style="font-size: 20px;"> ₡ {{ financiamiento.data.pagares.saldo_Favor }}</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-regular fa-colon-sign finText" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if financiamiento.data.pagares.pagares %}
+                    <div class="tab-pane container fade show" id="financiamientos" role="tabpanel"
+                        aria-labelledby="financiamientos-tab">
+                        <div class="row">
+                            {% for financiamiento in financiamiento.data.pagares.pagares %}
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-2">
+                                <div class="card card-margin pagare">
+                                    <div class="card-header no-border">
+                                        <h5 class="card-title mr-2 fw-bold">Estado </h5>
+                                        <i class="bi bi-check-lg estadoFin "></i>
+                                    </div>
+                                    <div class="card-body bodyfin pt-0">
+                                        <div class="widget-49">
+                                            <div class="widget-49-title-wrapper mb-2">
+                                                <div class="widget-49-date-primary">
+                                                    <span class="widget-49-date-day fw-bold">Pagaré #</span>
+                                                    <span class="widget-49-date-month">{{ financiamiento.consecutivo }}</span>
+                                                    <br>
+                                                    <span class="widget-49-date-day fw-bold">Saldo Total</span>
+                                                    <span class="widget-49-date-month saldoFavor">{{ financiamiento.balance }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="widget-49-meeting-action">
+                                                <button data-bs-toggle="modal" data-bs-target="#modal_detalle{{financiamiento.consecutivo}}" class="btn btn-sm" id="verMas">Ver
+                                                    detalle</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {%comment%}
+                    <div class="tab-pane container fade show" id="lineaCredito" role="tabpanel"
+                        aria-labelledby="financiamientos-tab">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="card card-margin pagare">
+                                    <div class="card-body bodyfin pt-0">
+                                        {% if linea %}
+                                            {% if linea.data.carrera_LC %}
+                                                <label for="carrera" class="col-11 mt-3 mb-3" style="font-size: 20px; text-align: center;">Carrera</label>
+                                                <select id="carrera" class="form-select formColor colorText" name="carrera" onchange="detalleLineaCredito(this.value)">
+                                                    <option value="" disabled selected hidden>Seleccioná un Plan de Estudio</option>
+                                                    {% for lineaC in linea.data.carrera_LC %}
+                                                        <option value="{{ lineaC.carrera_id }}">{{ lineaC.carrera_id }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            {% else %}
+                                                <label for="carreraEs" id="carreraEs" class="col-11 mt-3 mb-3" style="font-size: 20px; text-align: center;">{{ linea.carrera_id }}</label>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                                            <div class="card-box colorBox1" style="display: none;" id="lineaCreBox">
+                                                <div class="inner">
+                                                    <h3 class="finText"> Línea de Crédito Disponible </h3>
+                                                    <p class="finText" id="lineaCreditosD" style="font-size: 20px;"></p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="fas fa-regular fa-colon-sign finText" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endcomment%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal_detalle %}
+{% for financiamiento in financiamiento.data.pagares.pagares %}
+<div class="modal fade" id="modal_detalle{{financiamiento.consecutivo}}" tabindex="-1" aria-labelledby="modal_detalleTitle">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal_detalle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_detalleTitle">Detalle del Financiamiento #{{financiamiento.consecutivo}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 payment-summary">
+                    <div class="card px-md-3 px-2 pt-4">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Fecha Emisión</small>
+                                <p id="matriculaP" class="smalltotal">{{financiamiento.fecha_Emision}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Vence</small>
+                                <p id="matriculaP" class="smalltotal">{{financiamiento.fecha_Vencimiento}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Balance</small>
+                                <p id="balance" class="smalltotal abonoText">{{financiamiento.balance}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Monto Cuota</small>
+                                <p id="montoCuota" class="smalltotal abonoText">{{financiamiento.monto_Cuota}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Cuotas Vencidas</small>
+                                <p id="cuotasVencidas" class="smalltotal abonoText">{{financiamiento.cuotas_Vencidas}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Coutas Vencidas mas cuota por vencer</small>
+                                <p id="cuotasVencer" class="smalltotal abonoText">{{financiamiento.cuotas_Vencidas_Vencer}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Intereses corrientes</small>
+                                <p id="intereses" class="smalltotal abonoText">{{financiamiento.intereses}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"> <small class="smalltotal">Intereses moratorios</small>
+                                <p id="morosidad" class="smalltotal abonoText">{{financiamiento.moratorio}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between mb-4"> <small class="smalltotal">Saldo Total</small>
+                                <p id="saldoTotal" class="smalltotal abonoText">{{financiamiento.balance}}</p>
+                            </div>
+                        </div>
+                        <div class="sale my-3">
+                            <a type="button" class="btn btn-sm" id="verMas" onclick="realizarAbono('{{ financiamiento.consecutivo }}', '{{ type }}')">Realizar abono</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock modal_detalle %}
+
+{% block modal_moroso %}
+<div class="modal fade" id="modal_moroso" tabindex="-1" aria-labelledby="modal_moroso">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal_moroso">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_morosoTitle">Estado de Morosidad</h5>
+            </div>
+            <div class="modal-body">
+                <p id="modal_morosoMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModalButton">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_moroso %}
+<script>
+    var textoP = document.getElementById('carreraEs')
+    var data = '{{ linea.carrera_id }}';
+        if(data != ''){
+            detalleLineaCredito(data)
+        }
+</script>
+
+<script>
+    function formatMoney(value) {
+      const monto = parseFloat(value); // Convierte a número
+      if (isNaN(monto)) return '₡0.00'; // Maneja errores
+      return monto.toLocaleString('es-CR', {
+        style: 'currency',
+        currency: 'CRC',
+        minimumFractionDigits: 2
+      }).replace('CRC', '').trim(); // Formato personalizado
+    }
+
+    document.querySelectorAll('.saldoFavor').forEach((element) => {
+        const originalValue = element.textContent.replace(/[₡,]/g, '').trim(); // Quita símbolos antes de convertir
+        element.textContent = formatMoney(originalValue);
+    });
+
+    document.querySelectorAll('.abonoText').forEach((element) => {
+        const originalValue = element.textContent.replace(/[₡,]/g, '').trim(); // Quita símbolos antes de convertir
+        element.textContent = formatMoney(originalValue);
+    });
+  </script>
+{% endblock %}

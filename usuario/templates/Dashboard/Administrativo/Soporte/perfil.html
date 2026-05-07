@@ -1,0 +1,118 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+{% block extraJavaScript %}
+
+{% endblock %}
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
+{% endblock barranavegacion %}
+
+{% block content %}
+<div class="p-2 mt-5">
+    <section class="news section-padding mt-5 mb-3" id="perfilS">
+        <div class="card cardPerfilCol">
+            <div class="row p-2">
+                <div class="col-md-3 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                {% if fotoperfil %}
+                                <img class="rounded-circle mt-5" width="200px" height="200px"
+                                    src="{% url 'mostrar_foto' %}">
+                                {% else %}
+                                {% load static %}
+                                <img class="rounded-circle mt-5" width="200px" height="200px"
+                                    src="{% static 'img/user.png' %}">
+                                {% endif %}
+                                <span class="font-weight-bold">{{ user.username }}</span>
+                                <span class="text-black-60"><span class="input-group-addon"><i class=""></i></span> {{ perfil.correo_institucional }}</span>
+                                <span> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-12 mx-auto">
+                    <div class="p-3 py-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mx-auto">Información de Perfil</h4>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-6">
+                                <label class="labels">Nombre</label>
+                                <input type="text" class="form-control" placeholder="Nombre"
+                                    value="{{ perfil.nombre }}" readonly>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <label class="labels">Apellidos</label>
+                                <input type="text" class="form-control"
+                                    value="{{ perfil.primer_apellido }} {{ perfil.segundo_apellido }}"
+                                    placeholder="Apellidos" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-6">
+                                <label class="labels">País</label>
+                                <input type="text" class="form-control" placeholder="Pais"
+                                    value="{{ perfil.nacionalidad }}" readonly>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <label class="labels">Provincia</label>
+                                <input type="text" class="form-control" name="provincia"
+                                    value="{{ perfil.provincia }}" placeholder="Provincia" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-6">
+                                <label class="labels">Cantón</label>
+                                <input type="text" class="form-control" name="canton" placeholder="Canton"
+                                    value="{{ perfil.canton }}" readonly>
+                            </div>
+                            <div class="col-md-6 col-sm-6 mb-3">
+                                <label class="labels">Distrito</label>
+                                <input type="text" class="form-control" name="distrito" placeholder="Distrito"
+                                    value="{{ perfil.distrito }}" readonly>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Direccion Exacta</label>
+                                <input type="text" class="form-control" name="direccion_exacta"
+                                    placeholder="Direccion Exacta" value="{{ perfil.direccion_exacta }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="labels">Número Telefónico</label>
+                                <input type="text" class="form-control" placeholder="Numero Telefonico"
+                                    name="numero_telefonico" value="{{ perfil.numero_telefonico }}" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="labels">Segundo Número Telefónico</label>
+                                <input type="text" class="form-control" placeholder="Segundo Numero Telefonico"
+                                    name="numero_telefonico2" value="{{ perfil.numero_telefonico2 }}" readonly>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Correo Electrónico Personal</label>
+                                <input type="text" class="form-control" placeholder="Correo Personal"
+                                    name="correo_personal" value="{{ perfil.correo_personal }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{%comment%}
+<div class="container" id="containerC">
+    <input type="checkbox" id="btn-mas">
+    <div class="redes">
+        <a href="#" class="fa fa-facebook"></a>
+        <a href="#" class="fa fa-youtube"></a>
+        <a href="#" class="fa fa-twitter"></a>
+        <a href="#" class="fa fa-pinterest"></a>
+    </div>
+    <div class="btn-mas">
+        <label for="btn-mas" class="fa fa-plus"></label>
+    </div>
+</div>
+{%endcomment%}
+{% endblock content %}

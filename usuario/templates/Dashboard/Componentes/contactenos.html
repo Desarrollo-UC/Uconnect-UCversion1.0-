@@ -1,0 +1,201 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/correo.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+{% if response %}
+<div class="row d-flex justify-content-center mx-auto mb-0">
+    <div class="col-md-4">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span>Se envió el correo correctamente</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% elif response == False %}
+<div class="row d-flex justify-content-center mx-auto mb-0">
+    <div class="col-md-4">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span>Correo no se envió correctamente</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-11 card" id="cardContactos">
+            <div class="card-header d-flex justify-content-center mb-4">
+                <h5 class="card-title mt-4 titleCo">Contáctenos</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-6 d-flex justify-content-end">
+                        <div class="row">
+                            <div class="col-12 col-md-12">
+                                <p class="colorCon">Dejanos tus datos de contacto si tenés alguna consulta o comentario adicional. Nos estaremos comunicando pronto con vos para darte respuesta. </p>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <img src="../../../static/img/CONTACTO.png" alt="" id="contactoimg">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-6">
+                        <form method="POST" id="contactoForm" name="contactoForm" class="contactoForm p-2"
+                            onsubmit="enviarCorreo(event);">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control formColorM" id="asunto" name="asunto" placeholder="Asunto">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="mensaje" class="form-control formColorM" id="mensaje"
+                                                cols="30" rows="40" placeholder="Mensaje" spellcheck="false"
+                                                style="height: 100px; resize: vertical;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <button type="submit" class="w-100 btn btn-md btnPrimaryUC btn-login fw-bold" style="color: white !important;">Enviar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block modal_contactenos %}
+<div class="modal fade" id="modal_contactenos" tabindex="-1" aria-labelledby="modal_contactenosTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal_contactenos">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_contactenosTitle">Contáctenos</h5>
+                <div id="idE" hidden>{{ id }}</div>
+                <div id="StatusE" hidden>{{ status }}</div>
+                <div id="typeE" hidden>{{ type }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 col-lg-12 col-md-12 col-sm-12 order-md-last d-flex align-item-strech h-100">
+                    <div class="w-100 p-3 card rounded ">
+                        <p id="correoSend" hidden>true</p>
+                        <form method="POST" id="contactoForm" name="contactoForm" class="contactoForm p-2"
+                            onsubmit="enviarCorreo(event);">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <fieldset class="border mb-3">
+                                    <legend class="float-none w-auto">Seleccione el Departamento</legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check form-check-inline">
+                                                <label class="label colorText" for="registro">Registro</label>
+                                                <input type="radio" class="form-check-input formColorM"
+                                                    name="departamento" id="registro" value="Registro" checked>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-left">
+                                            <div class="form-check form-check-inline">
+                                                <label class="label colorText" for="soporte">Soporte Técnico</label>
+                                                <input type="radio" class="form-check-input formColorM"
+                                                    name="departamento" id="soporte" value="Soporte Técnico">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="border">
+                                    <legend class="float-none w-auto">Descripción del Problema</legend>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <select class="form-select formColorM" aria-label="Categorias"
+                                                id="categorias" name="categorias">
+                                                <option selected disabled hidden>Categorias</option>
+                                                <option value="Consulta Generales">Consulta Generales
+                                                </option>
+                                                <option value="Consulta sobre mis cursos">Consulta sobre mis
+                                                    cursos</option>
+                                                <option value="Corrección de Notas">Corrección de Notas
+                                                </option>
+                                                <option value="No me aparecen mis cursos">No me aparecen mis
+                                                    cursos</option>
+                                                <option value="Comentarios y Quejas">Comentarios y Quejas
+                                                </option>
+                                                <option value="Otros">Otros</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label class="label colorText " for="correo">Ahora, por favor, describa
+                                                    su problema. Debe incluir toda la información que usted
+                                                    considere necesaria para nosotros poder brindarle la
+                                                    asistencia que solicita.</label>
+                                                <textarea name="mensaje" class="form-control formColorM" id="mensaje"
+                                                    cols="30" rows="40" placeholder="Mensaje" spellcheck="false"
+                                                    style="height: 100px; resize: vertical;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-md btnPrimaryUC btn-login fw-bold"><i
+                                        class="fa-solid fa-paper-plane"></i> Enviar mensaje</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_contactenos %}
+{% block toast_actualizacion%}
+<div class="toast-container position-fixed bottom-0 end-0 p-4" style="z-index: 9999;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            {% load static %}
+            <img id="img_check" src="{% static 'img/check.png' %}" class="rounded me-2" alt="...">
+            <strong class="me-auto" id="titleToast"> </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endblock toast_actualizacion %}
+<script>
+
+    $(document).ready(function () {
+        $('.nav-link').click(function () {
+            $('.nav-link').removeClass('active'); // Remover clase "active" de todos los enlaces
+            $(this).addClass('active'); // Agregar clase "active" al enlace clicado
+        });
+    });
+    function setEmail(id) {
+        var correoSend = document.getElementById('correoSend');
+        if (id === 'sendSanjose') {
+            correoSend.innerText = 'S';
+        } else if (id === 'sendheredia') {
+            correoSend.innerText = 'H';
+        }
+        else if (id === 'sendAlajuela') {
+            correoSend.innerText = 'A';
+        }
+        else if (id === 'sendSantos') {
+            correoSend.innerText = 'SA';
+        } else {
+            correoSend.innerText = 'P';
+        }
+    }
+</script>
+{% endblock content %}

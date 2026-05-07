@@ -1,0 +1,890 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="p-2 d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-lg-11 card cardPerfilCol mt-4">
+        <div class="row p-2">
+            <div id="div-periodo" class="form-group col-12 col-lg-6 col-md-6 mx-auto">
+                <p id="matriculaP" class="pb-2 fw-bold titulo">PERIODO</p>
+                {% if periodos_varios %}
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    id="periodos_select" onchange="periodos_matriculados();">
+                    <option selected>Seleccioná el periodo que deseas matricular</option>
+                    {% for key, value in periodos.items %}
+                    <option value='{{ key }}'>{{ value }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+            </div>
+            <div id="divCarreraDoble" class="form-group col-12 col-lg-6 col-md-6 mx-auto" style="display: none; width: fit-content;">
+                <p id="matriculaP" class="pb-2 fw-bold titulo">PLAN DE ESTUDIO</p>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    id="carreras_select" onchange="periodos_carreras_matriculados();">
+                    <option selected>Seleccioná el periodo que deseas matricular</option>
+                </select>
+            </div>
+        </div>
+        <div class="row p-2">
+            <div class="col-lg-8" id="div-materias" style="display: none;">
+                <p id="matriculaP" class="pb-2 fw-bold titulo">MATERIAS A MATRICULAR</p>
+                <div class="card">
+                    <div class="table-responsive px-md-4 px-2 pt-3 ">
+                        <table class="table table-borderless table-striped" id="tabla_cursos">
+                            <thead class="table-dark">
+                                <tr class="border-bottom">
+                                    <th>
+                                        <div class="ps-3 d-flex flex-column" style="text-align: center;">
+                                            <p id="matriculaP" class="fw-bold">Curso</p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="ps-3 d-flex flex-column" style="text-align: center;">
+                                            <p id="matriculaP" class="fw-bold">Horario</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, value in registro.items %}
+                                <tr class="border-bottom">
+                                    
+                                    <td>
+                                        <div class="ps-3 d-flex flex-column" style="text-align: center;">
+                                            <p>{{ value.curso_id }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ps-3 d-flex flex-column" style="text-align: center;">
+                                            <p>{{ value.horario_id }}</p>
+                                        </div>
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 payment-summary" id="div-resumen" style="display: none;">
+                <p id="matriculaP" class="fw-bold pt-lg-0 pt-4 pb-2 titulo">RESUMEN DE PAGO</p>
+                <div class="card px-md-3 px-2 pt-4">
+                    <div class="unregistered mb-4" style="text-align: center;"> <span class="py-1" style="font-weight: bold; font-size: large;">{{ user.username }}</span>
+                        <div class="d-flex flex-column b-bottom">
+                            <div id="div-matricula" class="d-flex justify-content-between"> <small class="text-dark">Matrícula</small>
+                                <p id="matricula" class="amount">₡ {{ pago.matricula }}</p>
+                            </div>
+                            <div id="div-contado" class="d-flex justify-content-between py-3"> <small class="text-dark">Monto al Contado</small>
+                                <p id="contado" class="amount">₡ {{ pago.monto_Contado }}</p>
+                            </div>
+                            <div id="div-beca-procentaje" style="display: block;" class="d-flex justify-content-between py-3"> <small class="text-dark">Beca Total</small>
+                                <p id="beca-procentaje" class="amount">₡ {{ pago.becaId }}</p>
+                            </div>
+                            <div id="div-descuento-procentaje" style="display: block;" class="d-flex justify-content-between py-3"> <small class="text-dark">Descuento Aplicado</small>
+                                <p id="descuento-procentaje" class="amount">₡ {{ pago.descuentoId }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between"> <small class="smalltotal">Total</small>
+                                <p id="total" class="smalltotal amount">₡ {{ pago.preMatricula }}</p>
+                            </div>
+                        </div>
+                        <div class="sale my-3">
+                            <a type="button" class="btn-successMa" data-bs-toggle="modal"
+                                data-bs-target="#modal_factura">Proceder con el Pago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal_factura %}
+<div class="modal fade" id="modal_factura" tabindex="-1" aria-labelledby="modal_facturaTitle" style="display: none">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" style="font-weight: bold;" id="modal_facturaTitle">
+                    DATOS DE FACTURACIÓN
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-10 col-sm-6">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Utilizar datos personales. (Registrados en Cuenta)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-6 d-flex justify-content-center">
+                        <a class="btn" id="facturaButton" data-bs-toggle="collapse" href="#collapseFactura"
+                        role="button" aria-expanded="false" aria-controls="collapseFactura">Cambiar Datos de Facturación</a>
+                    </div>
+                </div>
+                <div class="collapse mt-3" id="collapseFactura">
+                    <div class="card card-body">
+                        <div class="row ">
+                            <div class="col-md-12 ">
+                                <div class="form-floating mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioIndividual" checked>
+                                        <label class="form-check-label" for="flexRadioIndividual">
+                                            Factura Persona Individual
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioCompania">
+                                        <label class="form-check-label" for="flexRadioCompania">
+                                            Factura para Compañía
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputNombre" class="form-label">Nombre Completo</label>
+                                        <input type="text" class="form-control" id="floatingInputNombre"
+                                        placeholder="Nombre Completo">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="tipo">Tipo de Identificación</label>
+                                        <select id="tipo" class="form-select" aria-label="Floating label select example">
+                                            <option value="" disabled selected hidden>Tipo de Identificación
+                                            </option>
+                                            <option value="1">Cédula Física</option>
+                                            <option value="2">Cédula Jurídica</option>
+                                            <option value="3">DIMEX</option>
+                                            <option value="4">Nite</option>
+                                            <option value="10">Pasaporte</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputIdent">Identificación</label>
+                                        <input type="text" class="form-control" id="floatingInputIdent"
+                                        placeholder="Identificación">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputEmail">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="floatingInputEmail"
+                                        placeholder="name@example.com">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputTelefono">Telefóno</label>
+                                        <input type="text" class="form-control" id="floatingInputTelefono" placeholder="Telefóno">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="provincia_select">Seleccioná Provincia</label>
+                                        <select id="provincia_select" class="form-select" aria-label="Floating label select example"
+                                        name="provincia_select" data-placeholder="Selecione Provincia"
+                                        onchange="obtenerProvincia(this)" onclick="cargarProvincias()">
+                                            <option style="opacity: 0.65" value="" disabled selected hidden>Seleccioná Provincia
+                                            </option>
+                                        </select>
+                                        <input type="hidden" id="provincia" name="provincia">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="canton_select">Seleccioná Cantón</label>
+                                        <select id="canton_select" class="form-select" aria-label="Floating label select example"
+                                        name="canton_select" data-placeholder="Selecione Canton" onchange="obtenerCanton(this)">
+                                            <option style="opacity: 0.65" value="" disabled selected hidden>Seleccioná Cantón
+                                            </option>
+                                        </select>
+                                        <input type="hidden" id="canton" name="canton">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="distrito_select">Seleccioná Distrito</label>
+                                        <select id="distrito_select" class="form-select" aria-label="Floating label select example"
+                                        name="distrito_select" data-placeholder="Selecione Distrito"
+                                        onchange="obtenerDistrito(this)">
+                                            <option style="opacity: 0.65" value="" disabled selected hidden>Seleccioná Distrito
+                                            </option>
+                                        </select>
+                                        <input type="hidden" id="distrito" name="distrito">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                                        <label for="direccion_exacta">Dirección Exacta</label>
+                                        <input type="text" class="form-control " id="direccion_exacta"
+                                        placeholder="Dirección Exacta" name="direccion_exacta" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-3">
+                <div class="sale my-3">
+                    <a type="button" id="btnMetodoPago" class="btn-successMa" data-bs-toggle="modal"
+                        data-bs-target="#modal_pagos" onclick="datosFactura();">Proceder a Métodos Pago</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_factura %}
+
+{% block modal_pagos %}
+<div class="modal fade" id="modal_pagos" tabindex="-1" aria-labelledby="modal_pagosTitle" style="display: none">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" style="font-weight: bold;" id="modal_pagosTitle">
+                    MÉTODOS DE PAGO DISPONIBLES
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed buttonCollapsePago" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                                PAGO CON TARJETA (VISA, MASTERCARD, AMERICAN EXPRESS)
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body text-center">
+                                <a type="button" class="btn-successMa" href="{% url 'payment' type=type %}">FINALIZAR PAGO CON TARJETA</a>
+                            </div>
+                        </div>
+                    </div>
+                    {%comment%}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                            <button class="accordion-button collapsed buttonCollapsePago" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                aria-controls="flush-collapseTwo">
+                                TRANSFERENCIA BANCARIA
+                            </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div style="text-align: center;">
+                                    <p><span class="fw-bold colorText">NOMBRE:</span> SERVICIOS EDUCATIVOS DAKOTA II S.A.</p>
+                                    <p><span class="fw-bold colorText">CÉDULA JURÍDICA:</span> 3-101-642839</p>
+                                    <hr class="mb-3">
+                                    <h5 class="fw-bold">CUENTA DEL BANCO DE COSTA RICA</h5>
+                                    <p><span class="fw-bold colorText">CUENTA EN COLONES:</span> CR22015201001030067004</p>
+                                    <p><span class="fw-bold colorText">CUENTA EN DÓLARES:</span> CR49015201001030067197</p>
+                                    <hr class="mb-3">
+                                    <h5 class="fw-bold">CUENTA DEL BANCO BAC SAN JOSÉ</h5>
+                                    <p><span class="fw-bold colorText">CUENTA EN COLONES:</span> CR46010200009191026241</p>
+                                    <hr class="mb-3">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                                <label for="floatingComprobante">Número del Comprobante de Pago</label>
+                                                <input type="text" class="form-control" id="floatingComprobante"
+                                                placeholder="Numero Comprobante">
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                                <label for="floatingImagenComprobante">Imagen (Captura) del Comprobante de
+                                                    Pago</label>
+                                                    <input type="file" class="form-control" id="floatingImagenComprobante"
+                                                placeholder="Captura Comprobante">
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3 d-flex justify-content-center">
+                                                <button type="button" class="btn-successMa">ENVIAR COMPROBANTES
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                            <button class="accordion-button collapsed buttonCollapsePago" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                aria-controls="flush-collapseThree">
+                                SINPE MÓVIL
+                            </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <p class="text-center"><span class="fw-bold">NÚMERO TELEFÓNICO:</span> 6476-4825</p>
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                        <label for="floatingComprobante">Número del Comprobante de Pago</label>
+                                        <input type="text" class="form-control" id="floatingComprobante"
+                                        placeholder="Numero Comprobante">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                        <label for="floatingImagenComprobante">Imagen (Captura) del Comprobante de
+                                            Pago</label>
+                                            <input type="file" class="form-control" id="floatingImagenComprobante"
+                                        placeholder="Captura Comprobante">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3 d-flex justify-content-center">
+                                        <button type="button" class="btn-successMa">ENVIAR COMPROBANTES
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endcomment%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_pagos %}
+
+<style>
+    .titulo{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .entrance-anim{
+        animation: entrance 1s ease 0s 1 normal forwards;
+    }
+
+    @keyframes entrance {
+        0% {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+    
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
+
+<script>
+    const checkbox = document.getElementById('flexCheckDefault');
+    var collapseFactura = document.getElementById('collapseFactura');
+    const facturaButton = document.getElementById('facturaButton');
+
+    function formatCurrencyDefault(value, currency = 'CRC') {
+      return new Intl.NumberFormat('es-CR', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 2
+      }).format(value);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.amount').forEach(el => {
+        const rawText = el.textContent.replace(/[^\d.-]/g, '');
+        const number = parseFloat(rawText);
+        if (!isNaN(number)) {
+          el.textContent = formatCurrencyDefault(number, 'CRC');
+        }
+      });
+    });
+
+    $(document).ready(function () {
+        var periodos_varios = '{{ periodos_varios }}';
+        var div_periodo = document.getElementById('div-periodo');
+        var matriculaP = document.getElementById('matriculaP');
+        var div_resumen = document.getElementById("div-resumen");
+        var div_materias = document.getElementById("div-materias");
+        var div_beca = document.getElementById("div-beca-procentaje");
+        var div_descuento = document.getElementById("div-descuento-procentaje");
+        var div_contado = document.getElementById("div-contado");
+        var div_matricula = document.getElementById("div-matricula");
+
+        var matricula = document.getElementById('matricula');
+        var contado = document.getElementById('contado');
+        var beca = document.getElementById('beca-procentaje');
+        var descuento_aplicado = document.getElementById('descuento-procentaje');
+        var total = document.getElementById('total');
+
+        
+        if (periodos_varios == "False") {
+            matriculaP.textContent = 'PERIODO {{ periodos }}';
+            matriculaP.style.fontSize = '30px';
+            div_resumen.style.setProperty('display', 'block', 'important');
+            div_materias.style.setProperty('display', 'block', 'important');
+
+            div_resumen.className = 'col-lg-4 payment-summary entrance-anim';
+            div_materias.className = 'col-lg-8 entrance-anim';
+            div_periodo.className = "col-12 col-md-12 col-lg-12";
+
+            var beca = '{{ pago.becaId }}';
+            var descuento = '{{ pago.descuentoId }}';
+            var contado = '{{ pago.monto_Contado }}';
+            var matricula = '{{ pago.matricula }}';
+            var total = '{{ pago.preMatricula }}';
+            contado.textContent = formatCurrency(contado, 'CRC');
+            matricula.textContent = formatCurrency(matricula, 'CRC');
+            beca.textContent = formatCurrency(beca, 'CRC');
+            descuento_aplicado.textContent = formatCurrency(descuento, 'CRC');
+            total.textContent = formatCurrency(total, 'CRC');
+
+            if(beca == 0){
+                div_beca.style.setProperty('display', 'none', 'important');
+            }
+
+            if(descuento == 0){
+                div_descuento.style.setProperty('display', 'none', 'important');
+            }
+
+            if(contado == 0){
+                div_contado.style.setProperty('display', 'none', 'important');
+            }
+            if(matricula == 0){
+                div_matricula.style.setProperty('display', 'none', 'important');
+            }
+        }
+    });
+
+    function datosFactura() {
+        var datos = [];
+        const radioButtons = document.querySelectorAll('input[type="radio"][name="flexRadioDefault"]');
+        let valorSeleccionado;
+        radioButtons.forEach(radioButton => {
+            if (radioButton.checked) {
+              valorSeleccionado = radioButton.id;
+            }
+        });
+        if (checkbox.checked) {
+            datos.push('info-personal');
+        } else {
+            datos.push(document.getElementById('floatingInputNombre').value);
+            datos.push(document.getElementById('tipo').value);
+            datos.push(document.getElementById('floatingInputIdent').value);
+            datos.push(document.getElementById('floatingInputEmail').value);
+            datos.push(document.getElementById('floatingInputTelefono').value);
+            datos.push(document.getElementById('provincia').value);
+            datos.push(document.getElementById('canton').value);
+            datos.push(document.getElementById('distrito').value);
+            datos.push(document.getElementById('direccion_exacta').value);
+            if (valorSeleccionado === "flexRadioIndividual"){
+                datos.push('Individual');
+            }
+            else if (valorSeleccionado === "flexRadioCompania"){
+                datos.push('Compañía');
+            }
+        }
+
+        var url = "/datos-factura/?datos=" + JSON.stringify(datos);
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+            }
+        };
+        request.send();
+    }
+
+    var provinciasCargadas = false;
+
+    function cargarProvincias() {
+        if (provinciasCargadas) {
+            return;
+        }
+
+        var select = document.getElementById("provincia_select");
+
+        var url = "/obtener-provincia/";
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                provinciasCargadas = true;
+                dataCantones(select);
+                obtenerProvincia(select)
+            }
+        };
+        request.send();
+    }
+
+    function cargarCantones(valor) {
+        var select = document.getElementById("canton_select");
+        var select2 = document.getElementById("distrito_select");
+
+        var url = "/obtener-canton/?provincia_select=";
+        var request = new XMLHttpRequest();
+        request.open('GET', url + encodeURIComponent(valor), true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                dataDistritos(select)
+                obtenerCanton(select)
+            }
+        };
+        request.send();
+    }
+
+    function cargarDistritos(valor1, valor2) {
+        var select = document.getElementById("distrito_select");
+
+        var url = "/obtener-distrito/?provincia_select=" + encodeURIComponent(valor1) + "&canton_select=" + encodeURIComponent(valor2);
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                obtenerDistrito(select)
+            }
+        };
+        request.send();
+    }
+
+    function dataCantones(select) {
+        var valorSeleccionado = select.options[select.selectedIndex].value;
+        cargarCantones(valorSeleccionado);
+    }
+
+    function dataDistritos(select) {
+        const miSelect = document.getElementById('provincia_select');
+        var valorSeleccionado = select.options[select.selectedIndex].value;
+
+        cargarDistritos(miSelect.value, valorSeleccionado);
+    }
+
+    function obtenerProvincia(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('provincia').value = textoSeleccionado;
+        dataCantones(select)
+    }
+
+    function obtenerCanton(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('canton').value = textoSeleccionado;
+        dataDistritos(select)
+    }
+
+    function obtenerDistrito(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('distrito').value = textoSeleccionado;
+    }
+
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            facturaButton.style.display = 'none'; // Oculta el botón
+            if (collapseFactura.classList.contains('show')) {
+                collapseFactura.classList.remove('show');
+            }
+        } else {
+            facturaButton.style.display = 'block'; // Muestra el botón
+        }
+    });
+
+    var tabla = document.getElementById("tabla_cursos");
+    var div_resumen = document.getElementById("div-resumen");
+    var div_materias = document.getElementById("div-materias");
+
+    function periodos_matriculados() {
+
+        var select = document.getElementById('periodos_select').value;
+        var matricula = document.getElementById('matricula');
+        var contado = document.getElementById('contado');
+        var beca = document.getElementById('beca-procentaje');
+        var descuento_aplicado = document.getElementById('descuento-procentaje');
+        var div_beca = document.getElementById('div-beca-procentaje');
+        var div_descuento_aplicado = document.getElementById('div-descuento-procentaje');
+        var div_contado = document.getElementById('div-contado');
+        var div_matricula = document.getElementById("div-matricula");
+        var total = document.getElementById('total');
+        var url = "/periodos-matriculados/?periodo=";
+        var request = new XMLHttpRequest();
+        request.open('GET', url + encodeURIComponent(select), true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var select_full = document.getElementById('periodos_select');
+                select_full.remove(0);
+                var response = JSON.parse(request.responseText);
+                var rowCount = tabla.rows.length;
+                for (var i = rowCount - 1; i > 0; i--) {
+                    tabla.deleteRow(i);
+                }
+                response.montos.forEach(function (monto) {
+                    contado.textContent = formatCurrency(monto.monto_Contado, 'CRC');
+                    matricula.textContent = formatCurrency(monto.monto_Matricula, 'CRC');
+                    total.textContent = formatCurrency(monto.monto_Total, 'CRC');
+                    beca.textContent = "%" + monto.beca_id;
+                    descuento_aplicado.textContent = "%" + monto.descuento_id;
+
+                    if(monto.beca_id == 0){
+                        beca.style.display = 'none';
+                        div_beca.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        beca.style.display = 'block';
+                        div_beca.style.setProperty('display', 'block', 'important');
+                    }
+
+                    if(monto.descuento_id == 0){
+                        descuento_aplicado.style.display = 'none';
+                        div_descuento_aplicado.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        descuento_aplicado.style.display = 'block';
+                        descuento_aplicado.style.setProperty('display', 'block', 'important');
+                    }
+
+                    if(monto.monto_Contado == 0){
+                        div_contado.style.display = 'none';
+                        div_contado.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        div_contado.style.display = 'block';
+                        div_contado.style.setProperty('display', 'flex', 'important');
+                    }
+                    if(monto.monto_Matricula == 0){
+                        div_matricula.style.display = 'none';
+                        div_matricula.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        div_matricula.style.display = 'block';
+                        div_matricula.style.setProperty('display', 'flex', 'important');
+                    }
+                });
+
+                select_carrera(response.periodos);
+
+                function formatCurrency(amount, currencyCode) {
+                    return amount.toLocaleString('es-CR', { style: 'currency', currency: currencyCode });
+                }
+
+                function select_carrera(carrera) {
+                    var divSelectCarrera = document.getElementById('divCarreraDoble');
+                    var select2 = document.getElementById("carreras_select");
+
+                    if (carrera) {
+                        divSelectCarrera.style.display = 'block';
+                        contado.textContent = '₡ ----';
+                        matricula.textContent = '₡ ----';
+                        total.textContent = '₡ ----';
+                        beca.textContent = "% ----";
+                        descuento_aplicado.textContent = "% ----";
+                        select2.options.length = 0;
+                        var data = response.carreras
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                var option = document.createElement("option");
+                                option.value = key;
+                                option.text = data[key];
+                                select2.add(option);
+                            }
+                        }
+                        periodos_carreras_matriculados();
+                    }
+                    else {
+                        divSelectCarrera.style.display = 'none';
+                    }
+                }
+
+                response.cursos.forEach(function (curso) {
+                    var fila = document.createElement('tr');
+                    fila.className = 'border-bottom';
+
+                    var celda1 = document.createElement('td');
+
+                    var div1 = document.createElement('div');
+                    div1.className = 'd-flex align-items-center';
+
+                    var div2 = document.createElement('div');
+                    div2.className = 'ps-3 d-flex flex-column text-align-center justify-content-center';
+
+                    div2.style.textAlign = 'center';
+                    div2.style.justifyContent = 'center';
+
+                    var p1 = document.createElement('p');
+                    p1.id = 'matriculaP';
+                    p1.className = 'fw-normal';
+                    p1.textContent = curso.curso_id; // Reemplaza 'data.curso_id' con el valor deseado
+
+                    div2.appendChild(p1);
+                    celda1.appendChild(div2);
+                    fila.appendChild(celda1);
+
+                    var celda2 = document.createElement('td');
+
+                    var div3 = document.createElement('div');
+                    div3.className = 'd-flex text-align-center justify-content-center';
+
+                    div3.style.textAlign = 'center';
+
+                    var p2 = document.createElement('p');
+                    p2.id = 'matriculaP';
+                    p2.className = 'pe-1';
+                    p2.textContent = curso.horario_id;
+
+                    div3.appendChild(p2);
+                    celda2.appendChild(div3);
+                    fila.appendChild(celda2);
+
+                    tabla.appendChild(fila);
+
+                    div_resumen.style.setProperty('display', 'block', 'important');
+                    div_materias.style.setProperty('display', 'block', 'important');
+
+                    div_resumen.className = 'col-lg-4 payment-summary entrance-anim';
+                    div_materias.className = 'col-lg-8 entrance-anim';
+                });
+            }
+        };
+        request.send();
+    }
+
+    function periodos_carreras_matriculados() {
+        var select = document.getElementById('periodos_select').value;
+        var select2 = document.getElementById('carreras_select').value;
+        var matricula = document.getElementById('matricula');
+        var contado = document.getElementById('contado');
+        var beca = document.getElementById('beca-procentaje');
+        var descuento_aplicado = document.getElementById('descuento-procentaje');
+        var div_contado = document.getElementById('div-contado');
+        var total = document.getElementById('total');
+        var div_beca = document.getElementById('div-beca-procentaje');
+        var div_descuento_aplicado = document.getElementById('div-descuento-procentaje');
+        var div_matricula = document.getElementById("div-matricula");
+        var url = "/periodos-carreras-matriculados/?periodo=";
+        var request = new XMLHttpRequest();
+        request.open('GET', url + encodeURIComponent(select) + "&carrera=" + encodeURIComponent(select2), true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var response = JSON.parse(request.responseText);
+                var rowCount = tabla.rows.length;
+                for (var i = rowCount - 1; i > 0; i--) {
+                    tabla.deleteRow(i);
+                }
+                response.montos.forEach(function (monto) {
+                    contado.textContent = formatCurrency(monto.monto_Contado, 'CRC');
+                    matricula.textContent = formatCurrency(monto.monto_Matricula, 'CRC');
+                    beca.textContent = formatCurrency(monto.beca_id, 'CRC');
+                    descuento_aplicado.textContent = formatCurrency(monto.descuento_id, 'CRC');
+                    total.textContent = formatCurrency(monto.monto_Total, 'CRC');
+
+                    if(monto.beca_id == 0){
+                        beca.style.display = 'none';
+                        div_beca.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        beca.style.display = 'block';
+                        div_beca.style.setProperty('display', 'block', 'important');
+                    }
+
+                    if(monto.descuento_id == 0){
+                        descuento_aplicado.style.display = 'none';
+                        div_descuento_aplicado.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        descuento_aplicado.style.display = 'block';
+                        descuento_aplicado.style.setProperty('display', 'block', 'important');
+                    }
+
+                    if(monto.monto_Contado == 0){
+                        div_contado.style.display = 'none';
+                        div_contado.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        div_contado.style.display = 'block';
+                        div_contado.style.setProperty('display', 'flex', 'important');
+                    }
+                    if(monto.monto_Matricula == 0){
+                        div_matricula.style.display = 'none';
+                        div_matricula.style.setProperty('display', 'none', 'important');
+                    }
+                    else{
+                        div_matricula.style.display = 'block';
+                        div_matricula.style.setProperty('display', 'flex', 'important');
+                    }
+                });
+
+                function formatCurrency(amount, currencyCode) {
+                    return amount.toLocaleString('es-CR', { style: 'currency', currency: currencyCode });
+                }
+
+                response.cursos.forEach(function (curso) {
+                    var fila = document.createElement('tr');
+                    fila.className = 'border-bottom';
+
+                    var celda1 = document.createElement('td');
+
+                    var div1 = document.createElement('div');
+                    div1.className = 'd-flex align-items-center';
+
+                    var div2 = document.createElement('div');
+                    div2.className = 'ps-3 d-flex flex-column text-align-center justify-content-center';
+
+                    div2.style.textAlign = 'center';
+                    div2.style.justifyContent = 'center';
+
+                    var p1 = document.createElement('p');
+                    p1.id = 'matriculaP';
+                    p1.className = 'fw-normal';
+                    p1.textContent = curso.curso_id; // Reemplaza 'data.curso_id' con el valor deseado
+
+                    div2.appendChild(p1);
+                    celda1.appendChild(div2);
+                    fila.appendChild(celda1);
+
+                    var celda2 = document.createElement('td');
+
+                    var div3 = document.createElement('div');
+                    div3.className = 'd-flex text-align-center justify-content-center';
+
+                    div3.style.textAlign = 'center';
+
+                    var p2 = document.createElement('p');
+                    p2.id = 'matriculaP';
+                    p2.className = 'pe-1';
+                    p2.textContent = curso.horario_id; // Reemplaza 'data.horario_id' con el valor deseado
+
+                    div3.appendChild(p2);
+                    celda2.appendChild(div3);
+                    fila.appendChild(celda2);
+
+                    tabla.appendChild(fila);
+
+                    div_resumen.style.setProperty('display', 'block', 'important');
+                    div_materias.style.setProperty('display', 'block', 'important');
+
+                    div_resumen.className = 'col-lg-4 payment-summary entrance-anim';
+                    div_materias.className = 'col-lg-8 entrance-anim';
+                });
+            }
+        };
+        request.send();
+    }
+</script>
+
+{% endblock content %}

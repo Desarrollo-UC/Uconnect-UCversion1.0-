@@ -1,0 +1,30 @@
+{% load static %}
+<nav class="main-header navbar navbar-expand navbar-white navbar-light ">
+    {% block nav_bar %}
+    <!-- Left navbar links -->
+    <div class="row rowNavbar">
+        <div class="col-md-4 colNav">
+            <ul class="navbar-nav ml-2 colNavH">
+                <li class="nav-item">
+                    <a class="navHeaderIcon" data-widget="pushmenu" href="#" title="menu"><i class="fas fa-bars" id="iconsNavbar"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4 colNavL">
+            <a href="#" class="brand-link logo text-center colNavH">
+                <img src="{{ logo_url }}" alt="Logo" class="img-fluid logoH">
+            </a>
+        </div>
+        
+        <div class="col-md-4 colNavA">
+            <ul class="navbar-nav ml-auto d-flex flex-wrap justify-content-end align-items-center colNavAH">
+                <li class="nav-item mr-2">
+                    <a class="navHeaderIcon" data-widget="accesibilidad" role="button" id="accesibilidadId" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <span class="fas fa-solid fa-universal-access fa-xl" id="iconsNavbar"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% endblock nav_bar %}
+</nav>

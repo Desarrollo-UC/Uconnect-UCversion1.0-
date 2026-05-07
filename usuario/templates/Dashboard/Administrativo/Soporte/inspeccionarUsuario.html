@@ -1,0 +1,65 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+{% block extraJavaScript %}
+<script src="{% static 'js/pluginJs/progressbar.min.js' %}"></script>
+<script src="{% static 'js/administrativo.js' %}"></script>
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock %}
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
+{% endblock barranavegacion %}
+
+{% block content %}
+<div class="container-fluid pt-5">
+    <section class="news section-padding mt-5" id="plan">
+        <div class="col-md-12 card cardPerfilCol mt-5">
+            <div class="row p-2 mx-auto">
+                <div class="form-group col-12 col-lg-12 col-md-12 col-sm-10  mx-auto">
+                    <div id="idE" hidden>{{ id }}</div>
+                    <div id="StatusE" hidden>{{ status }}</div>
+                    <div id="typeE" hidden>{{ type }}</div>
+                    <label for="carrera"><i class=""> Seleccione un Plan de Estudio</i></label>
+                    <select id="carrera" class="form-select" name="carrera" onchange="getCursos();">
+                        <option value="" disabled selected hidden>Seleccione un Plan de Estudio</option>
+                        <option value="{{ carrera.data.principal }}">{{ carrera.data.principal }}</option>
+                        {% if carrera.data.secundarios %}
+                        {% for secundario in carrera.data.secundarios %}
+                        <option value="{{ secundario }}">{{ secundario }}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="row p-2 mb-3">
+                <div class="col-lg-12 col-md-12 col-sm-10 mx-auto">
+                    <div class="card shadow p-2">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-10 mx-auto estado"></div>
+                            <div class="col-md-12" id="opciones">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-sm-12 col-md" style="text-align:center;">
+                                        <i class="bi bi-check-lg color-box" style="color: #3bb80a;"></i>
+                                        <p class="mb-0" style="display: inline-block;">Curso aprobado</p>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md" style="text-align:center;">
+                                        <i class="bi bi-plus-lg color-box" style="color: #006a9f;"></i>
+                                        <p class="mb-0" style="display: inline-block;">Cursos matriculables</p>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md" style="text-align:center;">
+                                        <i class="bi bi-x-lg color-box" style="color: #83877b;"></i>
+                                        <p class="mb-0" style="display: inline-block;">No cumple con los requisitos</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col-12" id="mainTable">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

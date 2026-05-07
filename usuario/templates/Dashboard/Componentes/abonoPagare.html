@@ -1,0 +1,595 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/lineaCredito.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+
+<div class="p-2 d-flex justify-content-center cardAbono">
+    <div class="col-12 col-md-8 col-lg-12 card cardPerfilCol mt-4">
+        <div class="row p-2 d-flex justify-content-around align-items-stretch">
+            <div class="col-12 col-md-12 col-lg-5 payment-summary" id="div-resumen">
+                <p id="matriculaP" class="fw-bold pt-lg-0 pt-4 pb-2 titulo">RESUMEN DEL ABONO PAGARÉ #{{consecutivo}}
+                </p>
+                <div class="card px-md-3 px-2 pt-4">
+                    <div class="unregistered mb-4" style="text-align: center;">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <span class="py-2" style="font-weight: bold; font-size: large;">{{ user.username }}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Fecha de emisión</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal">{{financiamiento.data.pagare.fecha_Emision}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Fecha de vencimiento</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal">{{financiamiento.data.pagare.fecha_Vencimiento}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Balance</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.balance}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Monto Cuota</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.monto_Cuota}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Cuotas Vencidas</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.cuotas_Vencidas}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Cuotas Vencidas mas cuota por vencer</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.cuotas_Vencidas_Vencer}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Intereses corrientes</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.intereses}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Intereses moratorios</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.moratorio}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <small class="smalltotal">Saldo a pagar</small>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <p id="matriculaP" class="smalltotal abonoText">{{financiamiento.data.pagare.monto_Cuota}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column b-bottom">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-5 payment-summary" id="div-resumen">
+                <p id="matriculaP" class="fw-bold pt-lg-0 pt-4 pb-2 titulo">METODO DE PAGO</p>
+                <div class="card px-md-3 px-2 pt-4">
+                    <div class="unregistered mb-4" style="text-align: center;">
+                        <div class="row mb-3">
+                            <div class="col-md-6 text-start">
+                                <small class="text-dark smalltotal">Saldo a favor disponible</small>
+                            </div>
+                            <div class="col-md-6 text-start">
+                                <p id="matricula">₡ {{ financiamiento.data.pagare.saldo_favor }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 text-start">
+                                <small class="text-dark smalltotal">Saldo a favor a usar</small>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="number" class="form-control custom-file-input mb-3" style="opacity: 0.65"
+                                    id="abonoInput" name="abonoInput" onchange="validarAbonoInput()"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 text-start">
+                                <small class="text-dark smalltotal">Contado</small>
+                            </div>
+                            <div class="col-md-5 d-flex justify-content-end">
+                                <input type="number" class="form-control custom-file-input" style="opacity: 0.65"
+                                    id="contado" name="contado" onchange="validarContadoInput()"/>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column b-bottom">
+
+                        </div>
+                        
+                    </div>
+                    <div class="sale my-3">
+                        <a type="button" class="btn btn-sm" id="verMas" onclick="validarAbono()">Proceder con el Pago</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block modal_factura %}
+<div class="modal fade" id="modal_factura" tabindex="-1" aria-labelledby="modal_facturaTitle" style="display: none">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" style="font-weight: bold;" id="modal_facturaTitle">
+                    DATOS DE FACTURACIÓN
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-10 col-sm-6">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Utilizar datos personales. (Registrados en Cuenta)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-6 d-flex justify-content-center">
+                        <a class="btn" id="facturaButton" data-bs-toggle="collapse" href="#collapseFactura"
+                            role="button" aria-expanded="false" aria-controls="collapseFactura">Cambiar Datos de
+                            Facturación</a>
+                    </div>
+                </div>
+                <div class="collapse mt-3" id="collapseFactura">
+                    <div class="card card-body">
+                        <div class="row ">
+                            <div class="col-md-12 ">
+                                <div class="form-floating mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="flexRadioIndividual" checked>
+                                        <label class="form-check-label" for="flexRadioIndividual">
+                                            Factura Persona Individual
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="flexRadioCompania">
+                                        <label class="form-check-label" for="flexRadioCompania">
+                                            Factura para Compañía
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputNombre" class="form-label">Nombre Completo</label>
+                                        <input type="text" class="form-control" id="floatingInputNombre"
+                                            placeholder="Nombre Completo">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="tipo">Tipo de Identificación</label>
+                                        <select id="tipo" class="form-select"
+                                            aria-label="Floating label select example">
+                                            <option value="" disabled selected hidden>Tipo de Identificación
+                                            </option>
+                                            <option value="1">Cédula Física</option>
+                                            <option value="2">Cédula Jurídica</option>
+                                            <option value="3">DIMEX</option>
+                                            <option value="4">Nite</option>
+                                            <option value="10">Pasaporte</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputIdent">Identificación</label>
+                                        <input type="text" class="form-control" id="floatingInputIdent"
+                                            placeholder="Identificación">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputEmail">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="floatingInputEmail"
+                                            placeholder="name@example.com">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="floatingInputTelefono">Telefóno</label>
+                                        <input type="text" class="form-control" id="floatingInputTelefono"
+                                            placeholder="Telefóno">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="provincia_select">Seleccioná Provincia</label>
+                                        <select id="provincia_select" class="form-select"
+                                            aria-label="Floating label select example" name="provincia_select"
+                                            data-placeholder="Selecione Provincia" onchange="obtenerProvincia(this)"
+                                            onclick="cargarProvincias()">
+                                            <option style="opacity: 0.65" value="" disabled selected hidden>Seleccioná
+                                                Provincia
+                                            </option>
+                                        </select>
+                                        <input type="hidden" id="provincia" name="provincia">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="canton_select">Seleccioná Cantón</label>
+                                        <select id="canton_select" class="form-select"
+                                            aria-label="Floating label select example" name="canton_select"
+                                            data-placeholder="Selecione Canton" onchange="obtenerCanton(this)">
+                                            <option style="opacity: 0.65" value="" disabled selected hidden>Seleccioná
+                                                Cantón
+                                            </option>
+                                        </select>
+                                        <input type="hidden" id="canton" name="canton">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-3">
+                                        <label for="distrito_select">Seleccioná Distrito</label>
+                                        <select id="distrito_select" class="form-select"
+                                            aria-label="Floating label select example" name="distrito_select"
+                                            data-placeholder="Selecione Distrito" onchange="obtenerDistrito(this)">
+                                            <option style="opacity: 0.65" value="" disabled selected hidden>Seleccioná
+                                                Distrito
+                                            </option>
+                                        </select>
+                                        <input type="hidden" id="distrito" name="distrito">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                                        <label for="direccion_exacta">Dirección Exacta</label>
+                                        <input type="text" class="form-control " id="direccion_exacta"
+                                            placeholder="Dirección Exacta" name="direccion_exacta" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-3">
+                <div class="sale my-3">
+                    <a type="button" id="btnMetodoPago" class="btn-successMa" data-bs-toggle="modal"
+                        data-bs-target="#modal_pagos" onclick="datosFactura();">Proceder a Métodos Pago</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_factura %}
+{% block modal_pagos %}
+<div class="modal fade" id="modal_pagos" tabindex="-1" aria-labelledby="modal_pagosTitle" style="display: none">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" style="font-weight: bold;" id="modal_pagosTitle">
+                    MÉTODOS DE PAGO DISPONIBLES
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed buttonCollapsePago" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                                PAGO CON TARJETA (VISA, MASTERCARD, AMERICAN EXPRESS)
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body text-center">
+                                <a type="button" class="btn-successMa" href="{% url 'payment' type=type %}">FINALIZAR
+                                    PAGO CON TARJETA</a>
+                            </div>
+                        </div>
+                    </div>
+                    {%comment%}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                            <button class="accordion-button collapsed buttonCollapsePago" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                aria-controls="flush-collapseTwo">
+                                TRANSFERENCIA BANCARIA
+                            </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div style="text-align: center;">
+                                    <p><span class="fw-bold">NOMBRE:</span> SERVICIOS EDUCATIVOS DAKOTA II S.A.</p>
+                                    <p><span class="fw-bold">CÉDULA JURÍDICA:</span> 3-101-642839</p>
+                                    <hr class="mb-3">
+                                    <h5 class="fw-bold">CUENTA DEL BANCO DE COSTA RICA</h5>
+                                    <p><span class="fw-bold">CUENTA EN COLONES:</span> CR22015201001030067004</p>
+                                    <p><span class="fw-bold">CUENTA EN DÓLARES:</span> CR49015201001030067197</p>
+                                    <hr class="mb-3">
+                                    <h5 class="fw-bold">CUENTA DEL BANCO BAC SAN JOSÉ</h5>
+                                    <p><span class="fw-bold">CUENTA EN COLONES:</span> CR46010200009191026241</p>
+                                    <hr class="mb-3">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                                <label for="floatingComprobante">Número del Comprobante de Pago</label>
+                                                <input type="text" class="form-control" id="floatingComprobante"
+                                                    placeholder="Numero Comprobante">
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                                <label for="floatingImagenComprobante">Imagen (Captura) del Comprobante
+                                                    de
+                                                    Pago</label>
+                                                <input type="file" class="form-control" id="floatingImagenComprobante"
+                                                    placeholder="Captura Comprobante">
+                                            </div>
+                                            <div
+                                                class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3 d-flex justify-content-center">
+                                                <button type="button" class="btn-successMa">ENVIAR COMPROBANTES
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                            <button class="accordion-button collapsed buttonCollapsePago" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                aria-controls="flush-collapseThree">
+                                SINPE MÓVIL
+                            </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <p class="text-center"><span class="fw-bold">NÚMERO TELEFÓNICO:</span> 6476-4825</p>
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                        <label for="floatingComprobante">Número del Comprobante de Pago</label>
+                                        <input type="text" class="form-control" id="floatingComprobante"
+                                            placeholder="Numero Comprobante">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3">
+                                        <label for="floatingImagenComprobante">Imagen (Captura) del Comprobante de
+                                            Pago</label>
+                                        <input type="file" class="form-control" id="floatingImagenComprobante"
+                                            placeholder="Captura Comprobante">
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 mb-3 d-flex justify-content-center">
+                                        <button type="button" class="btn-successMa">ENVIAR COMPROBANTES
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endcomment%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_pagos %}
+{% block modal_pagosV %}
+<div class="modal fade" id="abonoModal" tabindex="-1" aria-labelledby="abonoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="abonoModalLabel">Advertencia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="textoValidar"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_pagosV %}
+<script>
+    const checkbox = document.getElementById('flexCheckDefault');
+    var collapseFactura = document.getElementById('collapseFactura');
+    const facturaButton = document.getElementById('facturaButton');
+    function formatMoney(value) {
+        const monto = parseFloat(value); // Convierte a número
+        if (isNaN(monto)) return '₡0.00'; // Maneja errores
+        return monto.toLocaleString('es-CR', {
+            style: 'currency',
+            currency: 'CRC',
+            minimumFractionDigits: 2
+        }).replace('CRC', '').trim(); // Formato personalizado
+    }
+
+    document.querySelectorAll('.saldoFavor').forEach((element) => {
+        const originalValue = element.textContent.replace(/[₡,]/g, '').trim(); // Quita símbolos antes de convertir
+        element.textContent = formatMoney(originalValue);
+    });
+
+    document.querySelectorAll('.abonoText').forEach((element) => {
+        const originalValue = element.textContent.replace(/[₡,]/g, '').trim(); // Quita símbolos antes de convertir
+        element.textContent = formatMoney(originalValue);
+    });
+    function datosFactura() {
+        var datos = [];
+        const radioButtons = document.querySelectorAll('input[type="radio"][name="flexRadioDefault"]');
+        let valorSeleccionado;
+        radioButtons.forEach(radioButton => {
+            if (radioButton.checked) {
+                valorSeleccionado = radioButton.id;
+            }
+        });
+        if (checkbox.checked) {
+            datos.push('info-personal');
+        } else {
+            datos.push(document.getElementById('floatingInputNombre').value);
+            datos.push(document.getElementById('tipo').value);
+            datos.push(document.getElementById('floatingInputIdent').value);
+            datos.push(document.getElementById('floatingInputEmail').value);
+            datos.push(document.getElementById('floatingInputTelefono').value);
+            datos.push(document.getElementById('provincia').value);
+            datos.push(document.getElementById('canton').value);
+            datos.push(document.getElementById('distrito').value);
+            datos.push(document.getElementById('direccion_exacta').value);
+            if (valorSeleccionado === "flexRadioIndividual") {
+                datos.push('Individual');
+            }
+            else if (valorSeleccionado === "flexRadioCompania") {
+                datos.push('Compañía');
+            }
+        }
+
+        var url = "/datos-factura/?datos=" + JSON.stringify(datos);
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+            }
+        };
+        request.send();
+    }
+    var provinciasCargadas = false;
+
+    function cargarProvincias() {
+        if (provinciasCargadas) {
+            return;
+        }
+
+        var select = document.getElementById("provincia_select");
+
+        var url = "/obtener-provincia/";
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                provinciasCargadas = true;
+                dataCantones(select);
+                obtenerProvincia(select)
+            }
+        };
+        request.send();
+    }
+
+    function cargarCantones(valor) {
+        var select = document.getElementById("canton_select");
+        var select2 = document.getElementById("distrito_select");
+
+        var url = "/obtener-canton/?provincia_select=";
+        var request = new XMLHttpRequest();
+        request.open('GET', url + encodeURIComponent(valor), true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                dataDistritos(select)
+                obtenerCanton(select)
+            }
+        };
+        request.send();
+    }
+
+    function cargarDistritos(valor1, valor2) {
+        var select = document.getElementById("distrito_select");
+
+        var url = "/obtener-distrito/?provincia_select=" + encodeURIComponent(valor1) + "&canton_select=" + encodeURIComponent(valor2);
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                obtenerDistrito(select)
+            }
+        };
+        request.send();
+    }
+
+    function dataCantones(select) {
+        var valorSeleccionado = select.options[select.selectedIndex].value;
+        cargarCantones(valorSeleccionado);
+    }
+
+    function dataDistritos(select) {
+        const miSelect = document.getElementById('provincia_select');
+        var valorSeleccionado = select.options[select.selectedIndex].value;
+
+        cargarDistritos(miSelect.value, valorSeleccionado);
+    }
+
+    function obtenerProvincia(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('provincia').value = textoSeleccionado;
+        dataCantones(select)
+    }
+
+    function obtenerCanton(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('canton').value = textoSeleccionado;
+        dataDistritos(select)
+    }
+
+    function obtenerDistrito(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('distrito').value = textoSeleccionado;
+    }
+
+</script>
+
+{% endblock %}

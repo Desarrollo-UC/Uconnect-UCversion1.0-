@@ -1,0 +1,131 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+{% block extraJavaScript %}
+<script src="{% static 'js/miscursosPA.js' %}"></script>
+{% endblock %}
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
+{% endblock barranavegacion %}
+{% block content %}
+<div class="p-2 mt-5">
+    <div class="row mt-5 d-flex justify-content-center">
+        <div class="col-md-11 card cardPerfilCol">
+            <div class="row p-2 mx-auto">
+                <div class="form-group col-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
+                    <label for="carrera"><i class=""> Seleccione un periodo</i></label>
+                    <select id="periodos" class="form-select" name="periodos" onchange="getPeriodo();">
+                        <option value="" disabled selected hidden>Seleccione un periodo</option>
+                        {% for curso in misCursos %}
+                        <option value="{{ curso }}">{{ curso }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="form-group col-12 col-lg-2 col-md-2 col-sm-12 btn-group">
+                    <button class="btn btn-secondary" id="asistenciaBtn" type="button" hidden
+                        onclick="asistencia()">Asistencia</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="cardsContainer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-tabs card-header-tabs" role="tablist" id="v-pills-tab">
+                                    <li class="nav-item"><a class="tabsHT nav-link active" data-bs-toggle="tab"
+                                            href="#Regular">Regular</a></li>
+                                    <li class="nav-item"><a class="tabsHT nav-link" data-bs-toggle="tab"
+                                            href="#Suficiencia">Suficiencia</a></li>
+                                    <li class="nav-item"><a class="tabsHT nav-link" data-bs-toggle="tab"
+                                            href="#ModalidaG">Modalidad de Graduacion</a></li>
+                                </ul>
+                                <div class="tab-content tipoActasTabs" id="v-pills-tabContent" style="margin-left: -8px;">
+                                    <div id="Regular" class="tab-pane fade show active" role="tabpanel"
+                                        aria-labelledby="v-pills-home-tab">
+
+                                    </div>
+                                    <div id="Suficiencia" class="tab-pane fade show" role="tabpanel"
+                                        aria-labelledby="v-pills-home-tab">
+
+                                    </div>
+                                    <div id="ModalidaG" class="tab-pane fade show" role="tabpanel"
+                                        aria-labelledby="v-pills-home-tab">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block modal_funciones %}
+<div class="modal fade" id="modal_funciones" tabindex="-1" aria-labelledby="modal_funcionesTitle" style="display: none"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_funcionesTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="modal_funcionesBody">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_funciones %}
+
+{% block modalSend%}
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-boxA d-flex justify-content-center align-items-center">
+                    <img src="{% static 'img/adventencia.png' %}" alt="" width="65" height="65">
+                </div>
+                <h4 class="modal-title w-100" id="textoModalH">¿Esta seguro?</h4>
+                <div class="modal-body">
+                    <p id="textoModalD" style="font-size: 16px;"></p>
+                </div>
+                <div class="modal-footer justify-content-center" id="modalFooter">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="guadarAsis" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalSend%}
+
+{% block modalSendEs%}
+<div id="myModalEs" class="modal fade">
+    <div class="modal-dialog modal-confirm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-boxA d-flex justify-content-center align-items-center">
+                    <img src="{% static 'img/adventencia.png' %}" alt="" width="65" height="65">
+                </div>
+                <h6 class="modal-title w-100" id="textoModalHES"></h6>
+                <div class="modal-body">
+                    <p id="textoModalDEs" style="font-size: 16px;"></p>
+                </div>
+                <div class="modal-footer justify-content-center" id="modalFooterEs">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalSendEs%}
+
+{% endblock %}

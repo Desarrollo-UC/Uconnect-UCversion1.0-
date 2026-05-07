@@ -1,0 +1,194 @@
+{% extends 'adminlte/base.html' %}
+{% load static %}
+{% block content %}
+<div class="p-2">
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <div id="carouselBasicExample" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators" id="indicadores">
+          {% for imagen in imagenes_estudiante %}
+          <button type="button" data-bs-target="#carouselBasicExample" data-bs-slide-to="{{ forloop.counter0 }}"
+            id="{{ imagen.imagen_nombre }}" {% if forloop.first %}class="active" {% endif %} aria-current="true"
+            aria-label="Slide {{ forloop.counter }}" data-bs-index="{{ forloop.index }}"></button>
+          {% endfor %}
+        </div>
+
+        <div class="carousel-inner" id="items">
+          {% for imagen in imagenes_estudiante %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}" id="itemCarrouselP">
+            <img src="data:image/png;base64,{{ imagen.imagen }}" class="d-block w-100"
+              alt="{{ imagen.imagen_nombre }}" id="carrouselPublicidad"/>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5 p-2">
+    <div class="col-md-12 card cardPerfilCol">
+      <h1 class="card-title mt-2 text-center fw-light fs-5 fw-bold" id="infoCardTitle">NOTICIAS ACTUALES</h1>
+      <div class="row">
+        {% for noticia in noticia_estudiante %}
+        <div class="col-12 col-md-12 col-md-12 col-lg-4 mb-3 mt-5">
+          <div class="card noticiaCard">
+            <a data-bs-toggle="modal" href="#" data-bs-target="#modal_VerNoticiaI"
+              onclick="noticiaModal('{{ noticia.id }}')">
+              <img src="data:image/png;base64,{{ noticia.imagen }}" class="card-img-top"
+                alt="{{ noticia.imagen_nombre }}">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title" id="cardTitleN">{{ noticia.titulo }}</h5>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% block modalNoticia%}
+<div class="modal fade" id="modal_VerNoticiaI" tabindex="-1" aria-labelledby="modal_VerNoticiaITitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal_VerNoticiaI">
+    <div class="modal-content" id="modalContN">
+      <div class="modal-header" id="modalHeaderN">
+        <h5 class="modal-title" id="modal_VerNoticiaITitleN"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBodyN">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-12 p-2">
+              <div class='wrapperN'>
+                <img src="" class="img-fluid" hspace="5" vspace="5" alt="" id="imgN" style="float: right;">
+                <p id="descripcionN"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock modalNoticia%}
+{% block modal_moroso %}
+<div class="modal fade" id="modal_morosoDoc" tabindex="-1" aria-labelledby="modal_morosoDoc">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal_morosoDoc">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_morosoDocTitle">Documentos pendientes</h5>
+            </div>
+            <div class="modal-body">
+                <p id="modal_morosoMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModalButtonDO">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_moroso %}
+<script>
+  window.morosoDoc = {{ menu.morosoDoc|yesno:"true,false" }};
+  function updateImageSection() {
+    var urlFoto = '/mostrarAjaxI/estudiante/?flag=true';
+
+    var xhr = new XMLHttpRequest();
+    // Realizar la llamada AJAX para obtener las imágenes de estudiantes
+    xhr.open("GET", urlFoto, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        var fotoNoticia = response.imagenes_estudiante;
+
+        var carouselItems = document.querySelectorAll('.carousel-item');
+        var carouselIndicators = document.querySelector('.carousel-indicators');
+
+        var imageNames = fotoNoticia.map(function (imagen) {
+          return imagen.imagen_nombre;
+        });
+        // Iterar sobre los elementos del carrusel y eliminar los que no están en la respuesta
+        Array.prototype.forEach.call(carouselItems, function (item) {
+          var imageName = item.querySelector('img').alt;
+          if (!imageNames.includes(imageName)) {
+            window.location.reload();
+          }
+        });
+
+        for (var i = 0; i < fotoNoticia.length; i++) {
+          var imagen = fotoNoticia[i];
+          var isImageInCarousel = Array.prototype.some.call(carouselItems, function (item) {
+            return item.querySelector('img').alt === imagen.imagen_nombre;
+          });
+
+          if (!isImageInCarousel) {
+            window.location.reload();
+          }
+        }
+      }
+    };
+    xhr.send();
+
+  }
+
+  function updateNoticiaSection() {
+    var urlNoticia = '/mostrarAjaxN/estudiante/?flag=true';
+    var xhrNoticia = new XMLHttpRequest();
+    // Realizar la llamada AJAX para obtener las noticias
+    xhrNoticia.open("GET", urlNoticia, true);
+    xhrNoticia.onreadystatechange = function () {
+      if (xhrNoticia.readyState === 4 && xhrNoticia.status === 200) {
+        var responseNoticia = JSON.parse(xhrNoticia.responseText);
+        var noticias = responseNoticia.noticia_estudiante;
+
+        var noticiasImgs = document.querySelectorAll('.noticiaCard');
+
+        var noticiaNames = noticias.map(function (noticia) {
+          return noticia.imagen_nombre;
+        });
+        // Iterar sobre los elementos de las noticias y eliminar las que no están en la respuesta
+        Array.prototype.forEach.call(noticiasImgs, function (noticiaImg) {
+          var imageNoticia = noticiaImg.querySelector('img').alt;
+          console.log(imageNoticia);
+          if (!noticiaNames.includes(imageNoticia)) {
+            window.location.reload();
+          }
+        });
+        for (var i = 0; i < noticias.length; i++) {
+          var imagen = noticias[i];
+          var isImageInCarousel = Array.prototype.some.call(noticiasImgs, function (item) {
+            return item.querySelector('img').alt === imagen.imagen_nombre;
+          });
+          if (!isImageInCarousel) {
+            window.location.reload();
+          }
+        }
+      }
+    };
+    xhrNoticia.send();
+  }
+
+  function noticiaModal(id) {
+    var xhr = new XMLHttpRequest();
+    var url = '/buscarNoticia/?id=' + encodeURIComponent(id);
+    xhr.open("GET", url, true);
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        var noticia = response.Noticias;
+        var img = document.getElementById('imgN');
+        var titulo = document.getElementById('modal_VerNoticiaITitleN');
+        var descripcion = document.getElementById('descripcionN');
+        noticia.forEach(function (noticia) {
+          img.src = 'data:image/png;base64,' + noticia.imagen;
+          img.alt = noticia.imagen_nombre;
+          titulo.innerText = noticia.titulo;
+          descripcion.innerText = noticia.descripcion;
+        });
+      }
+    };
+    xhr.send();
+  }
+</script>
+{% endblock %}

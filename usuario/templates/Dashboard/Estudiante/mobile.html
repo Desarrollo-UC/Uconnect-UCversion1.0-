@@ -1,0 +1,693 @@
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% endblock %}
+{% block content %}
+<div class="container-banner">
+    <div id="profile-div" class="div-img-banner animT">
+        <div class="row" style="padding-top: 7em; --bs-gutter-x: none;">
+            <div class="col-2 col-op">
+                <a class="info-p" data-bs-toggle="modal" data-bs-target="#modal_profile" onclick="modal_open();"><i
+                        id="profile-user" class="fa-solid fa-user" style="color: #ffffff;"></i></a>
+            </div>
+            <div class="col-8 col-op">
+                <img src="{% static 'img/mobile/logoUCH.png' %}" style="width: 25em;" alt="Logo UC">
+            </div>
+            <div class="col-2 col-op">
+                <a class="info-p" href="{% url 'logout' %}" onclick="logout();"><i id="logout-i"class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="container">
+    <div class="row gx-5 mb-5 text-center">
+        <div class="div-title">
+            <h1 class="banner-title">Menú Principal</h1>
+        </div>
+    </div>
+    <div class="row gx-5 mb-5">
+        <div class="col-12">
+            <div class="row col-color-bg-mobile" id="img_uc">
+                <a href="{% url 'inicio' type=type %}">
+                    <div class="col-12 col-md-12">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo UC">UConnect</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-5 mb-5">
+        <div class="col">
+            <div class="row col-color-bg-mobile" id="img_sw">
+                <a href="https://uc.ac.cr">
+                    <div class="col-12" id="sitio-web">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo SW">Sitio Web</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row col-color-bg-mobile" id="img_c">
+                <a href="{% url 'redirect_outlook' %}">
+                    <div class="col-12" id="sitio-web">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo C" >Correo</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-5 mb-5">
+        <div class="col">
+            <div class="row col-color-bg-mobile" id="img_cc">
+                <a href="{% url 'redirect_moodle' %}">
+                    <div class="col-12" id="sitio-web">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo CC" >Connect Campus</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row col-color-bg-mobile" id="img_t">
+                <a id="btnTeams" onclick="sendDataToAndroid();">
+                    <div class="col-12" id="sitio-web">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo T">Teams</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-5 mb-5">
+        <div class="col">
+            <div class="row col-color-bg-mobile" id="img_od">
+                <a href="{% url 'redirect_onedrive' %}">
+                    <div class="col-12" id="sitio-web">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo OD">One Drive</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row col-color-bg-mobile" id="img_b">
+                <a  href="https://biblioteca.uc.ac.cr/bibliotecauc/">
+                    <div class="col-12" id="sitio-web">
+                        <div class="div-txt-opt">
+                            <p class="txt-titulo B">Biblioteca</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal_profile %}
+<!-- Modal -->
+<div class="modal fade" id="modal_profile" tabindex="-1" aria-labelledby="modal_profileLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="tituloPerfil">Información del Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mb-5">
+                <div class="row" style="align-items: center;">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12"
+                        style="padding-top: 4em; padding-bottom: 3em;">
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
+                                <div class="d-flex flex-column align-items-center text-center mt-1" id="infoPer">
+                                    {% if fotoperfil %}
+                                    <img class="rounded-circle img-hover-darken" id="img-perfil" width="500px"
+                                        src="{% url 'mostrar_foto' %}">
+                                    {% else %}
+                                    {% load static %}
+                                    <img class="rounded-circle img-hover-darken" id="img-perfil" width="500px"
+                                        src="{% static 'img/user.png' %}">
+                                    {% endif %}
+                                    <span class="font-profile-bold mt-3">{{ estudiante.nombre }}<br>{{estudiante.primer_apellido }} {{ estudiante.segundo_apellido }}</span>
+                                    <span class="font-profile mt-1">ID {{ user.username }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="align-items: center;">
+                    <div class="col-12 col-md-12 col-lg-12 col-sm-12 mx-auto">
+                        <div class="p-3 py-3" id="perfilInfo">
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="labels">Nombre</label>
+                                    <input type="text" class="form-control formColorInput" placeholder="Nombre"
+                                        value="{{ estudiante.nombre }}" readonly>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="labels">Apellidos</label>
+                                    <input type="text" class="form-control formColorInput"
+                                        value="{{ estudiante.primer_apellido }} {{ estudiante.segundo_apellido }}"
+                                        placeholder="Apellidos" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="labels">País</label>
+                                    <input type="text" class="form-control formColorInput" placeholder="Pais"
+                                        value="{{ estudiante.nacionalidad }}" readonly>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="labels">Provincia</label>
+                                    <input type="text" class="form-control formColorInput" name="provincia"
+                                        value="{{ estudiante.provincia }}" placeholder="Provincia" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="labels">Cantón</label>
+                                    <input type="text" class="form-control formColorInput" name="canton"
+                                        placeholder="Canton" value="{{ estudiante.canton }}" readonly>
+                                </div>
+                                <div class="col-md-6 col-sm-6 mb-3">
+                                    <label class="labels">Distrito</label>
+                                    <input type="text" class="form-control formColorInput" name="distrito"
+                                        placeholder="Distrito" value="{{ estudiante.distrito }}" readonly>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Dirección Exacta</label>
+                                    <input type="text" class="form-control formColorInput" name="direccion_exacta"
+                                        placeholder="Direccion Exacta" value="{{ estudiante.direccion_exacta }}"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="co-12 col-md-12 col-lg-6">
+                                    <label class="labels">Número Telefónico</label>
+                                    <input type="text" class="form-control formColorInput"
+                                        placeholder="Numero Telefonico" name="numero_telefonico"
+                                        value="{{ estudiante.numero_telefonico }}" readonly>
+                                </div>
+                                <div class="co-12 col-md-12 col-lg-6 mb-3">
+                                    <label class="labels">Segundo Número Telefónico</label>
+                                    <input type="text" class="form-control formColorInput"
+                                        placeholder="Segundo Numero Telefonico" name="numero_telefonico2"
+                                        value="{{ estudiante.numero_telefonico2 }}" readonly>
+                                </div>
+                                <div class="co-12 col-md-12 col-lg-6">
+                                    <label class="labels">Correo Electrónico Personal</label>
+                                    <input type="text" class="form-control formColorInput" placeholder="Correo Personal"
+                                        name="correo_personal" value="{{ estudiante.correo_personal }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    .font-profile-bold{
+        font-size: 45px !important;
+    }
+
+    .font-profile{
+        font-size: 35px !important;
+    }
+
+    @media (min-width: 992px) {
+        body {
+            overflow: hidden;
+        }
+    }
+
+    .card-modal {
+        background-color: #10cfc9;
+        border-radius: 10px;
+        top: -26px;
+        left: -27px;
+        height: 350px;
+        width: 370px;
+    }
+
+    .formColorInput {
+        background-color: #f5f5f5;
+        border-color: #f5f5f5;
+        height: 80px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .back:hover {
+        color: #000000;
+        cursor: pointer;
+    }
+
+    .labels {
+        font-family: 'Nexa-Light';
+        font-weight: 300;
+        font-size: 35px;
+    }
+
+    .modal-title {
+        color: #00416B;
+        font-family: 'Nexa-Black';
+        font-weight: 900;
+    }
+
+    .add-experience:hover {
+        background: rgb(255, 209, 64);
+        color: black;
+        cursor: pointer;
+        border: solid 1px #ffffff;
+    }
+
+    #img-perfil:hover {
+        cursor: pointer;
+    }
+
+    .img-hover-darken {
+        transition: filter 0.3s;
+    }
+
+    .img-hover-darken:hover {
+        filter: brightness(70%);
+    }
+
+    .content-header {
+        padding: 0 !important;
+    }
+
+    .floatingFile {
+        font-weight: normal;
+        font-size: 25px;
+    }
+
+    .text-foto {
+        color: #00416B;
+        font-family: 'Nexa-Black';
+        font-weight: 900;
+        font-size: 40px;
+    }
+
+    .btnPrimaryUCF {
+        background-color: #00416B;
+        color: #ffffff;
+        border-radius: 0px;
+    }
+
+    .btnPrimaryUCF:hover {
+        background-color: #002136;
+        color: #ffffff;
+
+    }
+
+    .modal-header {
+        border: none !important;
+    }
+
+    .tituloPerfil{
+        font-size: 50px !important;
+    }
+
+    .btn-close{
+        font-size: 40px !important;
+    }
+</style>
+{% endblock modal_profile %}
+
+<style>
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        #container {
+            max-width: 85%;
+        }
+    }
+
+    body {
+        background: #FFF !important;
+    }
+
+    .col-op {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .img-circle {
+        width: 150px;
+        height: 150px;
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6));
+    }
+
+    .info {
+        position: relative;
+        font-weight: 500;
+        font-size: 45px;
+        top: -2.8em;
+        left: 4em;
+        width: 500px;
+        color: #FFF;
+    }
+
+    .div-title {
+        margin-top: 0em;
+        animation: myAnimFadeTxt 1s ease 0s 1 normal forwards;
+    }
+
+    #img_uc {
+        background: url("../../static/img/mobile/btn7.png") center center/cover no-repeat;
+    }
+
+    #img_sw {
+        background: url("../../static/img/mobile/btn6.jpg") center center/cover no-repeat;
+    }
+
+    #img_c {
+        background: url("../../static/img/mobile/btn5.jpg") center center/cover no-repeat;
+    }
+
+    #img_cc {
+        background: url("../../static/img/mobile/btn4.jpg") center center/cover no-repeat;
+    }
+
+    #img_t {
+        background: url("../../static/img/mobile/btn1.jpg") center center/cover no-repeat;
+    }
+
+    #img_t {
+        background: url("../../static/img/mobile/btn1.jpg") center center/cover no-repeat;
+    }
+
+    #img_od {
+        background: url("../../static/img/mobile/btn2.jpg") center center/cover no-repeat;
+    }
+
+    #img_b {
+        background: url("../../static/img/mobile/btn3.jpg") center center/cover no-repeat;
+    }
+
+    .banner-title {
+        font-family: 'Nexa-Black';
+        margin-top: 1em;
+        font-size: 80px;
+        color: #00416b;
+        text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.158);
+    }
+
+    .info-p {
+        font-size: 60px;
+        color: #FFF;
+    }
+
+    .col-color-bg-mobile:active {
+        animation: myAnimPulse 0.6s ease 0s 1 normal forwards;
+    }
+
+    .div-img-banner {
+        background-position: center;
+        height: 270px;
+        background-color: #00416b;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .animT {
+        animation: myAnimFadeT 2s ease 0s 1 normal forwards;
+    }
+
+    .animTE {
+        animation: myAnimTE 1s ease 0s 1 normal forwards;
+    }
+
+    .col-color-bg-mobile {
+        background-color: #00416b;
+        color: #fff;
+        font-size: 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.699);
+        min-height: 300px;
+        animation: myAnimLeft 1s ease 0s 1 normal forwards;
+    }
+
+    .img-options {
+        max-width: 220px;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, .6));
+    }
+
+    .txt-menu {
+        font-size: 40px;
+        font-weight: 800;
+        text-align: justify;
+    }
+
+    .txt-options {
+        font-size: 30px;
+        font-weight: 800 !important;
+        color: black;
+        text-decoration: none;
+    }
+
+    .txt-titulo {
+        text-decoration: underline !important;
+        text-decoration-thickness: 6px !important;
+        color: white;
+        font-size: 40px;
+        font-weight: 800;
+        text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.158);
+    }
+
+    .UC {
+        text-decoration-color: #DCF5F3 !important;
+    }
+
+    .SW {
+        text-decoration-color: #10cfc9 !important;
+    }
+
+    .C {
+        text-decoration-color: #00416b !important;
+    }
+
+    .CC {
+        text-decoration-color: #e7004c !important;
+    }
+
+    .T {
+        text-decoration-color: #9164cc !important;
+    }
+
+    .OD {
+        text-decoration-color: #d0dd28 !important;
+    }
+
+    .B {
+        text-decoration-color: #ffc63e !important;
+    }
+
+    .div-txt-opt {
+        min-height: 300px;
+        display: flex;
+        text-align: end;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    @keyframes myAnimTE {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+    }
+
+    @keyframes myAnimLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-250px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes myAnimFade {
+        0% {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes myAnimPulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes myAnimFadeT {
+        0% {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes myAnimFadeTxt {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
+<script>
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (isIOS) {
+        document.getElementById("btnTeams").onclick = function () {
+            var message = {
+                action: "sendToTeam"
+            };
+            window.webkit.messageHandlers.bridge.postMessage(message);
+        };
+    } else if (isAndroid) {
+        function sendDataToAndroid() {
+            var dataToSend = "Información que quieres enviar";
+            Android.sendDataToAndroid(dataToSend);
+        }
+    } else {
+        alert('Sistema operativo desconocido');
+    }
+
+    function modal_open() {
+        var profile_div = document.getElementById('profile-div');
+        var profile_user = document.getElementById('profile-user');
+        var home = document.getElementById('home');
+        profile_user.classList.add('active');
+        home.classList.remove('active');
+        profile_div.classList.remove('animT');
+        profile_div.classList.add('animTE');
+        setTimeout(function () {
+            profile_div.style.display = 'none';
+        }, 1500);
+    }
+
+    function logout() {
+        var profile_user = document.getElementById('profile-user');
+        var home = document.getElementById('home');
+        var logout = document.getElementById('logout-i');
+        profile_user.classList.remove('active');
+        home.classList.remove('active');
+        logout.classList.add('active');
+    }
+
+    var modal = document.getElementById('modal_profile');
+    modal.addEventListener('hidden.bs.modal', function () {
+        var profile_div = document.getElementById('profile-div');
+        var profile_user = document.getElementById('profile-user');
+        var home = document.getElementById('home');
+        profile_user.classList.remove('active');
+        home.classList.add('active');
+        profile_div.classList.remove('animTE');
+        profile_div.style.display = 'block';
+        profile_div.classList.add('animT');
+    });
+</script>
+{% endblock content %}
+
+{% block footer %}
+<footer class="footer">
+    <div class="row">
+        <div class="col-12 div-footer"><img src="{% static 'img/mobile/logoUCRM.png' %}" style="width: 25em;"
+                alt="Logo UC"></div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background-color: #00416b;
+        color: white;
+        padding: 10px;
+        box-shadow: 0 0 13px rgba(0, 0, 0, 0.8);
+        animation: myAnimFadeB 2s ease 0s 1 normal forwards;
+    }
+
+    .div-footer {
+        height: 250px;
+        display: flex;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .icon-f {
+        padding-top: 2em;
+    }
+
+    .icon-f a {
+        margin: 6em;
+    }
+
+    .icon-f a i {
+        color: #FFF;
+        font-size: 50px;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+
+    }
+
+    .active {
+        color: #ffffff !important;
+        font-size: 65px !important;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6)) !important;
+    }
+
+    @keyframes myAnimFadeB {
+        0% {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock footer %}

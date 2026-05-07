@@ -1,0 +1,196 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg shadow-lg navbar-white navbar-light fixed-top admin">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand" loading="lazy">
+            <img src="{{ logo_url }}" alt="Logo" class="img-fluid logoH" width="250" height="80">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false">
+            <span class="fas fa-solid fa-bars" style="color: #FFFF;"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 menusidebar">
+                {%if type == 'administrador' %}
+                <li class="nav-item ">
+                    <a class="nav-link active navAd navAdEfect"
+                        href="#inicio">
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link navAd navAdEfect" href="#historial" onclick="scroll(event);">
+                        Historial
+                    </a>
+                </li>
+                {%endif%}
+                {%if type == 'estudiante'%}
+                <li class="nav-item">
+                    {% if request.session.usuarioIns %}
+                    <a class="nav-link navAd opcionAd"
+                    href="{% url 'inspeccionar' type=type user=request.session.usuarioIns %}">
+                        Plan de estudio
+                    </a>
+                    {% else %}
+                    <a class="nav-link navAd opcionAd disabled"
+                    href="#"
+                    aria-disabled="true"
+                    title="Seleccione un estudiante primero">
+                        Plan de estudio
+                    </a>
+                    {% endif %}
+
+                </li>
+                <li class="nav-item">
+                    {% if request.session.usuarioIns %}
+                    <a class="nav-link navAd opcionAd" href="{% url 'misCursosS' type=type user=request.session.usuarioIns %}">
+                        Mis Cursos
+                    </a>
+                    {% else %}
+                    <a class="nav-link navAd opcionAd disabled" href="#" aria-disabled="true" title="Seleccione un estudiante primero">
+                        Mis Cursos
+                    </a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if request.session.usuarioIns %}
+                    <a class="nav-link navAd opcionAd" href="{% url 'horarioS' type=type user=request.session.usuarioIns %}">
+                        Horario
+                    </a>
+                    {% else %}
+                    <a class="nav-link navAd opcionAd disabled" href="#" aria-disabled="true" title="Seleccione un estudiante primero">
+                        Horario
+                    </a>
+                    {% endif %}
+                </li>
+                {%elif type == 'Profesor'%}
+
+                <li class="nav-item ">
+                    {% if request.session.usuarioIns %}
+                    <a class="nav-link navAd opcionAd" href="{% url 'inspeccionarprofe' type=type user=request.session.usuarioIns %}">
+                        Mis Cursos
+                    </a>
+                    {% else %}
+                    <a class="nav-link navAd opcionAd disabled"
+                    href="#"
+                    aria-disabled="true"
+                    title="Seleccione un estudiante primero">
+                        Mis Cursos
+                    </a>
+                    {% endif %}
+
+                </li>
+                {%endif%}
+                {%comment%}
+                {%if type == 'Estudiante' or type == 'Profesor' or type == 'Prospecto'%}
+                <li class="nav-item ">
+                    <a class="nav-link navAd opcionAd" href="{% url 'perfilS' type=type id=id %}">
+                        Perfil
+                    </a>
+                </li>
+                {%endif%}
+                {%endcomment%}
+                {%if type == 'Prospecto'%}
+                <li class="nav-item ">
+                    <a class="nav-link navAd opcionAd" id="perfilP" href="{% url 'inspeccionarPr' type='Prospecto' id=id %}">
+                        Perfil
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link navAd opcionAd" href="{% url 'inspcorreo' type=type id=id %}">
+                        Correo
+                    </a>
+                </li>
+                {%endif%}
+            </ul>
+            <div class="d-flex align-items-center justify-content-between">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-2">
+                    {%if type == 'administrador' %}
+                    <li class="nav-item">
+                        <a class="navHeaderIcon" data-widget="accesibilidad" role="button" id="accesibilidadId" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="color: white;">
+                            <span class="fas fa-solid fa-universal-access fa-xl" style="color: white;"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="btn btn-danger btn-sm" href="{% url 'logout' %}" type="button">
+                            <span>
+                                <i class="fa fa-power-off text-white"></i>
+                                <p class="d-inline text-white">Cerrar Sesión</p>
+                            </span>
+                        </a>
+                    </li>
+                    {%else%}
+                    <li class="nav-item ">
+                        <a class="btn btn-warning" href="{% url 'inicioAdministrativo' type='administrador' id='soporte' %}" type="button" id="salirIns">
+                            <span>
+                                <i class="fa fa-power-off text-black"></i>
+                                <p class="d-inline text-black">Salir inspeccionar</p>
+                            </span>
+                        </a>
+                    </li>
+                    {%endif%}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Inicializar el scrollspy de Bootstrap
+        var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+          target: '.navbar',
+          offset: 50
+        });
+
+        // Controladores de eventos para los enlaces del navbar
+        var navLinks = document.querySelectorAll('.navAdEfect');
+        navLinks.forEach(function(link) {
+          link.addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar la acción predeterminada de navegación
+            var targetId = this.getAttribute('href');
+            var targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop,
+                behavior: 'smooth'
+              });
+            }
+          });
+        });
+        const activeLink = localStorage.getItem('activeLinkAd');
+          const links = document.querySelectorAll('.opcionAd');
+          if (!activeLink) {
+              const inicioLink = document.querySelector('#plan');
+              if (inicioLink) {
+                inicioLink.classList.add('active');
+              }
+              const inicioLinkP = document.querySelector('#perfilP');
+              if (inicioLinkP) {
+                inicioLinkP.classList.add('active');
+              }
+            }
+            if (activeLink) {
+              const link = document.querySelector(`.opcionAd[href="${activeLink}"]`);
+              if (link) {
+                link.classList.add('active');
+                let parentSubMenu = link.closest('.collapse');
+                while (parentSubMenu) {
+                  parentSubMenu.classList.add('show');
+                  parentSubMenu = parentSubMenu.parentElement.closest('.collapse');
+                }
+              }
+            }
+            links.forEach(link => {
+              link.addEventListener('click', function (event) {
+                links.forEach(link => {
+                  link.classList.remove('active');
+                });
+                this.classList.add('active');
+                localStorage.setItem('activeLinkAd', this.getAttribute('href'));
+              });
+            });
+            document.getElementById('salirIns').addEventListener('click', function(){
+              localStorage.removeItem('activeLinkAd');
+            })
+      });
+  </script>

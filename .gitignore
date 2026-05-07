@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Static root (regenerado con collectstatic)
+/static/
+
+# Entorno virtual
+/env/
+
+# Variables de entorno
+.env
+.env.*
+
+# Editor
+.vscode/
+*.swp
+*.swo
+
+# Sistema
+.DS_Store
+Thumbs.db
+logs/

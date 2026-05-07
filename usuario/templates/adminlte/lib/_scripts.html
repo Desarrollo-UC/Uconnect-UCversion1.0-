@@ -1,0 +1,14 @@
+{% load static %}
+
+{% block scripts %}
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
+<script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+
+
+{% block datatable_js %}{% endblock %}
+<script src="{% static 'js/navbar.js' %}"></script>
+<script src="{% static 'admin-lte/dist/js/adminlte.min.js' %}"></script>
+<script src="{% static 'admin-lte/dist/js/demo.js' %}"></script>
+{% endblock %}

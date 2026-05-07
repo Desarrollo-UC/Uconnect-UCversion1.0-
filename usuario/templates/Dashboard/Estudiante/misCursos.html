@@ -1,0 +1,53 @@
+{% extends 'Dashboard/dashboard.html' %}
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/misCursos.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="p-2">
+    <div class="row mb-5">
+        <div class="col-md-12 card cardPerfilCol">
+            <div class="row p-2 mx-auto">
+                <div class="form-group col-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
+                    <label for="carrera" class="col-11 mt-3 mb-3" style="font-size: 20px; text-align: center;">PERIODO</label>
+                    <input type="text" id="username" value="{{ id }}" readonly hidden>
+                    <select id="periodos" class="form-select formColor colorText" name="periodos" onchange="getPeriodo();">
+                        <option value="" disabled selected hidden>Seleccioná un Periodo</option>
+                        {% for curso in misCursos %}
+                        <option value="{{ curso }}">{{ curso }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="cardsContainer"></div>
+            </div>
+        </div>  
+    </div> 
+</div> 
+{% block modal_funciones %}
+<div class="modal fade" id="modal_funciones" tabindex="-1" aria-labelledby="modal_funcionesTitle"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_funcionesTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="modal_funcionesBody">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_funciones %}  
+{% endblock %}

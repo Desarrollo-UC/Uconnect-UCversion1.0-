@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 500 | Sistema Institucional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            background: #ffffff;
+            padding: 40px;
+            max-width: 560px;
+            width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .error-code {
+            font-size: 72px;
+            font-weight: bold;
+            color: #d32f2f;
+            margin: 0;
+        }
+        .error-title {
+            font-size: 22px;
+            margin: 10px 0 20px;
+            color: #333;
+        }
+        .error-message {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .support-box {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            color: #1976d2;
+            font-weight: 600;
+        }
+        .support-box span {
+            display: block;
+            font-weight: normal;
+            color: #555;
+            margin-top: 5px;
+        }
+        .btn-home {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 22px;
+            background-color: #1976d2;
+            color: #ffffff;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .btn-home:hover {
+            background-color: #125ea9;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-code">500</h1>
+        <div class="error-title">Error interno del sistema</div>
+
+        <p class="error-message">
+            Ocurrió un problema al procesar la solicitud.<br>
+            Para continuar, comuníquese con <strong>Soporte TI</strong>
+            para finalizar la configuración de su
+            <strong>correo institucional</strong>.
+        </p>
+
+        <div class="support-box">
+            Soporte TI
+            <span>📧 soporte@uc.ac.cr</span>
+            <span>📞 4108 9400 Extensión 605</span>
+        </div>
+
+        <a href="/" class="btn-home">Volver al inicio</a>
+    </div>
+</body>
+</html>

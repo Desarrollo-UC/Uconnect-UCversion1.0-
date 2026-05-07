@@ -1,0 +1,600 @@
+{% load static %}
+{% block stylesheets %}
+{% include 'adminlte/lib/_styles.html' %}
+{% block style_sheets %}
+<script src="{% static 'js/perfil_temp.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="">
+    <div class="p-2 d-flex justify-content-center" id="fondo" >
+        <div class="row" style="align-items: center; background-color: white;">
+            <div class="col-12 col-md-5 col-lg-4 col-sm-12" style="background-color: #f5f5f5; padding-top: 5em; padding-bottom: 4em;">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mx-auto tituloPerfil">Información del Perfil</h4>
+                        </div>
+                        <div class="d-flex flex-column align-items-center text-center mt-1" id="infoPer">
+                            <input type="text" value="{{ primer_inicio }}" id="primer_ingreso" hidden>
+                            <img class="rounded-circle img-hover-darken" id="img-perfil" onclick="cambiar_foto_modal();" width="300px"
+                                src="{% url 'mostrar_foto' %}">
+                            <span class="font-profile-bold mt-3">{{ estudiante.nombre }}<br>{{ estudiante.primer_apellido }} {{ estudiante.segundo_apellido }}</span>
+                            <span class="font-profile mt-1">ID {{ user.username }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-7 col-sm-12 mx-auto">
+                <div class="p-3 py-3" id="perfilInfo">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mx-auto tituloPerfil text-center mb-3">Actualización Importante de Datos Personales. </h4>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-sm-6">
+                            <label class="labels">Nombre</label>
+                            <input type="text" class="form-control formColorInputM" placeholder="Nombre" value="{{ estudiante.nombre }}"
+                                readonly>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label class="labels">Apellidos</label>
+                            <input type="text" class="form-control formColorInputM"
+                                value="{{ estudiante.primer_apellido }} {{ estudiante.segundo_apellido }}"
+                                placeholder="Apellidos" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-sm-6">
+                            <label class="labels">País</label>
+                            <input type="text" class="form-control formColorInputM" placeholder="Pais"
+                                value="{{ estudiante.nacionalidad }}" readonly>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label class="labels">Provincia</label>
+                            <input type="text" class="form-control formColorInputM" name="provincia" value="{{ estudiante.provincia }}"
+                                placeholder="Provincia" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-sm-6">
+                            <label class="labels">Cantón</label>
+                            <input type="text" class="form-control formColorInputM" name="canton" placeholder="Canton"
+                                value="{{ estudiante.canton }}" readonly>
+                        </div>
+                        <div class="col-md-6 col-sm-6 mb-3">
+                            <label class="labels">Distrito</label>
+                            <input type="text" class="form-control formColorInputM" name="distrito" placeholder="Distrito"
+                                value="{{ estudiante.distrito }}" readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Dirección Exacta</label>
+                            <input type="text" class="form-control formColorInputM" name="direccion_exacta"
+                                placeholder="Direccion Exacta" value="{{ estudiante.direccion_exacta }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="co-12 col-md-12 col-lg-6">
+                            <label class="labels">Número Telefónico</label>
+                            <input type="text" class="form-control formColorInputM" placeholder="Numero Telefonico"
+                                name="numero_telefonico" value="{{ estudiante.numero_telefonico }}" readonly>
+                        </div>
+                        <div class="co-12 col-md-12 col-lg-6">
+                            <label class="labels">Segundo Número Telefónico</label>
+                            <input type="text" class="form-control formColorInputM" placeholder="Segundo Numero Telefonico"
+                                name="numero_telefonico2" value="{{ estudiante.numero_telefonico2 }}" readonly>
+                        </div>
+                        <div class="co-12 col-md-12 col-lg-6">
+                            <label class="labels">Correo Electrónico Personal</label>
+                            <input type="text" class="form-control formColorInputM" placeholder="Correo Personal" name="correo_personal"
+                                value="{{ estudiante.correo_personal }}" readonly>
+                        </div>
+                        <div class="co-12 col-md-12 col-lg-6">
+                            <div class="row" style="margin-top: 35px;">
+                                <div class="col-12 text-center">
+                                    <button class="btn btnPrimaryUC" data-bs-toggle="modal"
+                                        data-bs-target="#modal_actualizacion">
+                                        <img src="{% static 'img/gear.png' %}" width="25px"> Actualizar Información Personal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block modal_act_final %}
+<div class="modal fade" id="modal_act_final" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modal_act_finalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal_act_finalTitle">Agradecemos la Actualización de tus Datos</h1>
+            </div>
+            <div class="modal-body colorText">
+                <p>Queremos agradecerte por proporcionar la información necesaria para actualizar tu cuenta. Estamos
+                    trabajando diligentemente para crear tu nueva cuenta institucional y mejorar tu experiencia en
+                    nuestro sitio.</p>
+                <p>Mientras tanto, queremos informarte que tu cuenta actual con acceso (Identificación y Contraseña
+                    Connect-Campus), estará suspendida temporalmente. No te preocupes, esta medida es temporal y necesaria
+                    para realizar la transición de manera eficiente.</p>
+                <p>Pronto recibirás un correo electrónico en tu cuenta de correo personal con las credenciales de acceso
+                    para tu nueva cuenta de correo institucional. Una vez recibas estas credenciales, podrás iniciar
+                    sesión y explorar todas las nuevas funciones que hemos preparado para ti.</p>
+                <p>Agradecemos tu paciencia y comprensión durante este proceso. Si tienes alguna pregunta o inquietud,
+                    no dudes en ponerte en contacto con nuestro equipo de soporte.</p>
+                <p>¡Gracias por ser parte de la UC!</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" href="{% url 'logout' %}" class="btn btnPrimaryUC">Entendido</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_act_final %}
+<!-- Model de Cambio de data -->
+{% block modal_actualizacion %}
+<div class="modal fade" id="modal_actualizacion" tabindex="-1" aria-labelledby="modal_actualizacionTitle"
+    style="display: none" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="modal-title" id="modal_actualizacionTitle">
+                            CAMBIO DE DATOS PERSONALES
+                        </h5>
+                    </div>
+                    <div id="typeE" hidden>{{ type }}</div>
+                    <div class="col-12">
+                        <p class="colorText">
+                            Como parte del proceso, actualice los datos que se indican. Los datos serán enviados como solicitud para ser
+                            verificados y aprobados.
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="row g-3" enctype="multipart/form-data" onsubmit="enviarFormulario(event)">
+                    {% csrf_token %}
+                    <div class="form-floating mb-2 col-md-4" id="dis_provincia" style="display: block;">
+                        <select id="provincia_select" class="form-select formColorInput formColor" name="provincia_select"
+                            data-placeholder="Selecione Provincia" onchange="obtenerProvincia(this)"
+                            onclick="cargarProvincias()" style="height: 60px;" required disabled>
+                            <option style="opacity: 0.65" value=""  selected hidden>Seleccioná Provincia
+                            </option>
+                        </select>
+                        <label for="tipo" style="opacity: .65;">Provincia</label>
+                        <input type="hidden" value="NA" id="provincia" name="provincia" required>
+                    </div>
+                    <div class="form-floating mb-2 col-md-4" id="dis_canton" style="display: block;">
+                        <select id="canton_select" class="form-select formColorInput formColor" name="canton_select"
+                            data-placeholder="Selecione Canton" onchange="obtenerCanton(this)" style="height: 60px;"
+                            required disabled>
+                            <option style="opacity: 0.65" value=""  selected hidden>Seleccioná Cantón</option>
+                        </select>
+                        <label for="tipo" style="opacity: .65;">Cantón</label>
+                        <input type="hidden" value="NA" id="canton" name="canton" required disabled>
+                    </div>
+                    <div class="form-floating mb-2 col-md-4" id="dis_distrito" style="display: block;">
+                        <select id="distrito_select" class="form-select formColorInput formColor" name="distrito_select"
+                            data-placeholder="Selecione Distrito" onchange="obtenerDistrito(this)" style="height: 60px;"
+                            required disabled>
+                            <option style="opacity: 0.65" value=""  selected hidden>Seleccioná Distrito</option>
+                        </select>
+                        <label for="tipo" style="opacity: .65;">Distrito</label>
+                        <input type="hidden" value="NA" id="distrito" name="distrito" required disabled>
+                    </div>
+
+                    <div class="form-floating mb-6 col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" fill="currentColor"
+                                    class="bi bi-person-vcard" viewBox="0 0 16 16">
+                                    <path
+                                        d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5ZM9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8Zm1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z">
+                                    </path>
+                                    <path
+                                        d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12V4Z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <input type="text" class="form-control formColorInput formColor" value="{{ estudiante.direccion_exacta }}"
+                                id="direccion_exacta" placeholder="Direccion Exacta" name="direccion_exacta" required disabled
+                                >
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-6 col-md-4" id="dis_telefono" style="display: block;">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" fill="currentColor"
+                                    class="bi bi-telephone-plus" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z">
+                                    </path>
+                                    <path fill-rule="evenodd"
+                                        d="M12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <input type="text" class="form-control formColorInput formColor" value="{{ estudiante.numero_telefonico }}"
+                                id="telefono" placeholder="Número Telefónico" name="telefono" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-6 col-md-4" id="dis_telefono2" style="display: block;">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" fill="currentColor"
+                                    class="bi bi-telephone-plus" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z">
+                                    </path>
+                                    <path fill-rule="evenodd"
+                                        d="M12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <input type="text" class="form-control formColorInput formColor" value="{{ estudiante.numero_telefonico2 }}"
+                                id="telefono2" placeholder="Segundo Número Telefónico" name="telefono2" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-6 col-md-4" id="dis_correo" style="display: block;">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" fill="currentColor"
+                                    class="bi bi-envelope-plus" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z">
+                                    </path>
+                                    <path
+                                        d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z">
+                                    </path>
+                                </svg>
+                            </span>
+                            <input type="email" value="{{ estudiante.correo_personal }}" class="form-control formColorInput formColor"
+                                id="correo" placeholder="Correo" name="email" required disabled
+                                pattern="(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}">
+                        </div>
+                    </div>
+
+                    <div class="d-grid d-flex justify-content-center">
+                        <button type="submit" id="liveToastBtn" class="btn btnPrimaryUC rounded"
+                            style="max-width: 300px;">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar Solicitud</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_actualizacion %}
+{% block toast_actualizacion%}
+<div class="toast-container position-fixed bottom-0 end-0 p-4">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            {% load static %}
+            <img id="img_check" src="{% static 'img/check.png' %}" class="rounded me-2" alt="...">
+            <strong class="me-auto">Solicitud de actualización de información personal.</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+
+        </div>
+    </div>
+</div>
+{% endblock toast_actualizacion %}
+<!-- Model de Cambio de foto -->
+{% block modal_foto%}
+<div class="modal fade" id="modal_foto" tabindex="-1" aria-labelledby="modal_fotoTitle" style="display: none"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modalFotol" role="document">
+        <div class="modal-content rounded-4 modalFotol">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-close2"></span></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-sm-12 col-lg-5 card-modal">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-4">
+                            {% if fotoperfil %}
+                            <img class="rounded-circle" id="perfilImg" width="300" src="{% url 'mostrar_foto' %}">
+                            {% else %}
+                            {% load static %}
+                            <img class="rounded-circle" id="perfilImg" width="300" src="{% static 'img/user.png' %}">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-sm-12 col-lg-6" >
+                        <form method="POST" enctype="multipart/form-data" action="{% url 'cambiar_foto' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <h1 class="text-foto">CAMBIO DE FOTO<br>DE PERFIL</h1>
+                                <div class="form-group col-md-12 mt-5 mb-3">
+                                    <label for="floatingFile" class="colorText floatingFile">
+                                    Foto de Perfil</label>
+                                    <input class="form-control formColorInput" type="file" id="floatingFile" name="fotocambio" onchange="imagePerfil();"/>
+                                </div>
+                                <div class="d-grid mb-2 d-flex" style="justify-content: end;">
+                                    <button type="submit" class="w-100 btn btnPrimaryUCF"
+                                        style="max-width: 175px;">
+                                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Cambiar Foto</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal_foto %}
+
+<style>
+    .formColorInput::placeholder{
+        color: var(--color-U-2);
+    }
+    .text-foto{
+        color: #00416B;
+        font-family: 'Nexa-Black';
+        font-weight: 900;
+        font-size: 40px;
+    }
+    .btnPrimaryUCF{
+        background-color: #00416B;
+        color: #ffffff;
+        border-radius: 0px;
+    }
+    .btnPrimaryUCF:hover{
+        background-color: #002136;
+        color: #ffffff;
+        
+    }
+    .card-modal{
+        background-color: #10cfc9;
+        border-radius: 10px;
+        top: -26px;
+        left: -27px;
+        height: 350px;
+        width: 370px;
+    }
+    body {
+        background: rgb(255, 255, 255);
+    }
+
+    .card{
+        margin: 30px;
+    }
+
+    .formColorInput{
+        background-color: #f5f5f5;
+        border-color: #f5f5f5;
+    }
+
+    .profile-button {
+        background: rgb(255, 209, 64);
+        box-shadow: none;
+        color: black;
+        border: none;
+    }
+
+    .profile-button:hover {
+        background: #000000;
+    }
+
+    .profile-button:focus {
+        background: #000000;
+        box-shadow: none;
+    }
+
+    .profile-button:active {
+        background: #000000;
+        box-shadow: none;
+    }
+
+    .back:hover {
+        color: #000000;
+        cursor: pointer;
+    }
+
+    .labels {
+        font-family: 'Nexa-Light';
+        font-weight: 300;
+        font-size: 18px;
+    }
+
+    .add-experience:hover {
+        background: rgb(255, 209, 64);
+        color: black;
+        cursor: pointer;
+        border: solid 1px #ffffff;
+    }
+
+    .card {
+        width: 95%;
+    }
+    #fondo {
+        margin: 0;
+        padding: 0;
+        background-image: url('../../static/img/loginM.png');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+        width: 100%;
+        height: 100vh;
+    }
+    #img-perfil:hover {
+        cursor: pointer;
+    }
+
+    .img-hover-darken {
+        transition: filter 0.3s;
+    }
+    
+    .img-hover-darken:hover {
+        filter: brightness(70%);
+    }
+</style>
+
+<script>
+    var provinciasCargadas = false;
+    function cambiar_foto_modal(){
+        $('#modal_foto').modal('show');
+    }
+    $(document).ready(function () {
+        var valor = document.getElementById("primer_ingreso").value;
+        var titulo = document.getElementById("modal_actualizacionTitle");
+
+        if (valor === "True") {
+            $('#modal_actualizacion').modal('show');
+            titulo.innerText = 'RECOMENDAMOS ACTUALIZAR TUS DATOS PERSONALES EN TU PRIMER INGRESO AL SISTEMA';
+        }
+    })
+
+    function cargarProvincias() {
+        if (provinciasCargadas) {
+            return;
+        }
+
+        var select = document.getElementById("provincia_select");
+
+        var url = "{% url 'obtener_provincia' %}";
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                provinciasCargadas = true;
+                dataCantones(select);
+                obtenerProvincia(select)
+            }
+        };
+        request.send();
+    }
+
+    function cargarCantones(valor) {
+        var select = document.getElementById("canton_select");
+        var select2 = document.getElementById("distrito_select");
+
+        var url = "/obtener-canton/?provincia_select=";
+        var request = new XMLHttpRequest();
+        request.open('GET', url + encodeURIComponent(valor), true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                dataDistritos(select)
+                obtenerCanton(select)
+            }
+        };
+        request.send();
+    }
+
+    function cargarDistritos(valor1, valor2) {
+        var select = document.getElementById("distrito_select");
+
+        var url = "/obtener-distrito/?provincia_select=" + encodeURIComponent(valor1) + "&canton_select=" + encodeURIComponent(valor2);
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                select.options.length = 0;
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                obtenerDistrito(select)
+            }
+        };
+        request.send();
+    }
+
+    var paisCargadas = false;
+
+    function cargarPais() {
+        if (paisCargadas) {
+            return;
+        }
+
+        var select = document.getElementById("pais_select");
+
+        select.options.length = 0; // Eliminamos todas las opciones anteriores
+
+        var url = "{% url 'obtener_nacionalidad' %}";
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            if (request.status === 200) {
+                var data = JSON.parse(request.responseText);
+                for (key in data) {
+                    var option = document.createElement("option");
+                    option.value = key;
+                    option.text = data[key];
+                    select.add(option);
+                }
+                paisCargadas = true;
+            }
+        };
+        request.send();
+    }
+
+    function dataCantones(select) {
+        var valorSeleccionado = select.options[select.selectedIndex].value;
+        cargarCantones(valorSeleccionado);
+    }
+
+    function dataDistritos(select) {
+        const miSelect = document.getElementById('provincia_select');
+        var valorSeleccionado = select.options[select.selectedIndex].value;
+
+        cargarDistritos(miSelect.value, valorSeleccionado);
+    }
+
+    function obtenerPais(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('pais').value = textoSeleccionado;
+    }
+    function obtenerProvincia(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('provincia').value = textoSeleccionado;
+        dataCantones(select)
+    }
+    function obtenerCanton(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('canton').value = textoSeleccionado;
+        dataDistritos(select)
+    }
+    function obtenerDistrito(select) {
+        var textoSeleccionado = select.options[select.selectedIndex].text;
+        document.getElementById('distrito').value = textoSeleccionado;
+    }
+</script>
+{% endblock content %}

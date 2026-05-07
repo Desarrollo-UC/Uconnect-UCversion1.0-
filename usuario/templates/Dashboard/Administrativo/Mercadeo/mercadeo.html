@@ -1,0 +1,629 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+{% block extraJavaScript %}
+<script src="{% static 'js/administrativo.js' %}"></script>
+{% endblock %}
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoM.html' %}
+{% endblock barranavegacion %}
+
+
+{% block content %}
+<div class="p-2 mt-5 mb-5" data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+    <section class="py-5" id="imagenesActuales">
+        <div class="container-fluid mb-5">
+        </div>
+        <div class="container-fluid overflow-hidden">
+            <div class="row">
+                <div class="col-12 col-sm-10 col-md-12 col-lg-12 mx-auto card cardPerfilCol">
+                    <h1 class="card-title p-2 text-center fw-bold mb-3" >Imagenes Actuales</h1>
+                    <div class="card text-center mb-3">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" role="tablist" id="v-pills-tab">
+                                <li class="nav-item">
+                                    <a class="nav-link tabsH active" data-bs-toggle="pill"
+                                        href="#v-pills-estudiante">Estudiante</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabsH" data-bs-toggle="pill" href="#v-pills-profesor">Profesor</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabsH" data-bs-toggle="pill" href="#v-pills-ambos">Ambos</a>
+                                </li>
+                                <li class="nav-item" style="margin-left: auto">
+                                    <a class="nav-link tabsH" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modal_anadirImagenesM">Añadir imagenes</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active p-5 mb-3" id="v-pills-estudiante" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+    
+                                    <div class="row" id="estudiante">
+                                        {% for imagen in fotoNoticia %}
+                                        {% if imagen.estudiante %}
+                                        <div class="col-sm-12 col-md-5 col-lg-4 mb-3">
+                                            <div class="card">
+                                                <img src="data:image/png;base64,{{ imagen.imagen }}" class="card-img-top"
+                                                    alt="{{ imagen.imagen_nombre }}">
+                                                <div class="card-footer text-light cardFooterUC">
+                                                    <div><a class="fas fa-redo" data-bs-toggle="modal" href="#"
+                                                            data-bs-target="#modal_actualizarNoticiaI"
+                                                            onclick="dataModal('{{ imagen.id }}');"></a></div>
+                                                    <div><a class="fas fa-solid fa-trash-can" data-bs-toggle="modal" href="#"
+                                                            data-bs-target="#myModal" onclick="setDelete('{{ imagen.id }}','foto')"></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+    
+                                </div>
+                                <div class="tab-pane fade show p-5 mb-3" id="v-pills-profesor" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+                                    <div class="row" id="profesor">
+                                        {% for imagen in fotoNoticia %}
+                                        {% if imagen.profesor %}
+                                        <div class="col-12 col-md-12 col-md-4 col-lg-4 mb-3">
+                                            <div class="card">
+                                                <img src="data:image/png;base64,{{ imagen.imagen }}" class="card-img-top"
+                                                    alt="{{ imagen.imagen_nombre }}">
+                                                <div class="card-footer text-light cardFooterUC">
+                                                    <div><a class="fas fa-redo" data-bs-toggle="modal"
+                                                            data-bs-target="#modal_actualizarNoticiaI" href="#"
+                                                            onclick="dataModal('{{ imagen.id }}');"></a></div>
+                                                    <div><a class="fas fa-solid fa-trash-can" data-bs-toggle="modal" href="#"
+                                                        data-bs-target="#myModal" onclick="setDelete('{{ imagen.id }}','foto')"></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show p-5 mb-3" id="v-pills-ambos" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+                                    <div class="row" id="ambos">
+                                        {% for imagen in fotoNoticia %}
+                                        {% if imagen.estudiante and imagen.profesor %}
+                                        <div class="col-12 col-md-12 col-md-4 col-lg-4 mb-3">
+                                            <div class="card">
+                                                <img src="data:image/png;base64,{{ imagen.imagen }}" class="card-img-top"
+                                                    alt="{{ imagen.imagen_nombre }}">
+                                                <div class="card-footer text-light cardFooterUC">
+                                                    <div><a class="fas fa-redo" data-bs-toggle="modal"
+                                                            data-bs-target="#modal_actualizarNoticiaI"
+                                                            onclick="dataModal('{{ imagen.id }}');"></a></div>
+                                                    <div><a class="fas fa-solid fa-trash-can" data-bs-toggle="modal" href="#"
+                                                        data-bs-target="#myModal" onclick="setDelete('{{ imagen.id }}','foto')"></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-5" id="noticiasActuales">
+        <div class="container-fluid mb-5">
+        </div>
+        <div class="container-fluid overflow-hidden">
+            <div class="row">
+                <div class="col-12 col-sm-10 col-md-12 col-lg-12 mx-auto card cardPerfilCol">
+                    <h1 class="card-title p-2 text-center fw-bold" >Noticas Actuales</h1>
+                    <div class="card text-center mb-3">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" role="tablist" id="v-pills-tab">
+                                <li class="nav-item">
+                                    <a class="nav-link tabsH active" data-bs-toggle="pill"
+                                        href="#v-pills-estudianteN">Estudiante</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabsH" data-bs-toggle="pill" href="#v-pills-profesorN">Profesor</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tabsH" data-bs-toggle="pill" href="#v-pills-ambosN">Ambos</a>
+                                </li>
+                                <li class="nav-item" style="margin-left: auto">
+                                    <a class="nav-link tabsH" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modal_actualizarNoticiaT">Añadir Noticias</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active p-5 mb-3" id="v-pills-estudianteN" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+                                    <div class="row" id="estudianteN">
+                                        {% for noticia in Noticias %}
+                                        {% if noticia.estudiante %}
+                                        <div class="col-12 col-md-12 col-md-4 col-lg-4 mb-3">
+                                            <div class="card">
+                                                <img src="data:image/png;base64,{{ noticia.imagen }}" class="card-img-top"
+                                                    alt="{{ noticia.imagen_nombre }}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                                                    </div>
+                                                <div class="card-footer text-light cardFooterUC">
+                                                    <div><a class="fas fa-redo" data-bs-toggle="modal"
+                                                            data-bs-target="#modal_actualizarNoticiaTA" href="#"
+                                                            onclick="noticiaModal('{{ noticia.id }}');"></a></div>
+                                                    <div><a class="fas fa-solid fa-trash-can" data-bs-toggle="modal" href="#"
+                                                        data-bs-target="#myModal" onclick="setDelete('{{ noticia.id }}','noticia')"></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show p-5 mb-3" id="v-pills-profesorN" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+                                    <div class="row" id="profesorN">
+                                        {% for noticia in Noticias %}
+                                        {% if noticia.profesor %}
+                                        <div class="col-12 col-md-12 col-md-4 col-lg-4 mb-3">
+                                            <div class="card">
+                                                <img src="data:image/png;base64,{{ noticia.imagen }}" class="card-img-top"
+                                                    alt="{{ noticia.imagen_nombre }}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                                                    </div>
+                                                <div class="card-footer text-light cardFooterUC">
+                                                    <div><a class="fas fa-redo" data-bs-toggle="modal"
+                                                            data-bs-target="#modal_actualizarNoticiaTA" href="#"
+                                                            onclick="noticiaModal('{{ noticia.id }}');"></a></div>
+                                                    <div><a class="fas fa-solid fa-trash-can" data-bs-toggle="modal" href="#"
+                                                        data-bs-target="#myModal" onclick="setDelete('{{ noticia.id }}','noticia')"></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show p-5 mb-3" id="v-pills-ambosN" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+                                    <div class="row" id="ambosN">
+                                        {% for noticia in Noticias %}
+                                        {% if noticia.estudiante and noticia.profesor %}
+                                        <div class="col-12 col-md-12 col-md-4 col-lg-4 mb-3">
+                                            <div class="card">
+                                                <img src="data:image/png;base64,{{ noticia.imagen }}" class="card-img-top"
+                                                    alt="{{ noticia.imagen_nombre }}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ noticia.titulo }}</h5>
+                                                    </div>
+                                                <div class="card-footer text-light cardFooterUC">
+                                                    <div><a class="fas fa-redo" data-bs-toggle="modal"
+                                                            data-bs-target="#modal_actualizarNoticiaI"
+                                                            onclick="noticiaModal('{{ noticia.id }}');"></a></div>
+                                                    <div><a class="fas fa-solid fa-trash-can" data-bs-toggle="modal" href="#"
+                                                        data-bs-target="#myModal" onclick="setDelete('{{ noticia.id }}','noticia')"></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% block toast%}
+<div class="toast-container position-fixed bottom-0 end-0 p-4">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            {% load static %}
+            <img id="img_check" src="{% static 'img/check.png' %}" class="rounded me-2" alt="...">
+            <strong class="me-auto textoBody"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endblock toast%}
+
+{% block modalSaveImg%}
+<div class="modal fade" id="modal_anadirImagenesM" tabindex="-1" aria-labelledby="modal_anadirImagenesMTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal_anadirImagenesM">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_anadirImagenesMTitle">Añadir imagenes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 col-lg-12 col-md-12 col-sm-12 order-md-last d-flex align-item-strech h-100">
+                    <div class="w-100 p-3 card rounded ">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                <img src="" id="imgNoticas" class="d-block w-100">
+                            </div>
+                            <div class="col-12 col-sd-12 col-md-12 col-lg-12">
+                                <form class="mt-4" method="POST" id="imagenNoticia" enctype="multipart/form-data"
+                            onsubmit="guadarImagenNoticia(event);">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="floatingFile" class="mb-2">
+                                    <h3>Imagen Nueva</h3>
+                                </label>
+                                <input class="form-control custom-file-input formColorM"  type="file"
+                                    id="floatingFile" name="imagen1" accept-language="es"
+                                    onchange="imagenes('floatingFile','imgNoticas');" required />
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="fechaI" class="mb-2">
+                                            <h5>Fecha inicio</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="date" name="fechaI" id="fechaI" >
+                                    </div>
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="horaI" class="mb-2">
+                                            <h5>Hora inicio</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="time" name="horaI" id="horaI" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="fechaF" class="mb-2">
+                                            <h5>Fecha fin</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="date" name="fechaF" id="fechaF" >
+                                    </div>
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="horaF" class="mb-2">
+                                            <h5>Hora fin</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="time" name="horaF" id="horaF">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptions"
+                                    id="inlineRadio1" value="Estudiante">
+                                <label class="form-check-label" for="inlineRadio1">Estudiante</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-3">
+                                <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptions"
+                                    id="inlineRadio2" value="Profesor">
+                                <label class="form-check-label" for="inlineRadio2">Profesor</label>
+                            </div>
+                            <div class="d-grid mb-2 justify-content-center align-items-center">
+                                <button class="w-100 btn btn-lg btnPrimaryUC btn-login fw-bold" type="submit"> Guardar
+                                    imagen</button>
+                            </div>
+                        </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalSaveImg%}
+
+{% block modalUpdateImg%}
+<div class="modal fade" id="modal_actualizarNoticiaI" tabindex="-1" aria-labelledby="modal_actualizarNoticiaITitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal_actualizarNoticiaI">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_actualizarNoticiaITitle">Actualizar Imagen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 col-lg-12 col-md-12 col-sm-12 order-md-last d-flex align-item-strech h-100">
+                    <div class="w-100 p-3 card rounded ">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                <img src="" id="imgNoticasM" class="d-block w-100">
+                            </div>
+                            <div class="col-12 col-sd-12 col-md-12 col-lg-12">
+                                <form class="mt-4" method="POST" id="imagenNoticiaM" enctype="multipart/form-data"
+                                    onsubmit="actualizarImagenNoticia(event);">
+                                    {% csrf_token %}
+                                    <div class="form-group mb-3">
+                                        <label for="floatingFileM" class="mb-2">
+                                            <h3>Imagen Nueva</h3>
+                                        </label>
+                                        <input type="text" name="idM" id="idM" value="" readonly hidden>
+                                        <input class="form-control custom-file-input formColorM"  type="file"
+                                            id="floatingFileM" name="imagenM1" accept-language="es"
+                                            onchange="imagenes('floatingFileM','imgNoticasM');" />
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <div class="row">
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="fechaIA" class="mb-2">
+                                                    <h5>Fecha inicio</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="date" name="fechaIA" id="fechaIA" >
+                                            </div>
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="horaIA" class="mb-2">
+                                                    <h5>Hora inicio</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="time" name="horaIA" id="horaIA" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <div class="row">
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="fechaFA" class="mb-2">
+                                                    <h5>Fecha fin</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="date" name="fechaFA" id="fechaFA" >
+                                            </div>
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="horaFA" class="mb-2">
+                                                    <h5>Hora fin</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="time" name="horaFA" id="horaFA" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptionsM"
+                                            id="inlineRadio1M" value="Estudiante">
+                                        <label class="form-check-label" for="inlineRadio1M">Estudiante</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptionsM"
+                                            id="inlineRadio2M" value="Profesor">
+                                        <label class="form-check-label" for="inlineRadio2M">Profesor</label>
+                                    </div>
+                                    <div class="d-grid mb-2 justify-content-center align-items-center">
+                                        <button class="w-100 btn btn-lg btnPrimaryUC btn-login fw-bold" type="submit">
+                                            Actualizar imagen</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalUpdateImg%}
+
+{% block modalSaveNoticia%}
+<div class="modal fade" id="modal_actualizarNoticiaT" tabindex="-1" aria-labelledby="modal_actualizarNoticiaTTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal_actualizarNoticiaT">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_actualizarNoticiaTTitle">Añadir noticias</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 col-lg-12 col-md-12 col-sm-12 order-md-last d-flex align-item-strech h-100">
+                    <div class="w-100 p-3 card rounded ">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                <img src="" id="imgNoticasT" class="d-block w-100">
+                            </div>
+                            <div class="col-12 col-sd-12 col-md-12 col-lg-12">
+                                <form class="mt-4" method="POST" id="imagenNoticiaM" enctype="multipart/form-data"
+                                    onsubmit="saveNoticia(event);">
+                                    {% csrf_token %}
+                                    <div class="form-group mb-3">
+                                        <label for="floatingFileT" class="mb-2">
+                                            <h3>Añadir imagen</h3>
+                                        </label>
+                                        <input class="form-control custom-file-input formColorM"  type="file"
+                                            id="floatingFileT" name="imagenT1" accept-language="es"
+                                            onchange="imagenes('floatingFileT','imgNoticasT');" />
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="tituloN" class="mb-2">
+                                            <h6>Titulo de la noticia</h6>
+                                        </label>
+                                        <input class="form-control custom-file-input formColorM" type="text" id="tituloN"
+                                            name="tituloN">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="descripN" class="mb-2">
+                                            <h6>Descripcion</h6>
+                                        </label>
+                                        <textarea name="descripN" class="form-control formColorM" id="descripN" cols="30" rows="40"
+                                            spellcheck="false" style="height: 100px; resize: vertical;"></textarea>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <div class="row">
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="fechaIN" class="mb-2">
+                                                    <h5>Fecha inicio</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="date" name="fechaIN" id="fechaIN" >
+                                            </div>
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="horaIN" class="mb-2">
+                                                    <h5>Hora inicio</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="time" name="horaIN" id="horaIN" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <div class="row">
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="fechaFN" class="mb-2">
+                                                    <h5>Fecha fin</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="date" name="fechaFN" id="fechaFN" >
+                                            </div>
+                                            <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                                <label for="horaFN" class="mb-2">
+                                                    <h5>Hora fin</h5>
+                                                </label>
+                                                <input class="form-control formColorM" type="time" name="horaFN" id="horaFN" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptionsT"
+                                            id="inlineRadio1T" value="Estudiante">
+                                        <label class="form-check-label" for="inlineRadio1T">Estudiante</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptionsT"
+                                            id="inlineRadio2T" value="Profesor">
+                                        <label class="form-check-label" for="inlineRadio2T">Profesor</label>
+                                    </div>
+                                    <div class="d-grid mb-2 justify-content-center align-items-center">
+                                        <button class="w-100 btn btn-lg btnPrimaryUC btn-login fw-bold" type="submit">
+                                            Añadir Noticia</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalSaveNoticia%}
+
+{% block modalUpdateNoticia%}
+<div class="modal fade" id="modal_actualizarNoticiaTA" tabindex="-1" aria-labelledby="modal_actualizarNoticiaTATitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal_actualizarNoticiaTA">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_actualizarNoticiaTATitle">Actualizar noticias</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="w-100 p-3 card rounded ">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                        <img src="" id="imgNoticasTA" class="d-block w-100">
+                    </div>
+                    <div class="col-12 col-sd-12 col-md-12 col-lg-12">
+                        <form class="mt-4" method="POST" id="NoticiaMA" enctype="multipart/form-data"
+                            onsubmit="actualizarNoticia(event);">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="floatingFileTA" class="mb-2">
+                                    <h3>Añadir nueva imagen</h3>
+                                </label>
+                                <input type="text" name="idNA" id="idNA" value="" readonly hidden>
+                                <input class="form-control custom-file-input formColorM"  type="file"
+                                    id="floatingFileTA" name="imagenT1A" accept-language="es"
+                                    onchange="imagenes('floatingFileTA','imgNoticasTA');" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="tituloNA" class="mb-2">
+                                    <h6>Titulo de la noticia</h6>
+                                </label>
+                                <input class="form-control custom-file-input formColorM" type="text" id="tituloNA"
+                                    name="tituloNA">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="descripN" class="mb-2">
+                                    <h6>Descripcion</h6>
+                                </label>
+                                <textarea name="descripNA" class="form-control formColorM" id="descripNA" cols="30" rows="40"
+                                    spellcheck="false" style="height: 100px; resize: vertical;"></textarea>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="fechaINA" class="mb-2">
+                                            <h5>Fecha inicio</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="date" name="fechaINA" id="fechaINA" >
+                                    </div>
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="horaINA" class="mb-2">
+                                            <h5>Hora inicio</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="time" name="horaINA" id="horaINA" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="fechaFNA" class="mb-2">
+                                            <h5>Fecha fin</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="date" name="fechaFNA" id="fechaFNA" >
+                                    </div>
+                                    <div class="col-12 col-sd-12 col-md-6 col-lg-6">
+                                        <label for="horaFNA" class="mb-2">
+                                            <h5>Hora fin</h5>
+                                        </label>
+                                        <input class="form-control formColorM" type="time" name="horaFNA" id="horaFNA" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptionsTA"
+                                    id="inlineRadio1TA" value="Estudiante">
+                                <label class="form-check-label" for="inlineRadio1TA">Estudiante</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-3">
+                                <input class="form-check-input formColorM" type="checkbox" name="inlineRadioOptionsTA"
+                                    id="inlineRadio2TA" value="Profesor">
+                                <label class="form-check-label" for="inlineRadio2TA">Profesor</label>
+                            </div>
+                            <div class="d-grid mb-2 justify-content-center align-items-center">
+                                <button class="w-100 btn btn-lg btnPrimaryUC btn-login fw-bold" type="submit">
+                                    Actualizar Noticia</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalUpdateNoticia%}
+
+{% block modalborrar%}
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box d-flex justify-content-center align-items-center">
+					<img src="{% static 'img/error.png' %}" alt="" width="50" height="50">
+				</div>
+                <h4 class="modal-title w-100">¿Esta seguro?</h4>	
+                <div class="modal-body">
+                    <p id="textoModalD"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="eliminarFN" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modalborrar%}
+
+{% endblock %}

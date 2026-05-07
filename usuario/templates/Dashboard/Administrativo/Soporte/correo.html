@@ -1,0 +1,119 @@
+{% extends 'Dashboard/Administrativo/baseAdministrativo.html' %}
+{% load static %}
+{% block extraJavaScript %}
+
+{% endblock %}
+{% block barranavegacion %}
+{% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
+{% endblock barranavegacion %}
+
+{% block content %}
+<div class="p-2 mt-5">
+    <section class="news section-padding mt-5" id="inicio">
+        <div class="row p-2 mt-5">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 mx-auto card cardPerfilCol mt-4">
+                <h1 class="card-title p-2 text-center fw-bold ">Reenvió de credenciales</h1>
+                <form method="POST" onsubmit="enviarFormulario(event)">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <input class="form-control" type="text" name="name" placeholder="Nombre" id="nombre">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input class="form-control" type="text" name="email" placeholder="Correo" id="email">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <textarea class="form-control" name="message" placeholder="Mensaje" id="mensaje"></textarea>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="d-flex flex-row justify-content-center align-items-center mb-3">
+                        <button class="btn btn-primary btn-md" type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% block toast_actualizacion%}
+<div class="toast-container position-fixed bottom-0 end-0 p-4">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            {% load static %}
+            <img id="img_check" src="" class="rounded me-2" alt="...">
+            <strong class="me-auto" id="toast-body"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endblock toast_actualizacion %}
+<script>
+    function enviarFormulario(event) {
+        event.preventDefault();
+        var data = {};
+        data.nombre = document.getElementById('nombre').value;
+        data.email = document.getElementById('email').value;
+        data.mensaje = document.getElementById('mensaje').value;
+        var jsonString = JSON.stringify(data);
+        var xhr = new XMLHttpRequest();
+        var url = '/correoSendS/';
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        var csrfToken = getCSRFToken();
+        xhr.setRequestHeader("X-CSRFToken", csrfToken);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    showToast("success");
+                }
+                else {
+                    showToast("error");
+                }
+            }
+        };
+        xhr.send(jsonString);
+    }
+
+    function getCSRFToken() {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, 'csrftoken'.length + 1) === 'csrftoken=') {
+                    cookieValue = decodeURIComponent(cookie.substring('csrftoken'.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function showToast(type) {
+        var toastElement = document.getElementById('liveToast');
+        var toastBody = toastElement.querySelector('#toast-body');
+        var toastCloseButton = toastElement.querySelector('.btn-close');
+        var toastHeaderImg = toastElement.querySelector('#img_check');
+
+
+
+        if (type === 'error') {
+            toastBody.innerText = 'Error en el envió de correo';
+            toastElement.classList.add('bg-danger');
+            toastHeaderImg.src = "../../../../../static/img/error.png";
+        } else {
+            toastBody.innerText = 'Envio de correo exitoso';
+            toastElement.classList.remove('bg-danger');
+            toastHeaderImg.src = "../../../../../static/img/check.png";
+        }
+        toastCloseButton.addEventListener('click', function () {
+            var bootstrapToast = bootstrap.Toast.getInstance(toastElement);
+            bootstrapToast.hide();
+        });
+        var bootstrapToast = new bootstrap.Toast(toastElement, { delay: 3000 });
+        bootstrapToast.show();
+    }
+</script>
+{% endblock content %}
