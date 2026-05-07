@@ -143,6 +143,8 @@ class DashboardAdministrativoView(LoginRequiredMixin, View):
             return render(self.request, 'Dashboard/Administrativo/Mercadeo/mercadeo.html', context)
         elif type == "administrador" and id == 'soporte':
             return render(self.request, 'Dashboard/Administrativo/Soporte/soporte.html', context)
+        elif type == "administrador":
+            return render(self.request, 'Dashboard/Administrativo/Soporte/soporte.html', context)
 
 
 class ImagenNoticias(LoginRequiredMixin, View):
