@@ -115,8 +115,10 @@ function detalle(data) {
             });
 
             celdaProfesorN.appendChild(enlaceModal);
-        } else {
+        } else if (curso.docentes.length === 1) {
             celdaProfesorN.textContent = curso.docentes[0].docente_id;
+        } else {
+            celdaProfesorN.textContent = 'Sin docente asignado';
         }
 
         fila4.appendChild(celdaProfesor);
