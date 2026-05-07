@@ -2,6 +2,8 @@
 {% load static %}
 {% block extraJavaScript %}
 <script src="{% static 'js/miscursosPA.js' %}"></script>
+<script src="{% static 'js/pluginJs/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/pluginJs/vfs_fonts.js' %}"></script>
 {% endblock %}
 {% block barranavegacion %}
 {% include 'Dashboard/Administrativo/Componentes/navbarAdministrativoS.html' %}
